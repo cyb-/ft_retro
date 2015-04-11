@@ -20,10 +20,17 @@ Entity *	Entities::getEntities(void) const{
 	return (_entities);
 }
 
+int				Entities::getCount(void) const {
+	return (_count);
+}
+
 Entities &		Entities::operator=(Entities const & rhs){
 	if (this != &rhs)
 	{
 		_entities = rhs.getEntities();
+		_count = rhs.getCount();
 	}
 	return (*this);
 }
+
+int		Entities::_count;

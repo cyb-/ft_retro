@@ -23,11 +23,11 @@ Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int
 												_Lives(lives),
 												_Collidable(true),
 												_Type(type),
-												_Points(points)
+												_Points(points),
+												next(0),
+												prev(0)
 {
 	_BodyS += body;
-	next = NULL;
-	prev = NULL;
 }
 
 Entity::Entity(Entity const & src)

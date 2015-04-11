@@ -22,9 +22,9 @@ public:
 	~Entities(void);
 
 	Entity *		getEntities(void) const;
+	int				getCount(void) const;
 
 	Entities &	operator=(Entities const & rhs);
-
 
 private:
 	static int			_count;

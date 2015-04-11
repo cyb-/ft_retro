@@ -68,20 +68,20 @@ void			Game::update(Screen *screen)
 
 void			Game::draw(Screen *screen)
 {	
-//	Entities			*list;
+//	Entity			*list;
 
-	(void)screen;
-//	list = this->_entities;
-//	while (list != NULL)
-//	{
-//		mvwprintw(screen->getWindow(), list->getX(), list->getY(), list->getBodyS().c_str());
-//		list = list->next;
-//	}
-//	mvwprintw(screen->getWindow(), this->_player.getX(), this->_player.getY(), this->_player.getBodyS().c_str());
-//	refresh();
+	// list = this->_entities.getEntities();
+	// while (list != NULL)
+	// {
+	// 	mvwprintw(screen->getWindow(), list->getX(), list->getY(), list->getBodyS().c_str());
+	// 	list = list->getNext();
+	// }
+	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 10);
+	mvwprintw(screen->getWindow(), this->_player.getX(), this->_player.getY(), this->_player.getBodyS().c_str());
+	refresh();
 	this->_cEnd = std::clock();
-//	if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (1000 / GAME_FPS))
-//		usleep((1000 / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
+	// if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (1000 / GAME_FPS))
+	// 	usleep((1000 / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
 }
 
 // GETTERS
