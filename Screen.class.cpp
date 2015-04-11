@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 12:59:29 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 17:51:34 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -103,24 +103,24 @@ WINDOW *		Screen::getWindow(void) const
 	return (this->_window);
 }
 
-unsigned int	Screen::getWidth(void) const
+int				Screen::getWidth(void) const
 {
 	return (this->_width);
 }
 
-unsigned int	Screen::getHeight(void) const
+int				Screen::getHeight(void) const
 {
 	return (this->_height);
 }
 
 // SETTERS
 
-void			Screen::setWidth(unsigned int width)
+void			Screen::setWidth(int width)
 {
 	this->_width = width;
 }
 
-void			Screen::setHeight(unsigned int height)
+void			Screen::setHeight(int height)
 {
 	this->_height = height;
 }

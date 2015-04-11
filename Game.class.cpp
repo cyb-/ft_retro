@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 17:26:22 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 17:46:15 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -62,16 +62,20 @@ void			Game::handle(Screen *screen)
 		screen->changeState(new Menu());
 		break;
 	case KEY_LEFT:
-		this->_player.move("left");
+		if (this->_player.getX() > 0)
+			this->_player.move("left");
 		break;
 	case KEY_RIGHT:
-		this->_player.move("right");
+		if (this->_player.getX() < screen->getWidth() - 1)
+			this->_player.move("right");
 		break;
 	case KEY_UP:
-		this->_player.move("up");
+		if (this->_player.getY() > 0)
+			this->_player.move("up");
 		break;
 	case KEY_DOWN:
-		this->_player.move("down");
+		if (this->_player.getY() < screen->getHeight() - 1)
+			this->_player.move("down");
 		break;
 	case KEY_SPACE:
 		this->_player.shoot();

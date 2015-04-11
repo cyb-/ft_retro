@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:00:39 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 17:51:58 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -20,7 +20,6 @@ class IState;
 class Screen {
 
 public:
-
 	Screen(void);
 	Screen(Screen const & src);
 	~Screen(void);
@@ -39,21 +38,19 @@ public:
 
 	WINDOW *		getWindow(void) const;
 
-	unsigned int	getWidth(void) const;
-	unsigned int	getHeight(void) const;
+	int				getWidth(void) const;
+	int				getHeight(void) const;
 
-	void			setWidth(unsigned int width);
-	void			setHeight(unsigned int height);
+	void			setWidth(int width);
+	void			setHeight(int height);
 
 private:
+	int				_width;
+	int				_height;
+	bool			_running;
 
-	WINDOW					*_window;
-
-	unsigned int			_width;
-	unsigned int			_height;
-	bool					_running;
-
-	IState					*_state;
+	WINDOW			*_window;
+	IState			*_state;
 
 };
 
