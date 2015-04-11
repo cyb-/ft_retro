@@ -14,22 +14,32 @@
 #include "Character.hpp"
 #include "Rifle.hpp"
 
-Character::Character(void) : Entity()
+Character::Character(void) : Entity() , _Score(0)
 {
 }
 
-Character::Character(int x, int y, std::string type, char body, int hp, int lives, int points) : Entity(x, y, type, body, hp, lives, points)
+Character::Character(int x, int y, std::string type, char body, int hp, int lives, int points) : Entity(x, y, type, body, hp, lives, points) , _Score(0)
 {
 }
 
 Character::Character(Character const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints()), _Score(src.getScore())
 {
 	*this = src;
 }
 
 Character::~Character(void)
 {
+}
+
+int				Character::getScore(void) const
+{
+	return (_Score);
+}
+
+void			Character::setScore(int i)
+{
+	_Score += i;
 }
 
 Entity*		Character::shoot()

@@ -112,6 +112,14 @@ Entity *		Entity::getPrev(void)	const
 	return (prev);
 }
 
+void			Entity::setNext(Entity * elem){
+	next = elem;
+}
+
+void			Entity::setPrev(Entity * elem){
+	prev = elem;
+}
+
 //				SETORS & METHODS		//
 
 void			Entity::looseHP(void)
@@ -132,7 +140,7 @@ void			Entity::move(std::string direction)
 	i = 1;
 	if (this->getType().compare("rifle") == 0)
 		i = 2;
-	else if (direction.compare("up") == 0)
+	if (direction.compare("up") == 0)
 		_PosY -= i;
 	else if (direction.compare("down") == 0)
 		_PosY += i;

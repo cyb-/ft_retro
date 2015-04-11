@@ -24,10 +24,15 @@ class	Character : public Entity
 		Entity *	shoot();
 		virtual 	~Character(void);
 
+		int				getScore(void) const;
+		void			setScore(int i);
+
 		virtual void	collision(Entity & target) = 0;
 		Character &		operator=(Character const & rhs);
 	protected :
 		Character(void);
+		int				_Score;
+
 
 };
 

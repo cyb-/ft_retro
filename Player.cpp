@@ -13,7 +13,7 @@
 #include "Player.hpp"
 #include "Rifle.hpp"
 
-Player::Player(void) : Character(0, 0, "player", 94, 1, 3, 0), _Score(0)
+Player::Player(void) : Character(0, 0, "player", 94, 1, 3, 0)
 {
 }
 
@@ -25,16 +25,6 @@ Player::Player(Player const & src) : Character(src.getX(), src.getY(), src.getTy
 
 Player::~Player()
 {
-}
-
-int				Player::getScore(void) const
-{
-	return (_Score);
-}
-
-void			Player::setScore(int i)
-{
-	_Score += i;
 }
 
 void			Player::collision(Entity & target)

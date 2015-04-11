@@ -23,14 +23,10 @@ class		Player : public Character
 		Player(Player const & src);
 		~Player(void);
 
-		int				getScore(void) const;
-		void			setScore(int i);
 		void			collision(Entity & target);
 		Player &		operator=(Player const & rhs);
 
 	private:
-
-		int			_Score;
 
 };
 
