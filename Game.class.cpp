@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 17:46:15 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 17:55:29 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -91,15 +91,15 @@ void			Game::update(Screen *screen)
 
 void			Game::draw(Screen *screen)
 {	
-//	Entity			*list;
+	Entity			*list;
 
 	werase(screen->getWindow());
-	// list = this->_entities.getEntities();
-	// while (list != NULL)
-	// {
-	// 	mvwprintw(screen->getWindow(), list->getX(), list->getY(), list->getBodyS().c_str());
-	// 	list = list->getNext();
-	// }
+	list = this->_entities.getEntities();
+	while (list != NULL)
+	{
+		mvwprintw(screen->getWindow(), list->getY(), list->getX(), list->getBodyS().c_str());
+		list = list->getNext();
+	}
 	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());
 	wrefresh(screen->getWindow());
 	this->_cEnd = std::clock();
@@ -118,3 +118,7 @@ Entities const &		Game::getEntities(void) const
 {
 	return (this->_entities);
 }
+
+// GAME HELPERS
+
+

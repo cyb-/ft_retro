@@ -6,25 +6,22 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/11 13:03:16 by jzimini           #+#    #+#             */
-/*   Updated: 2015/04/11 13:03:18 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 18:17:06 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "Entities.hpp"
 
-Entities::Entities(){}
+Entities::Entities(void) : _entities(0)
+{}
 
-Entities::~Entities(){}
-
-Entity *	Entities::getEntities(void) const{
-	return (_entities);
+Entities::~Entities(void)
+{
+	this->_clearEntities();
 }
 
-int				Entities::getCount(void) const {
-	return (_count);
-}
-
-Entities &		Entities::operator=(Entities const & rhs){
+Entities &		Entities::operator=(Entities const & rhs)
+{
 	if (this != &rhs)
 	{
 		_entities = rhs.getEntities();
@@ -33,4 +30,40 @@ Entities &		Entities::operator=(Entities const & rhs){
 	return (*this);
 }
 
-int		Entities::_count;
+Entity *		Entities::getEntities(void) const
+{
+	return (this->_entities);
+}
+
+void			Entities::push(Entity *entity)
+{
+	Entity			*tmp;
+
+	if (entity == 0)
+		return ;
+	if (this->_entities != 0)
+	{
+		tmp = this->_entities;
+		while (tmp->getNext())
+			tmp = tmp->getNext();
+		entity->setPrev(tmp);
+		tmp->setNext(entity);
+	}
+	else
+		this->_entities = entity;
+}
+
+void			Entities::_clearEntities(void)
+{
+	Entity			*tmp;
+
+	if (this->_entities != 0)
+	{
+		while (this->_entities)
+		{
+			tmp = this->_entities;
+			this->_entities = tmp->getNext();
+			delete tmp;
+		}
+	}
+}

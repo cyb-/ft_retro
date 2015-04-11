@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:38:48 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 17:56:50 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -31,15 +31,17 @@ public:
 
 	Game &	operator=(Game const & rhs);
 
-	void			init(Screen *screen);
-	void			handle(Screen *screen);
-	void			update(Screen *screen);
-	void			draw(Screen *screen);
+	void				init(Screen *screen);
+	void				handle(Screen *screen);
+	void				update(Screen *screen);
+	void				draw(Screen *screen);
 
 	Player const &		getPlayer(void) const;
-	Entities const &		getEntities(void) const;
+	Entities const &	getEntities(void) const;
 
 private:
+	void			generateWave(Screen *screen);
+
 	int				_cStart;
 	int				_cEnd;
 	Player			_player;

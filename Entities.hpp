@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/11 13:03:08 by jzimini           #+#    #+#             */
-/*   Updated: 2015/04/11 13:03:09 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 18:16:35 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,18 @@
 class Entities {
 
 public:
-	Entities();
+	Entities(void);
 	~Entities(void);
 
 	Entity *		getEntities(void) const;
-	int				getCount(void) const;
+	void			push(Entity *entity);
 
 	Entities &	operator=(Entities const & rhs);
 
 private:
-	static int			_count;
 	Entity			*_entities;
+
+	void			_clearEntities(void);
 
 	Entities(Entities const & src);
 
