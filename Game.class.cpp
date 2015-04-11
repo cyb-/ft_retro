@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:43:07 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 17:26:22 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,10 +15,11 @@
 #include <unistd.h>
 #include <ctime>
 #include <string>
+#include <iostream>
 
 // CONSTRUCTORS AND DESTRUCTOR
 
-Game::Game(void) : _entities()
+Game::Game(void)
 {}
 
 Game::Game(Game const & src)
@@ -46,7 +47,7 @@ Game &		Game::operator=(Game const & rhs)
 
 void			Game::init(Screen *screen)
 {
-	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight());
+	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 1);
 	clear();
 }
 
@@ -55,8 +56,26 @@ void			Game::handle(Screen *screen)
 	int			ch = wgetch(screen->getWindow());
 
 	this->_cStart = std::clock();
-	if (ch == KEY_ESC)
+	switch (ch)
+	{
+	case KEY_ESC:
 		screen->changeState(new Menu());
+		break;
+	case KEY_LEFT:
+		this->_player.move("left");
+		break;
+	case KEY_RIGHT:
+		this->_player.move("right");
+		break;
+	case KEY_UP:
+		this->_player.move("up");
+		break;
+	case KEY_DOWN:
+		this->_player.move("down");
+		break;
+	case KEY_SPACE:
+		this->_player.shoot();
+	}
 }
 
 void			Game::update(Screen *screen)
@@ -70,15 +89,15 @@ void			Game::draw(Screen *screen)
 {	
 //	Entity			*list;
 
+	werase(screen->getWindow());
 	// list = this->_entities.getEntities();
 	// while (list != NULL)
 	// {
 	// 	mvwprintw(screen->getWindow(), list->getX(), list->getY(), list->getBodyS().c_str());
 	// 	list = list->getNext();
 	// }
-	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 10);
-	mvwprintw(screen->getWindow(), this->_player.getX(), this->_player.getY(), this->_player.getBodyS().c_str());
-	refresh();
+	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());
+	wrefresh(screen->getWindow());
 	this->_cEnd = std::clock();
 	// if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (1000 / GAME_FPS))
 	// 	usleep((1000 / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));

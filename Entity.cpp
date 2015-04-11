@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 19:09:17 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 21:04:09 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 17:15:07 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,13 @@ void			Entity::move(std::string direction)
 	i = 1;
 	if (this->getType().compare("rifle") == 0)
 		i = 2;
-	else if (direction.compare("up") == 0)
+	if (direction.compare("up") == 0)
 		_PosY -= i;
 	else if (direction.compare("down") == 0)
 		_PosY += i;
 	else if (direction.compare("right") == 0)
 		_PosX += i;
-	else if (direction.compare("down") == 0)
+	else if (direction.compare("left") == 0)
 		_PosX -= i;
 }
 
