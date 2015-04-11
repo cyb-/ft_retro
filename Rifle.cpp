@@ -49,6 +49,10 @@ void			Rifle::collision(Entity & target)
 		target.looseHP() ;
 		if (target.getHP() <= 0)
 			target.looseLife();
+		std::cout << this->getShooterType() << std::endl;
+		if (this->getShooterType().compare("player") == 0)
+			_Shooter.setScore(target.getPoints());
+		std::cout << _Shooter.getScore() << std::endl;
 	}
 }
 

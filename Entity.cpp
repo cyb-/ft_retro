@@ -112,6 +112,14 @@ Entity *		Entity::getPrev(void)	const
 	return (prev);
 }
 
+void			Entity::setNext(Entity * elem){
+	next = elem;
+}
+
+void			Entity::setPrev(Entity * elem){
+	prev = elem;
+}
+
 //				SETORS & METHODS		//
 
 void			Entity::looseHP(void)

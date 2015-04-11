@@ -34,6 +34,8 @@ class	Entity
 		int				getLives(void) const;
 		int				getPoints(void) const;
 
+		void			setNext(Entity * elem);
+		void			setPrev(Entity * elem);
 		void			setPosition(int x, int y);
 		void			setBody(char body);
 		void			looseHP(void);

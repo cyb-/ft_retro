@@ -6,20 +6,19 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 17:55:29 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 19:49:31 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Game.class.hpp"
 #include "Menu.class.hpp"
+#include "Enemy.hpp"
 #include <unistd.h>
 #include <ctime>
 #include <string>
 #include <iostream>
 
-// CONSTRUCTORS AND DESTRUCTOR
-
-Game::Game(void)
+Game::Game(void) : _loops(0)
 {}
 
 Game::Game(Game const & src)
@@ -31,27 +30,32 @@ Game::Game(Game const & src)
 Game::~Game(void)
 {}
 
-// OPERATORS OVERLOAD
+// ************************************************************************** //
+//                             OPERATORS OVERLOAD                             //
+// ************************************************************************** //
 
-Game &		Game::operator=(Game const & rhs)
+Game &				Game::operator=(Game const & rhs)
 {
 	if (this != &rhs)
 	{
+		this->_loops = rhs.getLoops();
 		this->_player = rhs.getPlayer();
 		this->_entities = rhs.getEntities();
 	}
 	return (*this);
 }
 
-// ENGINE
+// ************************************************************************** //
+//                                   ENGINE                                   //
+// ************************************************************************** //
 
-void			Game::init(Screen *screen)
+void				Game::init(Screen *screen)
 {
 	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 1);
 	clear();
 }
 
-void			Game::handle(Screen *screen)
+void				Game::handle(Screen *screen)
 {
 	int			ch = wgetch(screen->getWindow());
 
@@ -82,14 +86,23 @@ void			Game::handle(Screen *screen)
 	}
 }
 
-void			Game::update(Screen *screen)
+void				Game::update(Screen *screen)
 {
-	std::string	msg = "Game state";
+	Entity *			lst;
 
-	mvprintw(screen->getHeight() / 2, (screen->getWidth() - msg.length()) / 2, msg.c_str());
+	if ((this->_loops % 11) != 0) // THIS IS A FUNCKIN TRICK !!!!!!
+		return ;
+	if ((this->_loops % 5) == 0)
+		this->_generateWave(screen);
+	lst = this->_entities.getEntities();
+	while (lst)
+	{
+		lst->move("down");
+		lst = lst->getNext();
+	}
 }
 
-void			Game::draw(Screen *screen)
+void				Game::draw(Screen *screen)
 {	
 	Entity			*list;
 
@@ -103,22 +116,42 @@ void			Game::draw(Screen *screen)
 	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());
 	wrefresh(screen->getWindow());
 	this->_cEnd = std::clock();
-	// if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (1000 / GAME_FPS))
-	// 	usleep((1000 / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
+	this->_loops++;
+	if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (CLOCKS_PER_SEC / GAME_FPS))
+	 	usleep((CLOCKS_PER_SEC / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
 }
 
-// GETTERS
+// ************************************************************************** //
+//                                  GETTERS                                   //
+// ************************************************************************** //
+
+unsigned int		Game::getLoops(void) const
+{
+	return (this->_loops);
+}
 
 Player const &		Game::getPlayer(void) const
 {
 	return (this->_player);
 }
 
-Entities const &		Game::getEntities(void) const
+Entities const &	Game::getEntities(void) const
 {
 	return (this->_entities);
 }
 
-// GAME HELPERS
+// ************************************************************************** //
+//                                GAME HELPERS                                //
+// ************************************************************************** //
 
+void				Game::_generateWave(Screen *screen)
+{
+	int	i = 5;
 
+	while (i--)
+	{
+		Entity *	entity = new Enemy(screen->getWidth() - (i * 3), 0);
+		if (entity)
+			this->_entities.push(entity);
+	}
+}

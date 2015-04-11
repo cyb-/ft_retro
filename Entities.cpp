@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/11 13:03:16 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 18:17:06 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 18:24:02 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ Entities &		Entities::operator=(Entities const & rhs)
 {
 	if (this != &rhs)
 	{
+		// CHANGE THIS !!!!!!!!!
 		_entities = rhs.getEntities();
-		_count = rhs.getCount();
 	}
 	return (*this);
 }

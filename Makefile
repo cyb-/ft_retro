@@ -6,7 +6,7 @@
 #    By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 23:11:02 by gchateau          #+#    #+#              #
-#    Updated: 2015/04/11 13:48:42 by jzimini          ###   ########.fr        #
+#    Updated: 2015/04/11 17:45:48 by jzimini          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,7 +16,7 @@ CC = clang++
 CFLAGS = -Wall -Werror -Wextra
 LDFLAGS = -lncurses
 
-FILES = Screen.class Menu.class Game.class Entities Entity Character Player Rifle Rock\
+FILES = Screen.class Menu.class Game.class Entities Entity Enemy Character Player Rifle Rock\
 		main
 
 #******************************************************************************#
