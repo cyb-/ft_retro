@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 01:15:49 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 01:25:26 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,7 +17,6 @@
 #include <unistd.h> // For usleep()
 #include <ctime>
 #include <cstdlib>
-#include <iostream>
 
 Game::Game(void) : _loops(0)
 {}

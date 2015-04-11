@@ -6,15 +6,12 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 01:10:09 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 01:27:24 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Screen.class.hpp"
 #include "IState.interface.hpp"
-#include <iostream>
-
-// CONSTRUCTORS AND DESTRUCTOR
 
 Screen::Screen(void) : _width(0), _height(0), _state(0)
 {}
@@ -70,7 +67,6 @@ void			Screen::changeState(IState *state)
 	if (state)
 	{
 		delete this->_state;
-		std::cout << this->_state << std::endl;
 		this->_state = state;
 		state->init(this);
 	}

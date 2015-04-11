@@ -6,14 +6,14 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:53:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 01:04:04 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 01:28:11 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Menu.class.hpp"
 #include "Game.class.hpp"
+
 #include <string>
-#include <iostream>
 
 // CONSTRUCTORS AND DESTRUCTOR
 
@@ -41,8 +41,7 @@ Menu &		Menu::operator=(Menu const & rhs)
 
 void		Menu::init(Screen *screen)
 {
-	(void)screen;
-	clear();
+	wclear(screen->getWindow());
 }
 
 void		Menu::handle(Screen *screen)
@@ -52,11 +51,7 @@ void		Menu::handle(Screen *screen)
 	if (ch == KEY_ESC)
 		screen->quit();
 	else if (ch == KEY_ENTER || ch == 10)
-	{
-		std::cout << "enter" << std::endl;
 		screen->changeState(new Game());
-		std::cout << "changed" << std::endl;
-	}
 }
 
 void		Menu::update(Screen *screen)
