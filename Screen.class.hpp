@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 17:51:58 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 00:38:59 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -32,7 +32,7 @@ public:
 
 	void			handle(void);
 	void			update(void);
-	void			draw(void);
+	void			render(void);
 
 	bool			running(void) const;
 

@@ -6,13 +6,14 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:53:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:17:31 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 01:04:04 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Menu.class.hpp"
 #include "Game.class.hpp"
 #include <string>
+#include <iostream>
 
 // CONSTRUCTORS AND DESTRUCTOR
 
@@ -52,20 +53,22 @@ void		Menu::handle(Screen *screen)
 		screen->quit();
 	else if (ch == KEY_ENTER || ch == 10)
 	{
-		IState	*st = new Game;
-		screen->changeState(st);
+		std::cout << "enter" << std::endl;
+		screen->changeState(new Game());
+		std::cout << "changed" << std::endl;
 	}
 }
 
 void		Menu::update(Screen *screen)
 {
-	std::string	msg = "Press ENTER to start and ESC to exit";
-
-	mvwprintw(screen->getWindow(), screen->getHeight() / 2, (screen->getWidth() - msg.length()) / 2, msg.c_str());
+	(void)screen;
 }
 
-void		Menu::draw(Screen *screen)
+void		Menu::render(Screen *screen)
 {
-	(void)screen;
-	refresh();
+	std::string	msg = "Press ENTER to start and ESC to exit";
+
+	werase(screen->getWindow());
+	mvwprintw(screen->getWindow(), screen->getHeight() / 2, (screen->getWidth() - msg.length()) / 2, msg.c_str());
+	wrefresh(screen->getWindow());
 }

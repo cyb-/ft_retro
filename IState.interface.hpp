@@ -6,14 +6,14 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:40:59 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 17:25:54 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 00:20:14 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef ISTATE_INTERFACE_HPP
 # define ISTATE_INTERFACE_HPP
 
-# define KEY_ESC 	(27)
+# define KEY_ESC	(27)
 # define KEY_SPACE	(' ')
 
 # include "Screen.class.hpp"
@@ -25,7 +25,7 @@ public:
 	virtual void		init(Screen *screen) = 0;
 	virtual void		handle(Screen *screen) = 0;
 	virtual void		update(Screen *screen) = 0;
-	virtual void		draw(Screen *screen) = 0;
+	virtual void		render(Screen *screen) = 0;
 
 };
 

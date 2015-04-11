@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 22:04:14 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 01:15:49 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,6 +17,7 @@
 #include <unistd.h> // For usleep()
 #include <ctime>
 #include <cstdlib>
+#include <iostream>
 
 Game::Game(void) : _loops(0)
 {}
@@ -52,7 +53,7 @@ Game &				Game::operator=(Game const & rhs)
 void				Game::init(Screen *screen)
 {
 	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 1);
-	clear();
+	wclear(screen->getWindow());
 }
 
 void				Game::handle(Screen *screen)
@@ -88,29 +89,39 @@ void				Game::handle(Screen *screen)
 
 void				Game::update(Screen *screen)
 {
-	Entity *			lst;
+	Entities::Item *	lst;
+	Entities::Item *	del;
 
 	if ((this->_loops % 11) != 0) // THIS IS A FUCKIN TRICK !!!!!!
 		return ;
 	if ((this->_loops % 5) == 0 || this->_loops == 0)
 		this->_generateWave(screen);
-	lst = this->_entities.getEntities();
+	lst = this->_entities.getItems();
 	while (lst)
 	{
-		lst->move("down");
-		lst = lst->getNext();
+		if (lst->hasEntity() && lst->getEntity()->getHP() > 0)
+		{
+			lst->getEntity()->move("down");
+			lst = lst->getNext();
+		}
+		else
+		{
+			del = lst;
+			lst = lst->getNext();
+			delete del;
+		}
 	}
 }
 
-void				Game::draw(Screen *screen)
+void				Game::render(Screen *screen)
 {
-	Entity *			lst;
+	Entities::Item *	lst;
 
 	werase(screen->getWindow());
-	lst = this->_entities.getEntities();
+	lst = this->_entities.getItems();
 	while (lst)
 	{
-		mvwprintw(screen->getWindow(), lst->getY(), lst->getX(), lst->getBodyS().c_str());
+		mvwprintw(screen->getWindow(), lst->getEntity()->getY(), lst->getEntity()->getX(), lst->getEntity()->getBodyS().c_str());
 		lst = lst->getNext();
 	}
 	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());

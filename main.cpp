@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/01/10 19:11:32 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 21:36:56 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 00:37:39 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,8 +17,8 @@
 #include "Enemy.hpp"
 #include "Rifle.hpp"
 #include "Rock.hpp"
-#include <iostream>
 
+#include <iostream>
 
 int		main(void)
 {
@@ -32,7 +32,7 @@ int		main(void)
 		{
 			screen.handle();
 			screen.update();
-			screen.draw();
+			screen.render();
 		}
 		endwin();
 	}

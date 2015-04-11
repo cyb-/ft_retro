@@ -6,12 +6,13 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 17:51:34 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 01:10:09 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Screen.class.hpp"
 #include "IState.interface.hpp"
+#include <iostream>
 
 // CONSTRUCTORS AND DESTRUCTOR
 
@@ -56,12 +57,12 @@ void			Screen::init(WINDOW *window)
 	curs_set(0);
 	ESCDELAY = 20;
 	clear();
-	this->_running = TRUE;
+	this->_running = true;
 }
 
 void			Screen::quit(void)
 {
-	this->_running = FALSE;
+	this->_running = false;
 }
 
 void			Screen::changeState(IState *state)
@@ -69,6 +70,7 @@ void			Screen::changeState(IState *state)
 	if (state)
 	{
 		delete this->_state;
+		std::cout << this->_state << std::endl;
 		this->_state = state;
 		state->init(this);
 	}
@@ -91,9 +93,9 @@ void			Screen::update(void)
 	this->_state->update(this);
 }
 
-void			Screen::draw(void)
+void			Screen::render(void)
 {
-	this->_state->draw(this);
+	this->_state->render(this);
 }
 
 // GETTERS

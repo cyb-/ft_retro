@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 19:03:40 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 00:45:33 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,8 +16,8 @@
 # define GAME_FPS 20
 
 # include "IState.interface.hpp"
+# include "Entities.class.hpp"
 # include "Player.hpp"
-# include "Entities.hpp"
 
 class Game : public IState {
 
@@ -31,7 +31,7 @@ public:
 	void				init(Screen *screen);
 	void				handle(Screen *screen);
 	void				update(Screen *screen);
-	void				draw(Screen *screen);
+	void				render(Screen *screen);
 
 	unsigned int		getLoops(void) const;
 	Player const &		getPlayer(void) const;
