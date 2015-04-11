@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:26:02 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 15:49:28 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 22:35:34 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class	Rifle : public Entity
 		std::string	getShooterType(void) const;
 		Character &	getShooter(void) const;
 		void		collision(Entity & target);
+		Entity *	clone(void) const;
 		Rifle &		operator=(Rifle const & rhs);
 	private:
 		Character &		_Shooter;

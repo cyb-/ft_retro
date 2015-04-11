@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 16:25:11 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 21:04:51 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 22:28:42 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class	Entity
 		virtual void	looseLife(void);
 		void			move(std::string direction);
 		virtual void	collision(Entity & target) = 0;
+		virtual Entity *	clone(void) const = 0;
 
 		Entity &		operator=(Entity const & rhs);
 
@@ -58,8 +59,8 @@ class	Entity
 		Entity(void);
 
 	private:
-		Entity 		*next;
-		Entity 		*prev;
+		Entity		*next;
+		Entity		*prev;
 
 };
 

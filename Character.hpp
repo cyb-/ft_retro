@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:26:02 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 18:13:53 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 22:33:13 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class	Character : public Entity
 		void			setScore(int i);
 
 		virtual void	collision(Entity & target) = 0;
+		virtual Entity *	clone(void) const = 0;
 		Character &		operator=(Character const & rhs);
 	protected :
 		Character(void);

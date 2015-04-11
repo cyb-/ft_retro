@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/04/11 13:03:16 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 18:24:02 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 22:31:13 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 Entities::Entities(void) : _entities(0)
 {}
 
+Entities::Entities(Entities const & src) : _entities(0)
+{
+	*this = src;
+}
+
 Entities::~Entities(void)
 {
 	this->_clearEntities();
@@ -22,10 +27,17 @@ Entities::~Entities(void)
 
 Entities &		Entities::operator=(Entities const & rhs)
 {
+	Entity *		tmp;
+
 	if (this != &rhs)
 	{
-		// CHANGE THIS !!!!!!!!!
-		_entities = rhs.getEntities();
+		this->_clearEntities();
+		tmp = rhs.getEntities();
+		while (tmp)
+		{
+			this->push(tmp->clone());
+			tmp = tmp->getNext();
+		}
 	}
 	return (*this);
 }

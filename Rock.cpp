@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 10:28:57 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 21:08:10 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 22:38:39 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,10 @@ Rock &			Rock::operator=(Rock const & rhs)
 		_Collidable = rhs.getCollidable();
 	}
 	return *this;
+}
+
+Entity *		Rock::clone(void) const
+{
+	Entity *	entity = new Rock(*this);
+	return (entity);
 }

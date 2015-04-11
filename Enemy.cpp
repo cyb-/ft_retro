@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:18:17 by jzimini           #+#    #+#             */
-//   Updated: 2015/01/11 20:47:12 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 22:41:44 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,10 @@ Enemy &			Enemy::operator=(Enemy const & rhs)
 		_Points = rhs.getPoints();
 	}
 	return (*this);
+}
+
+Entity *		Enemy::clone(void) const
+{
+	Entity *	entity = new Enemy(*this);
+	return (entity);
 }

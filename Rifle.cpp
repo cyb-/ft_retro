@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 10:28:57 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 18:21:35 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 22:39:36 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,10 @@ Rifle &			Rifle::operator=(Rifle const & rhs)
 		_HP = rhs.getHP();
 	}
 	return *this;
+}
+
+Entity *		Rifle::clone(void) const
+{
+	Entity *	entity = new Rifle(*this);
+	return (entity);
 }

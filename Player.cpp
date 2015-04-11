@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:52:16 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 18:23:10 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 22:40:44 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,10 @@ Player &			Player::operator=(Player const & rhs)
 		_Lives = rhs.getLives();
 	}
 	return (*this);
+}
+
+Entity *			Player::clone(void) const
+{
+	Entity *	entity = new Player(*this);
+	return (entity);
 }

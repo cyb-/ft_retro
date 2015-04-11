@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:26:02 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 12:51:43 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 22:37:07 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class	Rock : public Entity
 		~Rock(void);
 
 		void		collision(Entity & target);
+		Entity *	clone(void) const;
 		Rock &		operator=(Rock const & rhs);
 
 
