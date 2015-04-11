@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/01/10 19:11:32 by gchateau          #+#    #+#             //
-//   Updated: 2015/01/11 20:50:46 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 21:36:56 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -25,6 +25,7 @@ int		main(void)
 	{
 		Screen		screen;
 
+		std::srand(std::time(0));
 		screen.init(initscr());
 		screen.changeState(new Menu());
 		while (screen.running())

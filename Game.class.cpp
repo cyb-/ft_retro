@@ -6,17 +6,17 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 19:49:31 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/11 22:04:14 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Game.class.hpp"
 #include "Menu.class.hpp"
 #include "Enemy.hpp"
-#include <unistd.h>
+
+#include <unistd.h> // For usleep()
 #include <ctime>
-#include <string>
-#include <iostream>
+#include <cstdlib>
 
 Game::Game(void) : _loops(0)
 {}
@@ -57,7 +57,7 @@ void				Game::init(Screen *screen)
 
 void				Game::handle(Screen *screen)
 {
-	int			ch = wgetch(screen->getWindow());
+	int					ch = wgetch(screen->getWindow());
 
 	this->_cStart = std::clock();
 	switch (ch)
@@ -90,9 +90,9 @@ void				Game::update(Screen *screen)
 {
 	Entity *			lst;
 
-	if ((this->_loops % 11) != 0) // THIS IS A FUNCKIN TRICK !!!!!!
+	if ((this->_loops % 11) != 0) // THIS IS A FUCKIN TRICK !!!!!!
 		return ;
-	if ((this->_loops % 5) == 0)
+	if ((this->_loops % 5) == 0 || this->_loops == 0)
 		this->_generateWave(screen);
 	lst = this->_entities.getEntities();
 	while (lst)
@@ -103,22 +103,22 @@ void				Game::update(Screen *screen)
 }
 
 void				Game::draw(Screen *screen)
-{	
-	Entity			*list;
+{
+	Entity *			lst;
 
 	werase(screen->getWindow());
-	list = this->_entities.getEntities();
-	while (list != NULL)
+	lst = this->_entities.getEntities();
+	while (lst)
 	{
-		mvwprintw(screen->getWindow(), list->getY(), list->getX(), list->getBodyS().c_str());
-		list = list->getNext();
+		mvwprintw(screen->getWindow(), lst->getY(), lst->getX(), lst->getBodyS().c_str());
+		lst = lst->getNext();
 	}
 	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());
 	wrefresh(screen->getWindow());
 	this->_cEnd = std::clock();
 	this->_loops++;
 	if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (CLOCKS_PER_SEC / GAME_FPS))
-	 	usleep((CLOCKS_PER_SEC / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
+		usleep((CLOCKS_PER_SEC / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
 }
 
 // ************************************************************************** //
@@ -146,12 +146,17 @@ Entities const &	Game::getEntities(void) const
 
 void				Game::_generateWave(Screen *screen)
 {
-	int	i = 5;
+	int					nb = (std::rand() % 8) + 1;
+	int					colW;
+	Entity *			entity;
 
-	while (i--)
+	colW = screen->getWidth() / nb;
+	while (nb)
 	{
-		Entity *	entity = new Enemy(screen->getWidth() - (i * 3), 0);
+		int	x = (std::rand() % colW) + ((nb - 1) * colW);
+		entity = new Enemy(x, 0);
 		if (entity)
 			this->_entities.push(entity);
+		nb--;
 	}
 }
