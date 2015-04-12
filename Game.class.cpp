@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 05:39:01 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 10:57:27 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -74,7 +74,7 @@ void				Game::handle(Screen *screen)
 			this->_player.move("down");
 		break;
 	case KEY_SPACE:
-		this->_player.shoot();
+		this->_entities.push(this->_player.shoot());
 	}
 }
 
@@ -93,7 +93,10 @@ void				Game::update(Screen *screen)
 // ADD: `&& lst->getEntity()->getY() < screen->getMaxY() - Game::_UIHeight` condition to remove outscreen entities
 		if (lst->hasEntity() && lst->getEntity()->getHP() > 0)
 		{
-			lst->getEntity()->move("down");
+			if (lst->getEntity()->getVector() == 1)
+				lst->getEntity()->move("down");
+			if (lst->getEntity()->getVector() == -1)
+				lst->getEntity()->move("up");
 			lst = lst->getNext();
 		}
 		else
@@ -133,6 +136,11 @@ void				Game::render(Screen *screen)
 unsigned int		Game::getLoops(void) const
 {
 	return (this->_loops);
+}
+
+unsigned int		Game::getScore(void) const
+{
+	return (this->_score);
 }
 
 Player const &		Game::getPlayer(void) const

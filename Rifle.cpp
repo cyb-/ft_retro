@@ -15,14 +15,12 @@
 #include <iostream>
 
 
-Rifle::Rifle(int x, int y, Character & shooter) : Entity(x, y, "rifle", '.', 1, 1, 0),
-												_Shooter(shooter)
+Rifle::Rifle(int x, int y, int Vector) : Entity(x + Vector, y + Vector, "rifle", '.', 1, 1, 0, Vector)
 {
 }
 
 Rifle::Rifle(Rifle const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints()),
-								_Shooter(src.getShooter())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
 {
 	*this = src;
 }
@@ -31,29 +29,9 @@ Rifle::~Rifle(void)
 {
 }
 
-Character &		Rifle::getShooter(void) const
-{
-	return (_Shooter);
-}
-
-std::string		Rifle::getShooterType(void) const
-{
-	return		(_Shooter.getType());
-}
-
 void			Rifle::collision(Entity & target)
 {
-	if (this->_Collidable == true && target.getCollidable() == true
-		&& target.getType() != this->getShooterType())
-	{
-		target.looseHP() ;
-		if (target.getHP() <= 0)
-			target.looseLife();
-		std::cout << this->getShooterType() << std::endl;
-		if (this->getShooterType().compare("player") == 0)
-			_Shooter.setScore(target.getPoints());
-		std::cout << _Shooter.getScore() << std::endl;
-	}
+	(void)target;
 }
 
 Rifle &			Rifle::operator=(Rifle const & rhs)
@@ -65,7 +43,7 @@ Rifle &			Rifle::operator=(Rifle const & rhs)
 		_Body = rhs.getBody();
 		_Collidable = rhs.getCollidable();
 		_Type = rhs.getType();
-		_Shooter = rhs.getShooter();
+		_vector = rhs.getVector();
 		_Lives = rhs.getLives();
 		_HP = rhs.getHP();
 	}

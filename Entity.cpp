@@ -16,7 +16,7 @@ Entity::Entity()
 {
 }
 
-Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points) : _PosY(y),
+Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int Vector) : _PosY(y),
 												_PosX(x),
 												_Body(body),
 												_HP(hp),
@@ -24,6 +24,7 @@ Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int
 												_Collidable(true),
 												_Type(type),
 												_Points(points),
+												_vector(Vector),
 												next(0),
 												prev(0)
 {
@@ -112,12 +113,9 @@ Entity *		Entity::getPrev(void)	const
 	return (prev);
 }
 
-void			Entity::setNext(Entity * elem){
-	next = elem;
-}
-
-void			Entity::setPrev(Entity * elem){
-	prev = elem;
+int				Entity::getVector(void) const
+{
+	return(_vector);
 }
 
 //				SETORS & METHODS		//

@@ -19,21 +19,17 @@ class	Character : public Entity
 {
 
 	public:
-		Character(int x,int y, std::string type, char body, int hp, int lives, int Points);
+		Character(int x,int y, std::string type, char body, int hp, int lives,
+			int Points, int vector);
 		Character(Character const & src);
-		Entity *	shoot();
 		virtual 	~Character(void);
 
-		int				getScore(void) const;
-		void			setScore(int i);
-
+		Entity *	shoot();
 		virtual void	collision(Entity & target) = 0;
 		virtual Entity *	clone(void) const = 0;
 		Character &		operator=(Character const & rhs);
-	protected :
+	protected:
 		Character(void);
-		int				_Score;
-
 
 };
 

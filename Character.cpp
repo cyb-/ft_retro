@@ -14,16 +14,18 @@
 #include "Character.hpp"
 #include "Rifle.hpp"
 
-Character::Character(void) : Entity() , _Score(0)
+Character::Character(void) : Entity()
 {
 }
 
-Character::Character(int x, int y, std::string type, char body, int hp, int lives, int points) : Entity(x, y, type, body, hp, lives, points) , _Score(0)
+Character::Character(int x, int y, std::string type, char body, int hp, int lives,
+					int points, int vector) : Entity(x, y, type, body, hp, lives,
+					points, vector)
 {
 }
 
 Character::Character(Character const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints()), _Score(src.getScore())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
 {
 	*this = src;
 }
@@ -32,19 +34,9 @@ Character::~Character(void)
 {
 }
 
-int				Character::getScore(void) const
-{
-	return (_Score);
-}
-
-void			Character::setScore(int i)
-{
-	_Score += i;
-}
-
 Entity*		Character::shoot()
 {
-	Entity	*rifle = new Rifle(_PosX, _PosY - 1, *this);
+	Entity	*rifle = new Rifle(_PosX, _PosY - 1, _vector);
 	return (rifle);
 }
 

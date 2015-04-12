@@ -6,19 +6,19 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 10:28:57 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 22:38:39 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 10:57:53 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Rock.hpp"
 
-Rock::Rock(int x, int y) : Entity(x, y, "rock", 'O', 1, 1, 0)
+Rock::Rock(int x, int y) : Entity(x, y, "rock", 'O', 1, 1, 5, 1)
 {
 	_Collidable = false;
 }
 
 Rock::Rock(Rock const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
 {
 	*this = src;
 }
@@ -29,15 +29,7 @@ Rock::~Rock(void)
 
 void			Rock::collision(Entity & target)
 {
-	if (this->_Collidable == true && target.getCollidable() == true
-			&& target.getType() != "rifle")
-	{
-		target.looseHP() ;
-		if (target.getHP() == 0)
-			target.looseLife();
-	}
-	else if (target.getType() == "rifle")
-		target.looseLife();
+	(void)target;
 }
 
 Rock &			Rock::operator=(Rock const & rhs)

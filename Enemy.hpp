@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:36:10 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 22:36:11 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 11:00:40 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ class		Enemy : public Character
 		Enemy(Enemy const & src);
 		~Enemy(void);
 
+		Enemy &			operator=(Enemy const & rhs);
+
 		void			collision(Entity & target);
 		Entity *		clone(void) const;
-		Enemy &			operator=(Enemy const & rhs);
 		char			random(void);
 
 };
