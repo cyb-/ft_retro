@@ -6,20 +6,19 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 00:45:33 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 02:57:54 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef GAME_CLASS_HPP
 # define GAME_CLASS_HPP
 
-# define GAME_FPS 20
-
 # include "IState.interface.hpp"
 # include "Entities.class.hpp"
 # include "Player.hpp"
 
-class Game : public IState {
+class Game : public IState
+{
 
 public:
 	Game(void);
@@ -40,8 +39,6 @@ public:
 private:
 	void				_generateWave(Screen *screen);
 
-	int					_cStart;
-	int					_cEnd;
 	Player				_player;
 	Entities			_entities;
 	unsigned int		_loops;

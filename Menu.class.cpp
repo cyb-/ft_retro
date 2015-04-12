@@ -6,16 +6,13 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:53:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 01:28:11 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 03:25:24 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Menu.class.hpp"
-#include "Game.class.hpp"
 
 #include <string>
-
-// CONSTRUCTORS AND DESTRUCTOR
 
 Menu::Menu(void)
 {}
@@ -29,19 +26,19 @@ Menu::Menu(Menu const & src)
 Menu::~Menu(void)
 {}
 
-// OPERATORS OVERLOAD
-
 Menu &		Menu::operator=(Menu const & rhs)
 {
 	(void)rhs;
 	return (*this);
 }
 
-// ENGINE
+// ************************************************************************** //
+//                                   ENGINE                                   //
+// ************************************************************************** //
 
 void		Menu::init(Screen *screen)
 {
-	wclear(screen->getWindow());
+	(void)screen;
 }
 
 void		Menu::handle(Screen *screen)
@@ -51,7 +48,7 @@ void		Menu::handle(Screen *screen)
 	if (ch == KEY_ESC)
 		screen->quit();
 	else if (ch == KEY_ENTER || ch == 10)
-		screen->changeState(new Game());
+		screen->setState(Screen::GAME);
 }
 
 void		Menu::update(Screen *screen)

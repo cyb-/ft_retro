@@ -6,55 +6,67 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 01:27:24 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 03:19:13 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Screen.class.hpp"
-#include "IState.interface.hpp"
 
-Screen::Screen(void) : _width(0), _height(0), _state(0)
-{}
+#include "Menu.class.hpp"
+#include "Game.class.hpp"
+
+#include <unistd.h> // For usleep()
+#include <ctime>
+
+Screen::Screen(void)
+{
+	this->init();
+}
 
 Screen::Screen(Screen const & src)
 {
-	if (this != &src)
-		*this = src;
+	*this = src;
 }
 
 Screen::~Screen(void)
-{}
-
-// OPERATORS OVERLOAD
+{
+	delete this->_state;
+	endwin();
+}
 
 Screen &	Screen::operator=(Screen const & rhs)
 {
 	if (this != &rhs)
 	{
+		this->_window = rhs.getWindow();
 		this->_width = rhs.getWidth();
 		this->_height = rhs.getHeight();
+		this->_running = rhs.running();
 	}
 	return (*this);
 }
 
-// ENGINE
+// ************************************************************************** //
+//                                   ENGINE                                   //
+// ************************************************************************** //
 
-void			Screen::init(WINDOW *window)
+void			Screen::init(void)
 {
-	int				rows;
-	int				cols;
+	int				height;
+	int				width;
 
-	this->_window = window;
-	getmaxyx(stdscr, rows, cols);
-	this->_width = cols;
-	this->_height = rows;
+	this->_window = initscr();
 	keypad(this->_window, TRUE);
 	nodelay(this->_window, TRUE);
 	noecho();
 	curs_set(0);
 	ESCDELAY = 20;
-	clear();
+	wclear(this->_window);
+	getmaxyx(this->_window, height, width);
+	this->_height = height;
+	this->_width = width;
 	this->_running = true;
+	this->setState(MENU);
 }
 
 void			Screen::quit(void)
@@ -62,22 +74,30 @@ void			Screen::quit(void)
 	this->_running = false;
 }
 
-void			Screen::changeState(IState *state)
-{
-	if (state)
-	{
-		delete this->_state;
-		this->_state = state;
-		state->init(this);
-	}
-}
-
 bool			Screen::running(void) const
 {
 	return (this->_running);
 }
 
-// LOOPS
+// ************************************************************************** //
+//                                   LOOPS                                    //
+// ************************************************************************** //
+
+void			Screen::loop(void)
+{
+	clock_t			cStart, cEnd;
+
+	while (this->running())
+	{
+		cStart = std::clock();
+		this->handle();
+		this->update();
+		this->render();
+		cEnd = std::clock();
+		if ((cEnd - cStart) / CLOCKS_PER_SEC < (CLOCKS_PER_SEC / FPS))
+			usleep((CLOCKS_PER_SEC / FPS) - ((cEnd - cStart) / CLOCKS_PER_SEC));
+	}
+}
 
 void			Screen::handle(void)
 {
@@ -94,7 +114,14 @@ void			Screen::render(void)
 	this->_state->render(this);
 }
 
-// GETTERS
+// ************************************************************************** //
+//                                  GETTERS                                   //
+// ************************************************************************** //
+
+IState *		Screen::getState(void) const
+{
+	return (this->_state);
+}
 
 WINDOW *		Screen::getWindow(void) const
 {
@@ -111,7 +138,9 @@ int				Screen::getHeight(void) const
 	return (this->_height);
 }
 
-// SETTERS
+// ************************************************************************** //
+//                                  MUTATORS                                  //
+// ************************************************************************** //
 
 void			Screen::setWidth(int width)
 {
@@ -121,4 +150,30 @@ void			Screen::setWidth(int width)
 void			Screen::setHeight(int height)
 {
 	this->_height = height;
+}
+
+bool			Screen::setState(Screen::state_e state)
+{
+	delete this->_state;
+	switch (state)
+	{
+	case GAME:
+		this->_state = new Game;
+		break;
+	default:
+		this->_state = new Menu;
+	}
+	wclear(this->_window);
+	this->_state->init(this);
+	return (true);
+}
+
+void			Screen::changeState(IState *state)
+{
+	if (state)
+	{
+		delete this->_state;
+		this->_state = state;
+		state->init(this);
+	}
 }

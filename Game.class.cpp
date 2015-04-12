@@ -6,16 +6,13 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 01:25:26 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 03:22:59 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Game.class.hpp"
-#include "Menu.class.hpp"
 #include "Enemy.hpp"
 
-#include <unistd.h> // For usleep()
-#include <ctime>
 #include <cstdlib>
 
 Game::Game(void) : _loops(0)
@@ -23,16 +20,11 @@ Game::Game(void) : _loops(0)
 
 Game::Game(Game const & src)
 {
-	if (this != &src)
-		*this = src;
+	*this = src;
 }
 
 Game::~Game(void)
 {}
-
-// ************************************************************************** //
-//                             OPERATORS OVERLOAD                             //
-// ************************************************************************** //
 
 Game &				Game::operator=(Game const & rhs)
 {
@@ -52,18 +44,16 @@ Game &				Game::operator=(Game const & rhs)
 void				Game::init(Screen *screen)
 {
 	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 1);
-	wclear(screen->getWindow());
 }
 
 void				Game::handle(Screen *screen)
 {
 	int					ch = wgetch(screen->getWindow());
 
-	this->_cStart = std::clock();
 	switch (ch)
 	{
 	case KEY_ESC:
-		screen->changeState(new Menu());
+		screen->setState(Screen::MENU);
 		break;
 	case KEY_LEFT:
 		if (this->_player.getX() > 0)
@@ -125,10 +115,7 @@ void				Game::render(Screen *screen)
 	}
 	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());
 	wrefresh(screen->getWindow());
-	this->_cEnd = std::clock();
 	this->_loops++;
-	if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (CLOCKS_PER_SEC / GAME_FPS))
-		usleep((CLOCKS_PER_SEC / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
 }
 
 // ************************************************************************** //
