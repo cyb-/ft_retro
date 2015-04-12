@@ -6,16 +6,16 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:26:02 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 22:37:07 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:50:17 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ROCK_HPP
 # define ROCK_HPP
 
-# include "Entity.hpp"
+# include "AEntity.class.hpp"
 
-class	Rock : public Entity
+class	Rock : public AEntity
 {
 
 	public:
@@ -23,8 +23,10 @@ class	Rock : public Entity
 		Rock(Rock const & src);
 		~Rock(void);
 
-		Entity *	clone(void) const;
 		Rock &		operator=(Rock const & rhs);
+
+		AEntity *	clone(void) const;
+		AEntity *	shoot(void) const;
 
 
 };

@@ -1,18 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Entity.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/10 19:09:17 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 15:53:30 by gchateau         ###   ########.fr       //
-/*                                                                            */
-/* ************************************************************************** */
+// ************************************************************************** //
+//                                                                            //
+//                                                        :::      ::::::::   //
+//   AEntity.class.cpp                                  :+:      :+:    :+:   //
+//                                                    +:+ +:+         +:+     //
+//   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
+//                                                +#+#+#+#+#+   +#+           //
+//   Created: 2015/04/12 16:43:05 by gchateau          #+#    #+#             //
+//   Updated: 2015/04/12 16:43:34 by gchateau         ###   ########.fr       //
+//                                                                            //
+// ************************************************************************** //
 
-#include "Entity.hpp"
+#include "AEntity.class.hpp"
 
-Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int Vector, int speed) : _PosY(y),
+AEntity::AEntity(int x, int y, std::string type, char body, int hp, int lives, int points, int Vector, int speed) : _PosY(y),
 																												  _PosX(x),
 																												  _Body(body),
 																												  _HP(hp),
@@ -25,15 +25,15 @@ Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int
 																												  _last_move(std::clock())
 {}
 
-Entity::Entity(Entity const & src) : _last_move(std::clock())
+AEntity::AEntity(AEntity const & src) : _last_move(std::clock())
 {
 	*this = src;
 }
 
-Entity::~Entity()
+AEntity::~AEntity()
 {}
 
-Entity &		Entity::operator=(Entity const & rhs)
+AEntity &		AEntity::operator=(AEntity const & rhs)
 {
 	if (this != &rhs)
 	{
@@ -50,69 +50,69 @@ Entity &		Entity::operator=(Entity const & rhs)
 //                                  GETTERS                                   //
 // ************************************************************************** //
 
-int				Entity::getY(void) const
+int				AEntity::getY(void) const
 {
 	return (_PosY);
 }
 
-int				Entity::getX(void) const
+int				AEntity::getX(void) const
 {
 	return (_PosX);
 }
 
-int				Entity::getLives(void) const
+int				AEntity::getLives(void) const
 {
 	return (_Lives);
 }
 
-int				Entity::getHP(void) const
+int				AEntity::getHP(void) const
 {
 	return (_HP);
 }
 
-std::string		Entity::getType(void) const
+std::string		AEntity::getType(void) const
 {
 	return (_Type);
 }
 
-bool			Entity::getCollidable(void) const
+bool			AEntity::getCollidable(void) const
 {
 	return (_Collidable);
 }
 
-char			Entity::getBody(void) const
+char			AEntity::getBody(void) const
 {
 	return (_Body);
 }
 
-void			Entity::setBody(char body)
+void			AEntity::setBody(char body)
 {
 	_Body = body;
 }
 
-int				Entity::getPoints(void) const
+int				AEntity::getPoints(void) const
 {
 	return (_Points);
 }
 
-int				Entity::getVector(void) const
+int				AEntity::getVector(void) const
 {
 	return (_vector);
 }
 
-int				Entity::getSpeed(void) const
+int				AEntity::getSpeed(void) const
 {
 	return (_speed);
 }
 
-void			Entity::setHP(int i)
+void			AEntity::setHP(int i)
 {
 	_HP = i;
 	if (_HP <= 0)
 		this->looseLife();
 }
 
-void			Entity::setPosition(int x, int y)
+void			AEntity::setPosition(int x, int y)
 {
 	this->_PosX = x;
 	this->_PosY = y;
@@ -120,7 +120,7 @@ void			Entity::setPosition(int x, int y)
 
 //				SETORS & METHODS		//
 
-void			Entity::looseHP(void)
+void			AEntity::looseHP(void)
 {
 	_HP -= 1;
 	if (_Body == 'W' && _HP > 0)
@@ -128,13 +128,13 @@ void			Entity::looseHP(void)
 	else if (_HP <= 0)
 		this->looseLife();
 }
-void			Entity::looseLife(void)
+void			AEntity::looseLife(void)
 {
 	_Lives -= 1;
 	this->setBody('*');
 }
 
-void			Entity::move(std::string direction)
+void			AEntity::move(std::string direction)
 {
 	int			i;
 
@@ -151,7 +151,7 @@ void			Entity::move(std::string direction)
 		_PosX -= i;
 }
 
-void			Entity::move(void)
+void			AEntity::move(void)
 {
 	clock_t			current = std::clock();
 
@@ -162,7 +162,7 @@ void			Entity::move(void)
 	}
 }
 
-bool			Entity::collision(Entity *entity)
+bool			AEntity::collision(AEntity *entity)
 {
 	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY()
 		&& entity->getVector() != this->getVector())

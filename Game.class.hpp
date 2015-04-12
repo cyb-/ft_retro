@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:11:50 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:55:25 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -42,7 +42,7 @@ public:
 private:
 	void				_displayUI(Screen *screen) const;
 	void				_generateWave(Screen *screen);
-	void				_checkCollision(Entity *entity);
+	void				_checkCollision(AEntity *entity);
 
 	Player				_player;
 	Entities			_entities;

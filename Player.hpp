@@ -6,16 +6,16 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:36:10 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 10:58:44 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:51:17 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PLAYER_HPP
 # define PLAYER_HPP
 
-# include "Character.hpp"
+# include "ACharacter.class.hpp"
 
-class		Player : public Character
+class		Player : public ACharacter
 {
 
 	public:
@@ -27,7 +27,7 @@ class		Player : public Character
 		void			setScore(int i);
 		void			respawn(int x, int y);
 
-		Entity *		clone(void) const;
+		AEntity *		clone(void) const;
 		Player &		operator=(Player const & rhs);
 };
 

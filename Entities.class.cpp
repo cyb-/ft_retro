@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 22:46:24 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 11:23:40 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 17:02:47 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -53,7 +53,7 @@ Entities::Item *	Entities::getItems(void) const
 	return (this->_items);
 }
 
-void				Entities::push(Entity *entity)
+void				Entities::push(AEntity *entity)
 {
 	Entities::Item *	tmp;
 	Entities::Item *	item;
@@ -139,7 +139,7 @@ Entities::Item::Item(Item const & src) : _index(Entities::Item::_nbInst),
 	Entities::Item::_nbInst++;
 }
 
-Entities::Item::Item(Entity *entity) : _index(Entities::Item::_nbInst),
+Entities::Item::Item(AEntity *entity) : _index(Entities::Item::_nbInst),
 									   _entity(entity),
 									   _next(0),
 									   _prev(0)
@@ -175,7 +175,7 @@ int					Entities::Item::getIndex(void) const
 	return (this->_index);
 }
 
-Entity *			Entities::Item::getEntity(void) const
+AEntity *			Entities::Item::getEntity(void) const
 {
 	return (this->_entity);
 }

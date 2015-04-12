@@ -6,7 +6,7 @@
 #    By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/05 23:11:02 by gchateau          #+#    #+#              #
-#    Updated: 2015/04/11 22:45:41 by gchateau         ###   ########.fr        #
+#    Updated: 2015/04/12 16:52:39 by gchateau         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -16,7 +16,8 @@ CC = clang++
 CFLAGS = -Wall -Werror -Wextra
 LDFLAGS = -lncurses
 
-FILES = Screen.class Menu.class Game.class Entities.class Entity Character \
+FILES = Screen.class Menu.class Game.class GameOver.class Entities.class \
+		AEntity.class ACharacter.class \
 		Enemy Player Rifle Rock main
 
 #******************************************************************************#
@@ -37,7 +38,7 @@ $(NAME): $(OBJS)
 clean:
 	rm -f $(OBJS)
 
-fclean: clean
-	rm -f $(NAME)
+fclean:
+	rm -f $(OBJS) $(NAME)
 
 re: fclean all

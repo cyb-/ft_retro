@@ -6,16 +6,16 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:36:10 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 11:00:40 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:49:06 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENEMY_HPP
 # define ENEMY_HPP
 
-# include "Character.hpp"
+# include "ACharacter.class.hpp"
 
-class		Enemy : public Character
+class		Enemy : public ACharacter
 {
 
 	public:
@@ -25,7 +25,7 @@ class		Enemy : public Character
 
 		Enemy &			operator=(Enemy const & rhs);
 
-		Entity *		clone(void) const;
+		AEntity *		clone(void) const;
 		char			random(void);
 
 };

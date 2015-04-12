@@ -6,17 +6,17 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:52:16 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 10:59:29 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 17:05:35 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Player.hpp"
 #include "Rifle.hpp"
 
-Player::Player(void) : Character(0, 0, "player", 94, 2, 3, 0, -1, 1)
+Player::Player(void) : ACharacter(0, 0, "player", 94, 2, 3, 0, -1, 1)
 {}
 
-Player::Player(Player const & src) : Character(src.getX(), src.getY(), src.getType(),
+Player::Player(Player const & src) : ACharacter(src.getX(), src.getY(), src.getType(),
 		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {
 	*this = src;
@@ -48,8 +48,8 @@ void				Player::respawn(int x, int y)
 	this->setPosition(x, y);
 }
 
-Entity *			Player::clone(void) const
+AEntity *			Player::clone(void) const
 {
-	Entity *	entity = new Player(*this);
+	AEntity *	entity = new Player(*this);
 	return (entity);
 }

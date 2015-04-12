@@ -6,19 +6,18 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 10:28:57 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 15:43:26 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 17:07:28 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Rock.hpp"
 
-Rock::Rock(int x, int y) : Entity(x, y, "rock", 'O', 1, 1, 5, 1, 1)
+Rock::Rock(int x, int y) : AEntity(x, y, "rock", 'O', 1, 1, 5, 1, 1)
 {
 	_Collidable = false;
 }
 
-Rock::Rock(Rock const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
+Rock::Rock(Rock const & src) : AEntity(src.getY(), src.getX(), src.getType(), src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {}
 
 Rock::~Rock(void)
@@ -40,8 +39,13 @@ Rock &			Rock::operator=(Rock const & rhs)
 	return *this;
 }
 
-Entity *		Rock::clone(void) const
+AEntity *		Rock::clone(void) const
 {
-	Entity *	entity = new Rock(*this);
+	AEntity *	entity = new Rock(*this);
 	return (entity);
+}
+
+AEntity *		Rock::shoot(void) const
+{
+	return (0);
 }

@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 05:10:37 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 17:00:28 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -29,7 +29,8 @@ public:
 	enum state_e
 	{
 		MENU = 1,
-		GAME
+		GAME,
+		GAMEOVER
 	};
 
 	Screen &	operator=(Screen const & rhs);
@@ -50,6 +51,7 @@ public:
 	void			setWidth(int width);
 	void			setHeight(int height);
 	bool			setState(state_e state);
+	bool			setState(state_e state, int score);
 
 protected:
 	void			init(void);

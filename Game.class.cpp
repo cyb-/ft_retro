@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:14:33 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:59:45 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -65,22 +65,22 @@ void				Game::handle(Screen *screen)
 	case KEY_LEFT:
 		if (this->_player.getX() > 0)
 			this->_player.move("left");
-		this->_checkCollision((Entity*)&this->_player);
+		this->_checkCollision((AEntity*)&this->_player);
 		break;
 	case KEY_RIGHT:
 		if (this->_player.getX() < screen->getMaxX())
 			this->_player.move("right");
-		this->_checkCollision((Entity*)&this->_player);
+		this->_checkCollision((AEntity*)&this->_player);
 		break;
 	case KEY_UP:
 		if (this->_player.getY() > 0)
 			this->_player.move("up");
-		this->_checkCollision((Entity*)&this->_player);
+		this->_checkCollision((AEntity*)&this->_player);
 		break;
 	case KEY_DOWN:
 		if (this->_player.getY() < screen->getMaxY() - Game::_UIHeight)
 			this->_player.move("down");
-		this->_checkCollision((Entity*)&this->_player);
+		this->_checkCollision((AEntity*)&this->_player);
 		break;
 	case KEY_SPACE:
 		this->_entities.push(this->_player.shoot());
@@ -112,11 +112,11 @@ void				Game::update(Screen *screen)
 			this->_entities.remove(del->getIndex());
 		}
 	}
-	this->_checkCollision((Entity*)&this->_player);
+	this->_checkCollision((AEntity*)&this->_player);
 	if (this->_player.getHP() <= 0)
 		this->_player.respawn(screen->getWidth() / 2, screen->getMaxY());
 	if (this->_player.getLives() <= 0)
-		mvwprintw(screen->getWindow(), screen->getHeight() - (Game::_UIHeight + 1), 1, "Dead");
+		screen->setState(Screen::GAMEOVER, this->_score);
 	if (this->_player.getX() > screen->getMaxX())
 		this->_player.setPosition(screen->getMaxX(), this->_player.getY());
 	if (this->_player.getY() > screen->getMaxY() - Game::_UIHeight)
@@ -191,7 +191,7 @@ void				Game::_generateWave(Screen *screen)
 	clock_t				current = std::clock();
 	int					nb = (std::rand() % 8) + 1;
 	int					colW;
-	Entity *			entity;
+	AEntity *			entity;
 
 	if ((current - this->_last_wave) < (clock_t)((CLOCKS_PER_SEC * Game::_wavesDelay) / Game::_wavesPerSec) && this->_last_wave != 0)
 		return ;
@@ -207,7 +207,7 @@ void				Game::_generateWave(Screen *screen)
 	}
 }
 
-void				Game::_checkCollision(Entity *entity)
+void				Game::_checkCollision(AEntity *entity)
 {
 	Entities::Item *	tmp;
 

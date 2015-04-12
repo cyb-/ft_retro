@@ -14,6 +14,7 @@
 
 #include "Menu.class.hpp"
 #include "Game.class.hpp"
+#include "GameOver.class.hpp"
 
 Screen::Screen(void)
 {
@@ -154,6 +155,25 @@ void			Screen::setHeight(int height)
 	this->_height = height;
 }
 
+bool			Screen::setState(Screen::state_e state, int score)
+{
+	delete this->_state;
+	switch (state)
+	{
+	case GAME:
+		this->_state = new Game;
+		break;
+	case GAMEOVER:
+		this->_state = new GameOver(score);
+		break;
+	default:
+		this->_state = new Menu;
+	}
+	wclear(this->_window);
+	this->_state->init(this);
+	return (true);
+}
+
 bool			Screen::setState(Screen::state_e state)
 {
 	delete this->_state;
@@ -161,6 +181,9 @@ bool			Screen::setState(Screen::state_e state)
 	{
 	case GAME:
 		this->_state = new Game;
+		break;
+	case GAMEOVER:
+		this->_state = new GameOver;
 		break;
 	default:
 		this->_state = new Menu;

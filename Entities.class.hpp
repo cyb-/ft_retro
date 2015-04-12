@@ -6,14 +6,14 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 22:43:55 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 11:19:17 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:59:01 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef ENTITIES_CLASS_HPP
 # define ENTITIES_CLASS_HPP
 
-#include "Entity.hpp"
+# include "AEntity.class.hpp"
 
 class Entities
 {
@@ -31,13 +31,13 @@ public:
 	public:
 		Item(void);
 		Item(Item const & src);
-		Item(Entity *entity);
+		Item(AEntity *entity);
 		~Item(void);
 
 		Item &		operator=(Item const & rhs);
 
 		int			getIndex(void) const;
-		Entity *	getEntity(void) const;
+		AEntity *	getEntity(void) const;
 		Item *		getNext(void) const;
 		Item *		getPrev(void) const;
 
@@ -50,7 +50,7 @@ public:
 
 	private:
 		int			_index;
-		Entity *	_entity;
+		AEntity *	_entity;
 		Item *		_next;
 		Item *		_prev;
 
@@ -60,7 +60,7 @@ public:
 
 	int			getCount(void) const;
 	Item *		getItems(void) const;
-	void		push(Entity *entity);
+	void		push(AEntity *entity);
 	void		remove(int index);
 
 private:
