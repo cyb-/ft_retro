@@ -6,13 +6,13 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 10:28:57 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 17:06:47 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 18:37:06 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Rifle.hpp"
 
-Rifle::Rifle(int x, int y, int Vector) : AEntity(x, y + Vector, "rifle", '.', 1, 1, 0, Vector, 4)
+Rifle::Rifle(int x, int y, int Vector) : AEntity(x, y + Vector, "rifle", '.', 1, 1, 0, Vector, 5)
 {}
 
 Rifle::Rifle(Rifle const & src) : AEntity(src.getY(), src.getX(), src.getType(), src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())

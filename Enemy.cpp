@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:18:17 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 17:05:06 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 18:36:50 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char			Enemy::random(void)
 	return (type[i]);
 }
 
-Enemy::Enemy(int x, int y) : ACharacter(x, y, "enemy", random(), 1, 1, 10, 1, 2)
+Enemy::Enemy(int x, int y) : ACharacter(x, y, "enemy", random(), 1, 1, 10, 1, 3)
 {
 	if (_Body == 'W')
 	{

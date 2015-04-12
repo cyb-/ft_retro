@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 17:25:30 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 18:39:02 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -21,7 +21,7 @@ int		Game::_wavesPerSec = 1;
 int		Game::_wavesDelay = 5;
 int		Game::_UIHeight = 3;
 
-Game::Game(void) : _loops(0), _score(0), _last_wave(0), _game_start(std::clock())
+Game::Game(void) : _score(0), _last_wave(0), _game_start(std::clock())
 {}
 
 Game::Game(Game const & src) : _last_wave(0), _game_start(std::clock())
@@ -36,7 +36,6 @@ Game &				Game::operator=(Game const & rhs)
 {
 	if (this != &rhs)
 	{
-		this->_loops = rhs.getLoops();
 		this->_score = rhs.getScore();
 		this->_player = rhs.getPlayer();
 		this->_entities = rhs.getEntities();
@@ -104,7 +103,7 @@ void				Game::update(Screen *screen)
 		}
 		if (lst->hasEntity()
 			&& lst->getEntity()->getLives() > 0
-			&& lst->getEntity()->getY() < screen->getHeight() - Game::_UIHeight)
+			&& (lst->getEntity()->getY() < screen->getHeight() - Game::_UIHeight || lst->getEntity()->getY() <= 0))
 			lst = lst->getNext();
 		else
 		{
@@ -128,27 +127,21 @@ void				Game::render(Screen *screen)
 {
 	Entities::Item *	lst;
 
-	werase(screen->getWindow());
+	screen->erase();
 	lst = this->_entities.getItems();
 	while (lst)
 	{
-		mvwaddch(screen->getWindow(), lst->getEntity()->getY(), lst->getEntity()->getX(), lst->getEntity()->getBody());
+		screen->put(lst->getEntity()->getX(), lst->getEntity()->getY(), lst->getEntity()->getBody());
 		lst = lst->getNext();
 	}
-	mvwaddch(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBody());
+	screen->put(this->_player.getX(), this->_player.getY(), this->_player.getBody());
 	this->_displayUI(screen);
-	wrefresh(screen->getWindow());
-	this->_loops++;
+	screen->refresh();
 }
 
 // ************************************************************************** //
 //                                  GETTERS                                   //
 // ************************************************************************** //
-
-unsigned int		Game::getLoops(void) const
-{
-	return (this->_loops);
-}
 
 unsigned int		Game::getScore(void) const
 {
@@ -179,15 +172,15 @@ void				Game::_displayUI(Screen *screen) const
 
 	y = screen->getHeight() - Game::_UIHeight;
 	for (x = 0; x < screen->getWidth(); x++)
-		mvwaddch(screen->getWindow(), y, x, ' ' | A_REVERSE);
+		screen->put(x, y, ' ' | A_REVERSE);
 	hp << "HP: " << this->_player.getHP();
 	lives << "Lives: " << this->_player.getLives();
 	score << "Score: " << this->_score;
 	duration << "Started: " << ((std::clock() - this->_game_start) / CLOCKS_PER_SEC) << "secs";
-	mvwprintw(screen->getWindow(), y + 1, 1, hp.str().c_str());
-	mvwprintw(screen->getWindow(), y + 2, 1, lives.str().c_str());
-	mvwprintw(screen->getWindow(), y + 1, screen->getMaxX() - score.str().length(), score.str().c_str());
-	mvwprintw(screen->getWindow(), y + 2, screen->getMaxX() - duration.str().length(), duration.str().c_str());
+	screen->put(1, y + 1, hp.str());
+	screen->put(1, y + 2, lives.str());
+	screen->put(screen->getMaxX() - score.str().length(), y + 1, score.str());
+	screen->put(screen->getMaxX() - duration.str().length(), y + 1, duration.str());
 }
 
 void				Game::_generateWave(Screen *screen)

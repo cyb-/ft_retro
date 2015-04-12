@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:23:53 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 18:33:45 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -51,6 +51,15 @@ Screen &	Screen::operator=(Screen const & rhs)
 void			Screen::init(void)
 {
 	this->_window = initscr();
+	start_color();
+	wbkgd(this->_window, COLOR_BLACK);
+	init_pair('*', COLOR_RED, COLOR_BLACK);
+	init_pair('^', COLOR_GREEN, COLOR_BLACK);
+	init_pair('V', COLOR_MAGENTA, COLOR_BLACK);
+	init_pair('W', COLOR_CYAN, COLOR_BLACK);
+	init_pair('O', COLOR_BLUE, COLOR_BLACK);
+	init_pair('.', COLOR_YELLOW, COLOR_BLACK);
+	init_pair(' ', COLOR_WHITE, COLOR_WHITE);
 	keypad(this->_window, TRUE);
 	nodelay(this->_window, TRUE);
 	noecho();
@@ -201,4 +210,30 @@ void			Screen::changeState(IState *state)
 		this->_state = state;
 		state->init(this);
 	}
+}
+
+// ************************************************************************** //
+//                                WIN HELPERS                                 //
+// ************************************************************************** //
+
+void			Screen::erase(void) const
+{
+	werase(this->_window);
+}
+
+void			Screen::refresh(void) const
+{
+	wrefresh(this->_window);
+}
+
+void			Screen::put(int x, int y, unsigned int c) const
+{
+	wattron(this->_window, COLOR_PAIR(c));
+	mvwaddch(this->_window, y, x, c);
+	wattroff(this->_window, COLOR_PAIR(c));
+}
+
+void			Screen::put(int x, int y, std::string s) const
+{
+	mvwprintw(this->_window, y, x, s.c_str());
 }

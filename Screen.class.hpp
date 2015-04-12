@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 17:00:28 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 18:18:14 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,6 +16,7 @@
 # define FPS	20
 
 # include <ncurses.h>
+# include <iostream>
 
 class IState;
 
@@ -52,6 +53,11 @@ public:
 	void			setHeight(int height);
 	bool			setState(state_e state);
 	bool			setState(state_e state, int score);
+
+	void			erase(void) const;
+	void			refresh(void) const;
+	void			put(int x, int y, unsigned int c) const;
+	void			put(int x, int y, std::string s) const;
 
 protected:
 	void			init(void);
