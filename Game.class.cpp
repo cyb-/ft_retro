@@ -6,19 +6,22 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 11:48:52 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:14:33 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Game.class.hpp"
 #include "Enemy.hpp"
+#include "Rock.hpp"
 
 #include <cstdlib>
 #include <sstream>
 
+int		Game::_wavesPerSec = 1;
+int		Game::_wavesDelay = 5;
 int		Game::_UIHeight = 3;
 
-Game::Game(void) : _loops(0), _score(0)
+Game::Game(void) : _loops(0), _score(0), _last_wave(0)
 {}
 
 Game::Game(Game const & src)
@@ -48,6 +51,7 @@ Game &				Game::operator=(Game const & rhs)
 void				Game::init(Screen *screen)
 {
 	this->_player.setPosition(screen->getWidth() / 2, screen->getMaxY());
+	this->_generateWave(screen);
 }
 
 void				Game::handle(Screen *screen)
@@ -89,10 +93,7 @@ void				Game::update(Screen *screen)
 	Entities::Item *	lst;
 	Entities::Item *	del;
 
-	if ((this->_loops % 9) != 0) // THIS IS A FUCKIN TRICK !!!!!!
-		return ;
-	if ((this->_loops % 5) == 0 || this->_loops == 0)
-		this->_generateWave(screen);
+	this->_generateWave(screen);
 	lst = this->_entities.getItems();
 	while (lst)
 	{
@@ -116,7 +117,7 @@ void				Game::update(Screen *screen)
 	if (this->_player.getHP() <= 0)
 		this->_player.respawn(screen->getWidth() / 2, screen->getMaxY());
 	if (this->_player.getLives() <= 0)
-		screen->setState(Screen::GAMEOVER, this->_score);
+	 	screen->setState(Screen::GAMEOVER, this->_score);
 	if (this->_player.getX() > screen->getMaxX())
 		this->_player.setPosition(screen->getMaxX(), this->_player.getY());
 	if (this->_player.getY() > screen->getMaxY() - Game::_UIHeight)
@@ -188,10 +189,15 @@ void				Game::_displayUI(Screen *screen) const
 
 void				Game::_generateWave(Screen *screen)
 {
+	clock_t				current = std::clock();
 	int					nb = (std::rand() % 8) + 1;
 	int					colW;
 	Entity *			entity;
+	Entity *			rock;
 
+	if ((current - this->_last_wave) < (clock_t)((CLOCKS_PER_SEC * Game::_wavesDelay) / Game::_wavesPerSec) && this->_last_wave != 0)
+		return ;
+	this->_last_wave = current;
 	colW = screen->getWidth() / nb;
 	while (nb)
 	{
@@ -199,6 +205,12 @@ void				Game::_generateWave(Screen *screen)
 		entity = new Enemy(x, 0);
 		if (entity)
 			this->_entities.push(entity);
+		if (x % colW == nb)
+		{
+			rock = new Rock(x, 0);
+			if (rock)
+				this->_entities.push(rock);
+		}
 		nb--;
 	}
 }

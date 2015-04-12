@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 16:25:11 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 22:28:42 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 15:36:57 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ENTITY_HPP
 
 # include <string>
+# include <ctime>
 
 class	Entity
 {
@@ -26,7 +27,6 @@ class	Entity
 		int				getY(void) const;
 		std::string		getType(void) const;
 		char			getBody(void) const;
-		std::string		getBodyS(void) const;
 		bool			getCollidable(void) const;
 		int				getHP(void) const;
 		int				getLives(void) const;
@@ -34,14 +34,14 @@ class	Entity
 		int				getVector(void) const;
 		int				getSpeed(void) const;
 
-		void			setPosition(int x, int y);
-		void			setBody(char body);
-		void			setHP(int i);
-		virtual void	looseHP(void);
-		virtual void	looseLife(void);
-		void			move(std::string direction);
-		void			move(void);
-		bool	collision(Entity * entity);
+		void				setPosition(int x, int y);
+		void				setBody(char body);
+	void				setHP(int i);
+		virtual void		looseHP(void);
+		virtual void		looseLife(void);
+		void				move(std::string direction);
+		void				move(void);
+		bool				collision(Entity * entity);
 		virtual Entity *	clone(void) const = 0;
 		virtual Entity *	shoot() = 0;
 
@@ -51,7 +51,6 @@ class	Entity
 		int			_PosY;
 		int			_PosX;
 		char		_Body;
-		std::string	_BodyS;
 		int			_HP;
 		int			_Lives;
 		bool		_Collidable;
@@ -59,6 +58,7 @@ class	Entity
 		int			_Points;
 		int			_vector;
 		int			_speed;
+		clock_t		_last_move;
 		Entity(void);
 };
 
