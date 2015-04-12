@@ -24,6 +24,7 @@ class	Rock : public Entity
 		~Rock(void);
 
 		void		collision(Entity & target);
+		Entity *	clone(void) const;
 		Rock &		operator=(Rock const & rhs);
 
 

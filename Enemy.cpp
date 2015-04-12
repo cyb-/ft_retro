@@ -24,14 +24,14 @@ char			Enemy::random(void)
 	return (type[i]);
 }
 
-Enemy::Enemy(int x, int y) : Character(x, y, "enemy", random(), 1, 1, 10)
+Enemy::Enemy(int x, int y) : Character(x, y, "enemy", random(), 1, 1, 10, -1)
 {
 	if (_Body == '@')
 		_Points += 10;
 }
 
 Enemy::Enemy(Enemy const & src) : Character(src.getX(), src.getY(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
 {
 	*this = src;
 }
@@ -42,18 +42,7 @@ Enemy::~Enemy()
 
 void			Enemy::collision(Entity & target)
 {
-	if (_Collidable == true && target.getCollidable() == true
-			&& this->_Type != target.getType())
-	{
-		if (target.getType() == "rifle")
-			target.looseLife();
-		else if (target.getType() != "rock")
-		{
-			target.looseHP();
-			if (target.getHP() == 0)
-				target.looseLife();
-		}
-	}
+	(void)target;
 }
 
 Enemy &			Enemy::operator=(Enemy const & rhs)
@@ -66,6 +55,14 @@ Enemy &			Enemy::operator=(Enemy const & rhs)
 		_Body = rhs.getBody();
 		_HP = rhs.getHP();
 		_Points = rhs.getPoints();
+		_vector = rhs.getVector();
 	}
 	return (*this);
 }
+
+Entity *		Enemy::clone(void) const
+{
+	Entity *	entity = new Enemy(*this);
+	return (entity);
+}
+

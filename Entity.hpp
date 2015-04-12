@@ -18,7 +18,7 @@
 class	Entity
 {
 	public:
-		Entity(int x, int y, std::string type, char body, int hp, int lives, int points);
+		Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int vector);
 		Entity(Entity const & src);
 		virtual ~Entity(void);
 
@@ -33,15 +33,15 @@ class	Entity
 		int				getHP(void) const;
 		int				getLives(void) const;
 		int				getPoints(void) const;
+		int				getVector(void) const;
 
-		void			setNext(Entity * elem);
-		void			setPrev(Entity * elem);
 		void			setPosition(int x, int y);
 		void			setBody(char body);
 		void			looseHP(void);
 		virtual void	looseLife(void);
 		void			move(std::string direction);
 		virtual void	collision(Entity & target) = 0;
+		virtual Entity *	clone(void) const = 0;
 
 		Entity &		operator=(Entity const & rhs);
 
@@ -55,6 +55,7 @@ class	Entity
 		bool		_Collidable;
 		std::string	_Type;
 		int			_Points;
+		int			_vector;
 		Entity(void);
 
 	private:

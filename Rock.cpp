@@ -12,13 +12,13 @@
 
 #include "Rock.hpp"
 
-Rock::Rock(int x, int y) : Entity(x, y, "rock", 'O', 1, 1, 0)
+Rock::Rock(int x, int y) : Entity(x, y, "rock", 'O', 1, 1, 5, -1)
 {
 	_Collidable = false;
 }
 
 Rock::Rock(Rock const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
 {
 	*this = src;
 }
@@ -29,15 +29,7 @@ Rock::~Rock(void)
 
 void			Rock::collision(Entity & target)
 {
-	if (this->_Collidable == true && target.getCollidable() == true
-			&& target.getType() != "rifle")
-	{
-		target.looseHP() ;
-		if (target.getHP() == 0)
-			target.looseLife();
-	}
-	else if (target.getType() == "rifle")
-		target.looseLife();
+	(void)target;
 }
 
 Rock &			Rock::operator=(Rock const & rhs)
@@ -55,3 +47,10 @@ Rock &			Rock::operator=(Rock const & rhs)
 	}
 	return *this;
 }
+
+Entity *		Rock::clone(void) const
+{
+	Entity *	entity = new Rock(*this);
+	return (entity);
+}
+

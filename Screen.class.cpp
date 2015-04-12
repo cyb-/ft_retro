@@ -6,72 +6,72 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 12:59:29 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 05:22:10 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Screen.class.hpp"
-#include "IState.interface.hpp"
 
-// CONSTRUCTORS AND DESTRUCTOR
+#include "Menu.class.hpp"
+#include "Game.class.hpp"
 
-Screen::Screen(void) : _width(0), _height(0), _state(0)
-{}
+#include <unistd.h> // For usleep()
+#include <ctime>
+
+Screen::Screen(void)
+{
+	this->init();
+}
 
 Screen::Screen(Screen const & src)
 {
-	if (this != &src)
-		*this = src;
+	*this = src;
 }
 
 Screen::~Screen(void)
-{}
-
-// OPERATORS OVERLOAD
+{
+	delete this->_state;
+	endwin();
+}
 
 Screen &	Screen::operator=(Screen const & rhs)
 {
 	if (this != &rhs)
 	{
+		this->_window = rhs.getWindow();
 		this->_width = rhs.getWidth();
 		this->_height = rhs.getHeight();
+		this->_running = rhs.running();
 	}
 	return (*this);
 }
 
-// ENGINE
+// ************************************************************************** //
+//                                   ENGINE                                   //
+// ************************************************************************** //
 
-void			Screen::init(WINDOW *window)
+void			Screen::init(void)
 {
-	int				rows;
-	int				cols;
-
-	this->_window = window;
-	getmaxyx(stdscr, rows, cols);
-	this->_width = cols;
-	this->_height = rows;
+	this->_window = initscr();
 	keypad(this->_window, TRUE);
 	nodelay(this->_window, TRUE);
 	noecho();
 	curs_set(0);
 	ESCDELAY = 20;
-	clear();
-	this->_running = TRUE;
+	wclear(this->_window);
+	getmaxyx(this->_window, this->_height, this->_width);
+	this->_running = true;
+	this->setState(MENU);
+}
+
+void			Screen::refreshWinInfos(void)
+{
+	getmaxyx(this->_window, this->_height, this->_width);
 }
 
 void			Screen::quit(void)
 {
-	this->_running = FALSE;
-}
-
-void			Screen::changeState(IState *state)
-{
-	if (state)
-	{
-		delete this->_state;
-		this->_state = state;
-		state->init(this);
-	}
+	this->_running = false;
 }
 
 bool			Screen::running(void) const
@@ -79,7 +79,26 @@ bool			Screen::running(void) const
 	return (this->_running);
 }
 
-// LOOPS
+// ************************************************************************** //
+//                                   LOOPS                                    //
+// ************************************************************************** //
+
+void			Screen::loop(void)
+{
+	clock_t			cStart, cEnd;
+
+	while (this->running())
+	{
+		cStart = std::clock();
+		this->refreshWinInfos();
+		this->handle();
+		this->update();
+		this->render();
+		cEnd = std::clock();
+		if ((cEnd - cStart) / CLOCKS_PER_SEC < (CLOCKS_PER_SEC / FPS))
+			usleep((CLOCKS_PER_SEC / FPS) - ((cEnd - cStart) / CLOCKS_PER_SEC));
+	}
+}
 
 void			Screen::handle(void)
 {
@@ -91,36 +110,81 @@ void			Screen::update(void)
 	this->_state->update(this);
 }
 
-void			Screen::draw(void)
+void			Screen::render(void)
 {
-	this->_state->draw(this);
+	this->_state->render(this);
 }
 
-// GETTERS
+// ************************************************************************** //
+//                                  GETTERS                                   //
+// ************************************************************************** //
+
+IState *		Screen::getState(void) const
+{
+	return (this->_state);
+}
 
 WINDOW *		Screen::getWindow(void) const
 {
 	return (this->_window);
 }
 
-unsigned int	Screen::getWidth(void) const
+int				Screen::getWidth(void) const
 {
 	return (this->_width);
 }
 
-unsigned int	Screen::getHeight(void) const
+int				Screen::getHeight(void) const
 {
 	return (this->_height);
 }
 
-// SETTERS
+int				Screen::getMaxX(void) const
+{
+	return (this->_width <= 0 ? 0 : this->_width - 1);
+}
 
-void			Screen::setWidth(unsigned int width)
+int				Screen::getMaxY(void) const
+{
+	return (this->_height <= 0 ? 0 : this->_height - 1);
+}
+
+// ************************************************************************** //
+//                                  MUTATORS                                  //
+// ************************************************************************** //
+
+void			Screen::setWidth(int width)
 {
 	this->_width = width;
 }
 
-void			Screen::setHeight(unsigned int height)
+void			Screen::setHeight(int height)
 {
 	this->_height = height;
+}
+
+bool			Screen::setState(Screen::state_e state)
+{
+	delete this->_state;
+	switch (state)
+	{
+	case GAME:
+		this->_state = new Game;
+		break;
+	default:
+		this->_state = new Menu;
+	}
+	wclear(this->_window);
+	this->_state->init(this);
+	return (true);
+}
+
+void			Screen::changeState(IState *state)
+{
+	if (state)
+	{
+		delete this->_state;
+		this->_state = state;
+		state->init(this);
+	}
 }

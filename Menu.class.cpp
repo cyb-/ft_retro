@@ -6,15 +6,13 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:53:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:17:31 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 03:25:24 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Menu.class.hpp"
-#include "Game.class.hpp"
-#include <string>
 
-// CONSTRUCTORS AND DESTRUCTOR
+#include <string>
 
 Menu::Menu(void)
 {}
@@ -28,20 +26,19 @@ Menu::Menu(Menu const & src)
 Menu::~Menu(void)
 {}
 
-// OPERATORS OVERLOAD
-
 Menu &		Menu::operator=(Menu const & rhs)
 {
 	(void)rhs;
 	return (*this);
 }
 
-// ENGINE
+// ************************************************************************** //
+//                                   ENGINE                                   //
+// ************************************************************************** //
 
 void		Menu::init(Screen *screen)
 {
 	(void)screen;
-	clear();
 }
 
 void		Menu::handle(Screen *screen)
@@ -51,21 +48,19 @@ void		Menu::handle(Screen *screen)
 	if (ch == KEY_ESC)
 		screen->quit();
 	else if (ch == KEY_ENTER || ch == 10)
-	{
-		IState	*st = new Game;
-		screen->changeState(st);
-	}
+		screen->setState(Screen::GAME);
 }
 
 void		Menu::update(Screen *screen)
 {
-	std::string	msg = "Press ENTER to start and ESC to exit";
-
-	mvwprintw(screen->getWindow(), screen->getHeight() / 2, (screen->getWidth() - msg.length()) / 2, msg.c_str());
+	(void)screen;
 }
 
-void		Menu::draw(Screen *screen)
+void		Menu::render(Screen *screen)
 {
-	(void)screen;
-	refresh();
+	std::string	msg = "Press ENTER to start and ESC to exit";
+
+	werase(screen->getWindow());
+	mvwprintw(screen->getWindow(), screen->getHeight() / 2, (screen->getWidth() - msg.length()) / 2, msg.c_str());
+	wrefresh(screen->getWindow());
 }

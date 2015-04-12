@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:52:51 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:03:12 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 00:13:43 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -27,7 +27,7 @@ public:
 	void		init(Screen *screen);
 	void		handle(Screen *screen);
 	void		update(Screen *screen);
-	void		draw(Screen *screen);
+	void		render(Screen *screen);
 
 };
 

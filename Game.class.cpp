@@ -6,92 +6,171 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:43:07 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 05:39:01 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Game.class.hpp"
-#include "Menu.class.hpp"
-#include <unistd.h>
-#include <ctime>
-#include <string>
+#include "Enemy.hpp"
 
-// CONSTRUCTORS AND DESTRUCTOR
+#include <cstdlib>
 
-Game::Game(void) : _entities()
+int		Game::_UIHeight = 3;
+
+Game::Game(void) : _loops(0)
 {}
 
 Game::Game(Game const & src)
 {
-	if (this != &src)
-		*this = src;
+	*this = src;
 }
 
 Game::~Game(void)
 {}
 
-// OPERATORS OVERLOAD
-
-Game &		Game::operator=(Game const & rhs)
+Game &				Game::operator=(Game const & rhs)
 {
 	if (this != &rhs)
 	{
+		this->_loops = rhs.getLoops();
 		this->_player = rhs.getPlayer();
 		this->_entities = rhs.getEntities();
 	}
 	return (*this);
 }
 
-// ENGINE
+// ************************************************************************** //
+//                                   ENGINE                                   //
+// ************************************************************************** //
 
-void			Game::init(Screen *screen)
+void				Game::init(Screen *screen)
 {
-	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight());
-	clear();
+	this->_player.setPosition(screen->getWidth() / 2, screen->getMaxY());
 }
 
-void			Game::handle(Screen *screen)
+void				Game::handle(Screen *screen)
 {
-	int			ch = wgetch(screen->getWindow());
+	int					ch = wgetch(screen->getWindow());
 
-	this->_cStart = std::clock();
-	if (ch == KEY_ESC)
-		screen->changeState(new Menu());
+	switch (ch)
+	{
+	case KEY_ESC:
+		screen->setState(Screen::MENU);
+		break;
+	case KEY_LEFT:
+		if (this->_player.getX() > 0)
+			this->_player.move("left");
+		break;
+	case KEY_RIGHT:
+		if (this->_player.getX() < screen->getMaxX())
+			this->_player.move("right");
+		break;
+	case KEY_UP:
+		if (this->_player.getY() > 0)
+			this->_player.move("up");
+		break;
+	case KEY_DOWN:
+		if (this->_player.getY() < screen->getMaxY() - Game::_UIHeight)
+			this->_player.move("down");
+		break;
+	case KEY_SPACE:
+		this->_player.shoot();
+	}
 }
 
-void			Game::update(Screen *screen)
+void				Game::update(Screen *screen)
 {
-	std::string	msg = "Game state";
+	Entities::Item *	lst;
+	Entities::Item *	del;
 
-	mvprintw(screen->getHeight() / 2, (screen->getWidth() - msg.length()) / 2, msg.c_str());
+	if ((this->_loops % 11) != 0) // THIS IS A FUCKIN TRICK !!!!!!
+		return ;
+	if ((this->_loops % 5) == 0 || this->_loops == 0)
+		this->_generateWave(screen);
+	lst = this->_entities.getItems();
+	while (lst)
+	{
+// ADD: `&& lst->getEntity()->getY() < screen->getMaxY() - Game::_UIHeight` condition to remove outscreen entities
+		if (lst->hasEntity() && lst->getEntity()->getHP() > 0)
+		{
+			lst->getEntity()->move("down");
+			lst = lst->getNext();
+		}
+		else
+		{
+			del = lst;
+			lst = lst->getNext();
+			delete del;
+		}
+	}
+	if (this->_player.getX() > screen->getMaxX())
+		this->_player.setPosition(screen->getMaxX(), this->_player.getY());
+	if (this->_player.getY() > screen->getMaxY() - Game::_UIHeight)
+		this->_player.setPosition(this->_player.getX(), screen->getMaxY() - Game::_UIHeight);
 }
 
-void			Game::draw(Screen *screen)
-{	
-//	Entity			*list;
+void				Game::render(Screen *screen)
+{
+	Entities::Item *	lst;
 
-	// list = this->_entities.getEntities();
-	// while (list != NULL)
-	// {
-	// 	mvwprintw(screen->getWindow(), list->getX(), list->getY(), list->getBodyS().c_str());
-	// 	list = list->getNext();
-	// }
-	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 10);
-	mvwprintw(screen->getWindow(), this->_player.getX(), this->_player.getY(), this->_player.getBodyS().c_str());
-	refresh();
-	this->_cEnd = std::clock();
-	// if ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC < (1000 / GAME_FPS))
-	// 	usleep((1000 / GAME_FPS) - ((this->_cEnd - this->_cStart) / CLOCKS_PER_SEC));
+	werase(screen->getWindow());
+	lst = this->_entities.getItems();
+	while (lst)
+	{
+		mvwprintw(screen->getWindow(), lst->getEntity()->getY(), lst->getEntity()->getX(), lst->getEntity()->getBodyS().c_str());
+		lst = lst->getNext();
+	}
+	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());
+	this->_displayUI(screen);
+	wrefresh(screen->getWindow());
+	this->_loops++;
 }
 
-// GETTERS
+// ************************************************************************** //
+//                                  GETTERS                                   //
+// ************************************************************************** //
+
+unsigned int		Game::getLoops(void) const
+{
+	return (this->_loops);
+}
 
 Player const &		Game::getPlayer(void) const
 {
 	return (this->_player);
 }
 
-Entities const &		Game::getEntities(void) const
+Entities const &	Game::getEntities(void) const
 {
 	return (this->_entities);
+}
+
+// ************************************************************************** //
+//                                GAME HELPERS                                //
+// ************************************************************************** //
+
+void				Game::_displayUI(Screen *screen) const
+{
+	int					x, y;
+
+	y = screen->getHeight() - Game::_UIHeight;
+	for (x = 0; x < screen->getWidth(); x++)
+		mvwaddch(screen->getWindow(), y, x, ' ' | A_REVERSE);
+}
+
+void				Game::_generateWave(Screen *screen)
+{
+	int					nb = (std::rand() % 8) + 1;
+	int					colW;
+	Entity *			entity;
+
+	colW = screen->getWidth() / nb;
+	while (nb)
+	{
+		int	x = (std::rand() % colW) + ((nb - 1) * colW);
+		entity = new Enemy(x, 0);
+		if (entity)
+			this->_entities.push(entity);
+		nb--;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:36:10 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 12:23:38 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 17:10:35 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ class		Player : public Character
 		Player(Player const & src);
 		~Player(void);
 
+		int				getScore(void) const;
+		void			setScore(int i);
 		void			collision(Entity & target);
+		Entity *		clone(void) const;
 		Player &		operator=(Player const & rhs);
-
-	private:
-
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 19:09:17 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 21:04:09 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 17:15:07 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ Entity::Entity()
 {
 }
 
-Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points) : _PosY(y),
+Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int Vector) : _PosY(y),
 												_PosX(x),
 												_Body(body),
 												_HP(hp),
@@ -24,6 +24,7 @@ Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int
 												_Collidable(true),
 												_Type(type),
 												_Points(points),
+												_vector(Vector),
 												next(0),
 												prev(0)
 {
@@ -112,12 +113,9 @@ Entity *		Entity::getPrev(void)	const
 	return (prev);
 }
 
-void			Entity::setNext(Entity * elem){
-	next = elem;
-}
-
-void			Entity::setPrev(Entity * elem){
-	prev = elem;
+int				Entity::getVector(void) const
+{
+	return(_vector);
 }
 
 //				SETORS & METHODS		//
@@ -146,7 +144,7 @@ void			Entity::move(std::string direction)
 		_PosY += i;
 	else if (direction.compare("right") == 0)
 		_PosX += i;
-	else if (direction.compare("down") == 0)
+	else if (direction.compare("left") == 0)
 		_PosX -= i;
 }
 

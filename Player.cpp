@@ -6,19 +6,18 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:52:16 by jzimini           #+#    #+#             */
-/*   Updated: 2015/01/11 18:18:31 by jzimini          ###   ########.fr       */
+//   Updated: 2015/04/11 17:10:45 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Player.hpp"
 #include "Rifle.hpp"
 
-Player::Player(void) : Character(0, 0, "player", 94, 1, 3, 0)
-{
-}
+Player::Player(void) : Character(0, 0, "player", 94, 1, 3, 0, 1)
+{}
 
 Player::Player(Player const & src) : Character(src.getX(), src.getY(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
 {
 	*this = src;
 }
@@ -29,21 +28,7 @@ Player::~Player()
 
 void			Player::collision(Entity & target)
 {
-	if (this->_Collidable == true && target.getCollidable() == true
-			&& this->_Type != target.getType())
-	{
-		if (target.getType() == "rifle")
-			target.looseLife();
-		else if (target.getType() != "rock")
-		{
-			target.looseHP();
-			if (target.getHP() <= 0)
-			{
-				target.looseLife();
-				_Score += target.getPoints();
-			}
-		}
-	}
+	(void) target;
 }
 
 Player &			Player::operator=(Player const & rhs)
@@ -55,8 +40,14 @@ Player &			Player::operator=(Player const & rhs)
 		_Type = rhs.getType();
 		_Body = rhs.getBody();
 		_HP = rhs.getHP();
-		_Score = rhs.getScore();
 		_Lives = rhs.getLives();
 	}
 	return (*this);
 }
+
+Entity *			Player::clone(void) const
+{
+	Entity *	entity = new Player(*this);
+	return (entity);
+}
+

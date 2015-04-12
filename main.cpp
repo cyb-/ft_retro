@@ -6,34 +6,27 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/01/10 19:11:32 by gchateau          #+#    #+#             //
-//   Updated: 2015/01/11 20:50:46 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 03:29:04 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Screen.class.hpp"
-#include "Menu.class.hpp"
+
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "Enemy.hpp"
 #include "Rifle.hpp"
 #include "Rock.hpp"
-#include <iostream>
 
+#include <iostream>
 
 int		main(void)
 {
 	{
 		Screen		screen;
 
-		screen.init(initscr());
-		screen.changeState(new Menu());
-		while (screen.running())
-		{
-			screen.handle();
-			screen.update();
-			screen.draw();
-		}
-		endwin();
+		std::srand(std::time(0));
+		screen.loop();
 	}
 
 	// {

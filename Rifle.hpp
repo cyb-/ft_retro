@@ -20,16 +20,14 @@ class	Rifle : public Entity
 {
 
 	public:
-		Rifle(int x, int y, Character & shooter);
+		Rifle(int x, int y, int vector);
 		Rifle(Rifle const & src);
 		~Rifle(void);
 
-		std::string	getShooterType(void) const;
-		Character &	getShooter(void) const;
 		void		collision(Entity & target);
+		Entity *	clone(void) const;
+
 		Rifle &		operator=(Rifle const & rhs);
-	private:
-		Character &		_Shooter;
 };
 
 #endif

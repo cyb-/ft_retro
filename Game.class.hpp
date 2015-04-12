@@ -6,23 +6,19 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/11 13:38:48 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 05:31:55 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef GAME_CLASS_HPP
 # define GAME_CLASS_HPP
 
-# define GAME_FPS 20
-
 # include "IState.interface.hpp"
+# include "Entities.class.hpp"
 # include "Player.hpp"
-# include "Entities.hpp"
 
-class Entities;
-class Player;
-
-class Game : public IState {
+class Game : public IState
+{
 
 public:
 	Game(void);
@@ -31,19 +27,24 @@ public:
 
 	Game &	operator=(Game const & rhs);
 
-	void			init(Screen *screen);
-	void			handle(Screen *screen);
-	void			update(Screen *screen);
-	void			draw(Screen *screen);
+	void				init(Screen *screen);
+	void				handle(Screen *screen);
+	void				update(Screen *screen);
+	void				render(Screen *screen);
 
+	unsigned int		getLoops(void) const;
 	Player const &		getPlayer(void) const;
-	Entities const &		getEntities(void) const;
+	Entities const &	getEntities(void) const;
 
 private:
-	int				_cStart;
-	int				_cEnd;
-	Player			_player;
-	Entities		_entities;
+	void				_displayUI(Screen *screen) const;
+	void				_generateWave(Screen *screen);
+
+	Player				_player;
+	Entities			_entities;
+	unsigned int		_loops;
+
+	static int			_UIHeight;
 
 };
 
