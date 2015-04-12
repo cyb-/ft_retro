@@ -165,7 +165,7 @@ void			AEntity::move(void)
 bool			AEntity::collision(AEntity *entity)
 {
 	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY()
-		&& entity->getVector() != this->getVector())
+		&& entity->getVector() != this->getVector() && this->_Collidable && entity->getCollidable())
 	{
 		if (!entity->getType().compare("enemy"))
 		{

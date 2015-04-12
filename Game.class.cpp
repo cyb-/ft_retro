@@ -6,12 +6,13 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:59:45 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 17:16:51 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #include "Game.class.hpp"
 #include "Enemy.hpp"
+#include "Rock.hpp"
 
 #include <cstdlib>
 #include <sstream>
@@ -116,7 +117,7 @@ void				Game::update(Screen *screen)
 	if (this->_player.getHP() <= 0)
 		this->_player.respawn(screen->getWidth() / 2, screen->getMaxY());
 	if (this->_player.getLives() <= 0)
-		screen->setState(Screen::GAMEOVER, this->_score);
+	 	screen->setState(Screen::GAMEOVER, this->_score);
 	if (this->_player.getX() > screen->getMaxX())
 		this->_player.setPosition(screen->getMaxX(), this->_player.getY());
 	if (this->_player.getY() > screen->getMaxY() - Game::_UIHeight)
@@ -192,6 +193,7 @@ void				Game::_generateWave(Screen *screen)
 	int					nb = (std::rand() % 8) + 1;
 	int					colW;
 	AEntity *			entity;
+	AEntity *			rock;
 
 	if ((current - this->_last_wave) < (clock_t)((CLOCKS_PER_SEC * Game::_wavesDelay) / Game::_wavesPerSec) && this->_last_wave != 0)
 		return ;
@@ -203,6 +205,12 @@ void				Game::_generateWave(Screen *screen)
 		entity = new Enemy(x, 0);
 		if (entity)
 			this->_entities.push(entity);
+		if (x % colW == nb)
+		{
+			rock = new Rock(x, 0);
+			if (rock)
+				this->_entities.push(rock);
+		}
 		nb--;
 	}
 }
