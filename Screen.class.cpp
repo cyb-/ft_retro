@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 15:52:06 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:23:53 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,9 +14,6 @@
 
 #include "Menu.class.hpp"
 #include "Game.class.hpp"
-
-#include <unistd.h> // For usleep()
-#include <ctime>
 
 Screen::Screen(void)
 {
@@ -85,18 +82,12 @@ bool			Screen::running(void) const
 
 void			Screen::loop(void)
 {
-//	clock_t			cStart, cEnd;
-
 	while (this->running())
 	{
-//		cStart = std::clock();
 		this->refreshWinInfos();
 		this->handle();
 		this->update();
 		this->render();
-//		cEnd = std::clock();
-//		if ((cEnd - cStart) / CLOCKS_PER_SEC < (CLOCKS_PER_SEC / FPS))
-//			usleep((CLOCKS_PER_SEC / FPS) - ((cEnd - cStart) / CLOCKS_PER_SEC));
 	}
 }
 
