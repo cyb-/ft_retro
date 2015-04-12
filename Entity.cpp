@@ -6,50 +6,53 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 19:09:17 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/11 17:15:07 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 15:53:30 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Entity.hpp"
-//			CONSTRUCTORS		//
-Entity::Entity()
-{
-}
 
 Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int Vector, int speed) : _PosY(y),
-												_PosX(x),
-												_Body(body),
-												_HP(hp),
-												_Lives(lives),
-												_Collidable(true),
-												_Type(type),
-												_Points(points),
-												_vector(Vector),
-												_speed(speed)
-{
-	_BodyS += body;
-}
+																												  _PosX(x),
+																												  _Body(body),
+																												  _HP(hp),
+																												  _Lives(lives),
+																												  _Collidable(true),
+																												  _Type(type),
+																												  _Points(points),
+																												  _vector(Vector),
+																												  _speed(speed),
+																												  _last_move(std::clock())
+{}
 
-Entity::Entity(Entity const & src)
+Entity::Entity(Entity const & src) : _last_move(std::clock())
 {
 	*this = src;
 }
 
 Entity::~Entity()
+{}
+
+Entity &		Entity::operator=(Entity const & rhs)
 {
+	if (this != &rhs)
+	{
+		this->_PosY = rhs.getY();
+		this->_PosX = rhs.getX();
+		this->_Type = rhs.getType();
+		this->_Body = rhs.getBody();
+		this->_speed = rhs.getSpeed();
+	}
+	return (*this);
 }
 
-//		GETORS		//
+// ************************************************************************** //
+//                                  GETTERS                                   //
+// ************************************************************************** //
 
 int				Entity::getY(void) const
 {
 	return (_PosY);
-}
-
-void			Entity::setPosition(int x, int y)
-{
-	this->_PosX = x;
-	this->_PosY = y;
 }
 
 int				Entity::getX(void) const
@@ -87,11 +90,6 @@ void			Entity::setBody(char body)
 	_Body = body;
 }
 
-std::string		Entity::getBodyS(void) const
-{
-	return (_BodyS);
-}
-
 int				Entity::getPoints(void) const
 {
 	return (_Points);
@@ -105,6 +103,19 @@ int				Entity::getVector(void) const
 int				Entity::getSpeed(void) const
 {
 	return (_speed);
+}
+
+void			Entity::setHP(int i)
+{
+	_HP = i;
+	if (_HP <= 0)
+		this->looseLife();
+}
+
+void			Entity::setPosition(int x, int y)
+{
+	this->_PosX = x;
+	this->_PosY = y;
 }
 
 //				SETORS & METHODS		//
@@ -121,13 +132,6 @@ void			Entity::looseLife(void)
 {
 	_Lives -= 1;
 	this->setBody('*');
-}
-
-void			Entity::setHP(int i)
-{
-	_HP = i;
-	if (_HP <= 0)
-		this->looseLife();
 }
 
 void			Entity::move(std::string direction)
@@ -147,9 +151,15 @@ void			Entity::move(std::string direction)
 		_PosX -= i;
 }
 
-void			Entity::move()
+void			Entity::move(void)
 {
-	_PosY += _vector;
+	clock_t			current = std::clock();
+
+	if ((current - this->_last_move) > (clock_t)(CLOCKS_PER_SEC / this->_speed))
+	{
+		_PosY += _vector;
+		this->_last_move = current;
+	}
 }
 
 bool			Entity::collision(Entity *entity)
@@ -170,17 +180,4 @@ bool			Entity::collision(Entity *entity)
 		return (true);
 	}
 	return (false);
-}
-
-Entity &		Entity::operator=(Entity const & rhs)
-{
-	if (this != &rhs)
-	{
-		this->_PosY = rhs.getY();
-		this->_PosX = rhs.getX();
-		this->_Type = rhs.getType();
-		this->_Body = rhs.getBody();
-		this->_BodyS = rhs.getBodyS();
-	}
-	return (*this);
 }

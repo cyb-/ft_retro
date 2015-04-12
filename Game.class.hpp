@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 10:52:42 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 16:11:50 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,6 +16,8 @@
 # include "IState.interface.hpp"
 # include "Entities.class.hpp"
 # include "Player.hpp"
+
+# include <ctime>
 
 class Game : public IState
 {
@@ -46,7 +48,10 @@ private:
 	Entities			_entities;
 	unsigned int		_loops;
 	unsigned int		_score;
+	clock_t				_last_wave;
 
+	static int			_wavesPerSec;
+	static int			_wavesDelay;
 	static int			_UIHeight;
 
 };

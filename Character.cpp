@@ -6,23 +6,17 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 19:45:16 by jzimini           #+#    #+#             */
-//   Updated: 2015/01/11 17:20:35 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 15:41:30 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Screen.class.hpp"
 #include "Character.hpp"
 #include "Rifle.hpp"
-
-Character::Character(void) : Entity()
-{
-}
 
 Character::Character(int x, int y, std::string type, char body, int hp, int lives,
 					int points, int vector, int speed) : Entity(x, y, type, body, hp, lives,
 					points, vector, speed)
-{
-}
+{}
 
 Character::Character(Character const & src) : Entity(src.getY(), src.getX(), src.getType(),
 		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
@@ -31,14 +25,7 @@ Character::Character(Character const & src) : Entity(src.getY(), src.getX(), src
 }
 
 Character::~Character(void)
-{
-}
-
-Entity*		Character::shoot()
-{
-	Entity	*rifle = new Rifle(_PosX, _PosY - 1, _vector);
-	return (rifle);
-}
+{}
 
 Character &		Character::operator=(Character const & rhs)
 {
@@ -50,4 +37,10 @@ Character &		Character::operator=(Character const & rhs)
 		_HP = rhs.getHP();
 	}
 	return *this;
+}
+
+Entity *		Character::shoot()
+{
+	Entity	*rifle = new Rifle(_PosX, _PosY - 1, _vector);
+	return (rifle);
 }
