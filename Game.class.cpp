@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 18:39:02 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 19:56:55 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -177,11 +177,11 @@ void				Game::_displayUI(Screen *screen) const
 	hp << "HP: " << this->_player.getHP();
 	lives << "Lives: " << this->_player.getLives();
 	score << "Score: " << this->_score;
-	duration << "Started: " << ((std::clock() - this->_game_start) / CLOCKS_PER_SEC) << "secs";
+	duration << "Started: " << ((std::clock() - this->_game_start) / CLOCKS_PER_SEC) << "secs ago";
 	screen->put(1, y + 1, hp.str());
 	screen->put(1, y + 2, lives.str());
 	screen->put(screen->getMaxX() - score.str().length(), y + 1, score.str());
-	screen->put(screen->getMaxX() - duration.str().length(), y + 1, duration.str());
+	screen->put(screen->getMaxX() - duration.str().length(), y + 2, duration.str());
 }
 
 void				Game::_generateWave(Screen *screen)

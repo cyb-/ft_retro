@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:46:14 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:46:15 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 19:53:14 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -25,7 +25,7 @@ public:
 
 	ACharacter &		operator=(ACharacter const & rhs);
 
-	AEntity *			shoot(void) ;
+	AEntity *			shoot(void);
 	virtual AEntity *	clone(void) const = 0;
 
 private:

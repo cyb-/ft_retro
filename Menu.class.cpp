@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:53:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 03:25:24 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 20:02:51 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -60,7 +60,7 @@ void		Menu::render(Screen *screen)
 {
 	std::string	msg = "Press ENTER to start and ESC to exit";
 
-	werase(screen->getWindow());
-	mvwprintw(screen->getWindow(), screen->getHeight() / 2, (screen->getWidth() - msg.length()) / 2, msg.c_str());
-	wrefresh(screen->getWindow());
+	screen->erase();
+	screen->put((screen->getWidth() - msg.length()) / 2, screen->getHeight() / 2, msg);
+	screen->refresh();
 }
