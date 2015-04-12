@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 17:16:51 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 17:25:30 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -21,10 +21,10 @@ int		Game::_wavesPerSec = 1;
 int		Game::_wavesDelay = 5;
 int		Game::_UIHeight = 3;
 
-Game::Game(void) : _loops(0), _score(0), _last_wave(0)
+Game::Game(void) : _loops(0), _score(0), _last_wave(0), _game_start(std::clock())
 {}
 
-Game::Game(Game const & src)
+Game::Game(Game const & src) : _last_wave(0), _game_start(std::clock())
 {
 	*this = src;
 }
@@ -175,6 +175,7 @@ void				Game::_displayUI(Screen *screen) const
 	std::stringstream	hp;
 	std::stringstream	lives;
 	std::stringstream	score;
+	std::stringstream	duration;
 
 	y = screen->getHeight() - Game::_UIHeight;
 	for (x = 0; x < screen->getWidth(); x++)
@@ -182,9 +183,11 @@ void				Game::_displayUI(Screen *screen) const
 	hp << "HP: " << this->_player.getHP();
 	lives << "Lives: " << this->_player.getLives();
 	score << "Score: " << this->_score;
+	duration << "Started: " << ((std::clock() - this->_game_start) / CLOCKS_PER_SEC) << "secs";
 	mvwprintw(screen->getWindow(), y + 1, 1, hp.str().c_str());
 	mvwprintw(screen->getWindow(), y + 2, 1, lives.str().c_str());
 	mvwprintw(screen->getWindow(), y + 1, screen->getMaxX() - score.str().length(), score.str().c_str());
+	mvwprintw(screen->getWindow(), y + 2, screen->getMaxX() - duration.str().length(), duration.str().c_str());
 }
 
 void				Game::_generateWave(Screen *screen)

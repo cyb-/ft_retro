@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:55:25 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 17:21:41 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -49,6 +49,7 @@ private:
 	unsigned int		_loops;
 	unsigned int		_score;
 	clock_t				_last_wave;
+	clock_t				_game_start;
 
 	static int			_wavesPerSec;
 	static int			_wavesDelay;
