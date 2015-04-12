@@ -13,6 +13,10 @@
 #include "ACharacter.class.hpp"
 #include "Rifle.hpp"
 
+#include <cstdlib>
+
+int		ACharacter::_shootDelay = 8;
+
 ACharacter::ACharacter(int x, int y, std::string type, char body, int hp, int lives, int points, int vector, int speed) : AEntity(x, y, type, body, hp, lives, points, vector, speed)
 {}
 
@@ -34,8 +38,15 @@ ACharacter &	ACharacter::operator=(ACharacter const & rhs)
 	return (*this);
 }
 
-AEntity *		ACharacter::shoot(void) const
-{
-	AEntity		*rifle = new Rifle(_PosX, _PosY - 1, _vector);
+AEntity *		ACharacter::shoot(void)
+{	
+	AEntity			*rifle = 0;
+	clock_t			current = std::clock();
+
+	if (this->_Type == "player" || (this->_Body == 'V' && (current - this->_last_shoot > (clock_t)(CLOCKS_PER_SEC * ACharacter::_shootDelay) && (std::rand() % 180 + 8) % 3 == 0)))
+	{
+		rifle = new Rifle(_PosX, _PosY + _vector, _vector);
+		this->_last_shoot = current;
+	}
 	return (rifle);
 }

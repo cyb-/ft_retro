@@ -26,7 +26,7 @@ class	Rock : public AEntity
 		Rock &		operator=(Rock const & rhs);
 
 		AEntity *	clone(void) const;
-		AEntity *	shoot(void) const;
+		AEntity *	shoot(void);
 
 
 };

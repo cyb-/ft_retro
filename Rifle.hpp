@@ -26,7 +26,7 @@ class	Rifle : public AEntity
 		Rifle &		operator=(Rifle const & rhs);
 
 		AEntity *	clone(void) const;
-		AEntity *	shoot(void) const;
+		AEntity *	shoot(void);
 
 	private:
 		Rifle();

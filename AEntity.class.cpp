@@ -22,10 +22,11 @@ AEntity::AEntity(int x, int y, std::string type, char body, int hp, int lives, i
 																												  _Points(points),
 																												  _vector(Vector),
 																												  _speed(speed),
-																												  _last_move(std::clock())
+																												  _last_move(std::clock()),
+																												  _last_shoot(std::clock())
 {}
 
-AEntity::AEntity(AEntity const & src) : _last_move(std::clock())
+AEntity::AEntity(AEntity const & src) : _last_move(std::clock()), _last_shoot(std::clock())
 {
 	*this = src;
 }
@@ -164,20 +165,34 @@ void			AEntity::move(void)
 
 bool			AEntity::collision(AEntity *entity)
 {
-	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY()
-		&& entity->getVector() != this->getVector() && this->_Collidable && entity->getCollidable())
+	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY())
 	{
-		if (!entity->getType().compare("enemy"))
+		if (entity->getVector() != this->getVector() && this->_Collidable && entity->getCollidable())
 		{
-			this->setHP(0);
-			entity->looseHP();
+			if (!entity->getType().compare("enemy"))
+			{
+				this->setHP(0);
+				entity->looseHP();
+			}
+			else
+			{
+				entity->looseHP();
+				this->looseHP();
+			}
+			return (true);
 		}
-		else
+		else if (!entity->getCollidable() != !this->getCollidable())
 		{
-			entity->looseHP();
-			this->looseHP();
+			if (!this->_Collidable && entity->getType() == "rifle")
+				entity->looseHP();
+			else if (!entity->getCollidable() && !this->_Type.compare("rifle"))
+				this->looseHP();
+			return (true);
 		}
-		return (true);
 	}
+
 	return (false);
 }
+
+int			AEntity::_shootDelay;
+

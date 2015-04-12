@@ -13,9 +13,11 @@
 #include "Rifle.hpp"
 
 Rifle::Rifle(int x, int y, int Vector) : AEntity(x, y + Vector, "rifle", '.', 1, 1, 0, Vector, 4)
-{}
-
-Rifle::Rifle(Rifle const & src) : AEntity(src.getY(), src.getX(), src.getType(), src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
+{
+	if (Vector > 0)
+		_Body = '|';
+}
+Rifle::Rifle(Rifle const & src) : AEntity(src.getX(), src.getY(), src.getType(), src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {}
 
 Rifle::~Rifle(void)
@@ -43,7 +45,7 @@ AEntity *		Rifle::clone(void) const
 	return (entity);
 }
 
-AEntity *		Rifle::shoot(void) const
+AEntity *		Rifle::shoot(void)
 {
 	return (0);
 }
