@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 03:22:59 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 05:39:01 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,6 +14,8 @@
 #include "Enemy.hpp"
 
 #include <cstdlib>
+
+int		Game::_UIHeight = 3;
 
 Game::Game(void) : _loops(0)
 {}
@@ -43,7 +45,7 @@ Game &				Game::operator=(Game const & rhs)
 
 void				Game::init(Screen *screen)
 {
-	this->_player.setPosition(screen->getWidth() / 2, screen->getHeight() - 1);
+	this->_player.setPosition(screen->getWidth() / 2, screen->getMaxY());
 }
 
 void				Game::handle(Screen *screen)
@@ -60,7 +62,7 @@ void				Game::handle(Screen *screen)
 			this->_player.move("left");
 		break;
 	case KEY_RIGHT:
-		if (this->_player.getX() < screen->getWidth() - 1)
+		if (this->_player.getX() < screen->getMaxX())
 			this->_player.move("right");
 		break;
 	case KEY_UP:
@@ -68,7 +70,7 @@ void				Game::handle(Screen *screen)
 			this->_player.move("up");
 		break;
 	case KEY_DOWN:
-		if (this->_player.getY() < screen->getHeight() - 1)
+		if (this->_player.getY() < screen->getMaxY() - Game::_UIHeight)
 			this->_player.move("down");
 		break;
 	case KEY_SPACE:
@@ -88,6 +90,7 @@ void				Game::update(Screen *screen)
 	lst = this->_entities.getItems();
 	while (lst)
 	{
+// ADD: `&& lst->getEntity()->getY() < screen->getMaxY() - Game::_UIHeight` condition to remove outscreen entities
 		if (lst->hasEntity() && lst->getEntity()->getHP() > 0)
 		{
 			lst->getEntity()->move("down");
@@ -100,6 +103,10 @@ void				Game::update(Screen *screen)
 			delete del;
 		}
 	}
+	if (this->_player.getX() > screen->getMaxX())
+		this->_player.setPosition(screen->getMaxX(), this->_player.getY());
+	if (this->_player.getY() > screen->getMaxY() - Game::_UIHeight)
+		this->_player.setPosition(this->_player.getX(), screen->getMaxY() - Game::_UIHeight);
 }
 
 void				Game::render(Screen *screen)
@@ -114,6 +121,7 @@ void				Game::render(Screen *screen)
 		lst = lst->getNext();
 	}
 	mvwprintw(screen->getWindow(), this->_player.getY(), this->_player.getX(), this->_player.getBodyS().c_str());
+	this->_displayUI(screen);
 	wrefresh(screen->getWindow());
 	this->_loops++;
 }
@@ -140,6 +148,15 @@ Entities const &	Game::getEntities(void) const
 // ************************************************************************** //
 //                                GAME HELPERS                                //
 // ************************************************************************** //
+
+void				Game::_displayUI(Screen *screen) const
+{
+	int					x, y;
+
+	y = screen->getHeight() - Game::_UIHeight;
+	for (x = 0; x < screen->getWidth(); x++)
+		mvwaddch(screen->getWindow(), y, x, ' ' | A_REVERSE);
+}
 
 void				Game::_generateWave(Screen *screen)
 {

@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 02:57:54 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 05:31:55 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -37,11 +37,14 @@ public:
 	Entities const &	getEntities(void) const;
 
 private:
+	void				_displayUI(Screen *screen) const;
 	void				_generateWave(Screen *screen);
 
 	Player				_player;
 	Entities			_entities;
 	unsigned int		_loops;
+
+	static int			_UIHeight;
 
 };
 

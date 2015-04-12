@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 02:59:21 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 05:10:37 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -40,6 +40,8 @@ public:
 	void			loop(void);
 	bool			running(void) const;
 
+	int				getMaxX(void) const;
+	int				getMaxY(void) const;
 	int				getWidth(void) const;
 	int				getHeight(void) const;
 	IState *		getState(void) const;
@@ -51,6 +53,7 @@ public:
 
 protected:
 	void			init(void);
+	void			refreshWinInfos(void);
 	void			handle(void);
 	void			update(void);
 	void			render(void);
