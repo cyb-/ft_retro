@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 22:46:24 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 01:18:30 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 11:23:40 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -73,6 +73,32 @@ void				Entities::push(Entity *entity)
 	else
 		this->_items = item;
 	this->_count++;
+}
+
+void				Entities::remove(int index)
+{
+	Entities::Item *	del;
+
+	if (this->_items == 0)
+		return ;
+	if (index == this->_items->getIndex())
+	{
+		del = this->_items;
+		this->_items = del->getNext();
+		delete del;
+		this->_count--;
+	}
+	else
+	{
+		del = this->_items;
+		while (del && del->getIndex() != index)
+			del = del->getNext();
+		if (del != 0)
+		{
+			delete del;
+			this->_count--;
+		}
+	}
 }
 
 void				Entities::_clearItems(void)

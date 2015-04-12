@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 10:57:27 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 11:43:59 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,6 +14,7 @@
 #include "Enemy.hpp"
 
 #include <cstdlib>
+#include <sstream>
 
 int		Game::_UIHeight = 3;
 
@@ -90,8 +91,9 @@ void				Game::update(Screen *screen)
 	lst = this->_entities.getItems();
 	while (lst)
 	{
-// ADD: `&& lst->getEntity()->getY() < screen->getMaxY() - Game::_UIHeight` condition to remove outscreen entities
-		if (lst->hasEntity() && lst->getEntity()->getHP() > 0)
+		if (lst->hasEntity()
+			&& lst->getEntity()->getHP() > 0
+			&& lst->getEntity()->getY() < screen->getMaxY() - Game::_UIHeight)
 		{
 			if (lst->getEntity()->getVector() == 1)
 				lst->getEntity()->move("down");
@@ -103,7 +105,7 @@ void				Game::update(Screen *screen)
 		{
 			del = lst;
 			lst = lst->getNext();
-			delete del;
+			this->_entities.remove(del->getIndex());
 		}
 	}
 	if (this->_player.getX() > screen->getMaxX())
@@ -160,10 +162,19 @@ Entities const &	Game::getEntities(void) const
 void				Game::_displayUI(Screen *screen) const
 {
 	int					x, y;
+	std::stringstream	hp;
+	std::stringstream	lives;
+	std::stringstream	score;
 
 	y = screen->getHeight() - Game::_UIHeight;
 	for (x = 0; x < screen->getWidth(); x++)
 		mvwaddch(screen->getWindow(), y, x, ' ' | A_REVERSE);
+	hp << "HP: " << this->_player.getHP();
+	lives << "Lives: " << this->_player.getLives();
+	score << "Score: " << this->_score;
+	mvwprintw(screen->getWindow(), y + 1, 1, hp.str().c_str());
+	mvwprintw(screen->getWindow(), y + 2, 1, lives.str().c_str());
+	mvwprintw(screen->getWindow(), y + 1, screen->getMaxX() - score.str().length(), score.str().c_str());
 }
 
 void				Game::_generateWave(Screen *screen)
