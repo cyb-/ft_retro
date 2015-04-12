@@ -18,7 +18,7 @@
 class	Entity
 {
 	public:
-		Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int vector);
+		Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int vector, int speed);
 		Entity(Entity const & src);
 		virtual ~Entity(void);
 
@@ -28,16 +28,16 @@ class	Entity
 		char			getBody(void) const;
 		std::string		getBodyS(void) const;
 		bool			getCollidable(void) const;
-		Entity *		getNext(void) const;
-		Entity *		getPrev(void) const;
 		int				getHP(void) const;
 		int				getLives(void) const;
 		int				getPoints(void) const;
 		int				getVector(void) const;
+		int				getSpeed(void) const;
 
 		void			setPosition(int x, int y);
 		void			setBody(char body);
-		void			looseHP(void);
+		void			setHP(int i);
+		virtual void	looseHP(void);
 		virtual void	looseLife(void);
 		void			move(std::string direction);
 		void			move(void);
@@ -57,12 +57,8 @@ class	Entity
 		std::string	_Type;
 		int			_Points;
 		int			_vector;
+		int			_speed;
 		Entity(void);
-
-	private:
-		Entity		*next;
-		Entity		*prev;
-
 };
 
 #endif

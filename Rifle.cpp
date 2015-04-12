@@ -15,12 +15,12 @@
 #include <iostream>
 
 
-Rifle::Rifle(int x, int y, int Vector) : Entity(x, y + Vector, "rifle", '.', 1, 1, 0, Vector)
+Rifle::Rifle(int x, int y, int Vector) : Entity(x, y + Vector, "rifle", '.', 1, 1, 0, Vector, 2)
 {
 }
 
 Rifle::Rifle(Rifle const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {
 	*this = src;
 }

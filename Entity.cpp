@@ -16,7 +16,7 @@ Entity::Entity()
 {
 }
 
-Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int Vector) : _PosY(y),
+Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int points, int Vector, int speed) : _PosY(y),
 												_PosX(x),
 												_Body(body),
 												_HP(hp),
@@ -25,8 +25,7 @@ Entity::Entity(int x, int y, std::string type, char body, int hp, int lives, int
 												_Type(type),
 												_Points(points),
 												_vector(Vector),
-												next(0),
-												prev(0)
+												_speed(speed)
 {
 	_BodyS += body;
 }
@@ -38,11 +37,6 @@ Entity::Entity(Entity const & src)
 
 Entity::~Entity()
 {
-	if (prev && next)
-	{
-		next->prev = prev;
-		prev->next = next;
-	}
 }
 
 //		GETORS		//
@@ -103,19 +97,14 @@ int				Entity::getPoints(void) const
 	return (_Points);
 }
 
-Entity *		Entity::getNext(void)	const
-{
-	return (next);
-}
-
-Entity *		Entity::getPrev(void)	const
-{
-	return (prev);
-}
-
 int				Entity::getVector(void) const
 {
-	return(_vector);
+	return (_vector);
+}
+
+int				Entity::getSpeed(void) const
+{
+	return (_speed);
 }
 
 //				SETORS & METHODS		//
@@ -123,13 +112,22 @@ int				Entity::getVector(void) const
 void			Entity::looseHP(void)
 {
 	_HP -= 1;
-	if (_HP <= 0)
+	if (_Body == 'W' && _HP > 0)
+		this->setBody('V');
+	else if (_HP <= 0)
 		this->looseLife();
 }
 void			Entity::looseLife(void)
 {
 	_Lives -= 1;
 	this->setBody('*');
+}
+
+void			Entity::setHP(int i)
+{
+	_HP = i;
+	if (_HP <= 0)
+		this->looseLife();
 }
 
 void			Entity::move(std::string direction)
@@ -159,8 +157,16 @@ bool			Entity::collision(Entity *entity)
 	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY()
 		&& entity->getVector() != this->getVector())
 	{
-		entity->looseHP();
-		this->looseHP();
+		if (!entity->getType().compare("enemy"))
+		{
+			this->setHP(0);
+			entity->looseHP();
+		}
+		else
+		{
+			entity->looseHP();
+			this->looseHP();
+		}
 		return (true);
 	}
 	return (false);
@@ -175,8 +181,6 @@ Entity &		Entity::operator=(Entity const & rhs)
 		this->_Type = rhs.getType();
 		this->_Body = rhs.getBody();
 		this->_BodyS = rhs.getBodyS();
-		this->prev = rhs.prev;
-		this->next = rhs.next;
 	}
 	return (*this);
 }

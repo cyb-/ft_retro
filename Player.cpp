@@ -13,11 +13,11 @@
 #include "Player.hpp"
 #include "Rifle.hpp"
 
-Player::Player(void) : Character(0, 0, "player", 94, 2, 3, 0, -1)
+Player::Player(void) : Character(0, 0, "player", 94, 2, 3, 0, -1, 1)
 {}
 
 Player::Player(Player const & src) : Character(src.getX(), src.getY(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {
 	*this = src;
 }

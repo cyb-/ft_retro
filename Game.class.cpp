@@ -62,18 +62,22 @@ void				Game::handle(Screen *screen)
 	case KEY_LEFT:
 		if (this->_player.getX() > 0)
 			this->_player.move("left");
+		this->_checkCollision((Entity*)&this->_player);
 		break;
 	case KEY_RIGHT:
 		if (this->_player.getX() < screen->getMaxX())
 			this->_player.move("right");
+		this->_checkCollision((Entity*)&this->_player);
 		break;
 	case KEY_UP:
 		if (this->_player.getY() > 0)
 			this->_player.move("up");
+		this->_checkCollision((Entity*)&this->_player);
 		break;
 	case KEY_DOWN:
 		if (this->_player.getY() < screen->getMaxY() - Game::_UIHeight)
 			this->_player.move("down");
+		this->_checkCollision((Entity*)&this->_player);
 		break;
 	case KEY_SPACE:
 		this->_entities.push(this->_player.shoot());
@@ -207,9 +211,7 @@ void				Game::_checkCollision(Entity *entity)
 	while (tmp)
 	{
 		if (entity->collision(tmp->getEntity()))
-		{
 				this->_score += (entity->getVector() < 0 ? tmp->getEntity()->getPoints() : 0);
-		}
 		tmp = tmp->getNext();
 	}
 }

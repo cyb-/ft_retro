@@ -19,13 +19,13 @@ Character::Character(void) : Entity()
 }
 
 Character::Character(int x, int y, std::string type, char body, int hp, int lives,
-					int points, int vector) : Entity(x, y, type, body, hp, lives,
-					points, vector)
+					int points, int vector, int speed) : Entity(x, y, type, body, hp, lives,
+					points, vector, speed)
 {
 }
 
 Character::Character(Character const & src) : Entity(src.getY(), src.getX(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {
 	*this = src;
 }

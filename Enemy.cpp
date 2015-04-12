@@ -17,21 +17,25 @@
 char			Enemy::random(void)
 {
 	int				i;
-	char			type[2] = {'V', '@'};
+	char			type[2] = {'V', 'W'};
 
 	srand((int)clock());
 	i = rand() % 2;
 	return (type[i]);
 }
 
-Enemy::Enemy(int x, int y) : Character(x, y, "enemy", random(), 1, 1, 10, 1)
+Enemy::Enemy(int x, int y) : Character(x, y, "enemy", random(), 1, 1, 10, 1, 1)
 {
-	if (_Body == '@')
+	if (_Body == 'W')
+	{
 		_Points += 10;
+		_HP = 2;
+		_speed = 2;
+	}
 }
 
 Enemy::Enemy(Enemy const & src) : Character(src.getX(), src.getY(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector())
+		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {
 	*this = src;
 }

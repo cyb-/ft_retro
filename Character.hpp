@@ -20,7 +20,7 @@ class	Character : public Entity
 
 	public:
 		Character(int x,int y, std::string type, char body, int hp, int lives,
-			int Points, int vector);
+			int Points, int vector, int speed);
 		Character(Character const & src);
 		virtual 	~Character(void);
 
