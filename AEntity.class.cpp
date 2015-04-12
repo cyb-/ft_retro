@@ -194,5 +194,4 @@ bool			AEntity::collision(AEntity *entity)
 	return (false);
 }
 
-int			AEntity::_shootDelay;
 

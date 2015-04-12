@@ -16,6 +16,8 @@ Rifle::Rifle(int x, int y, int Vector) : AEntity(x, y + Vector, "rifle", '.', 1,
 {
 	if (Vector > 0)
 		_Body = '|';
+	if (Vector < 0)
+		_speed = 6;
 }
 Rifle::Rifle(Rifle const & src) : AEntity(src.getX(), src.getY(), src.getType(), src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
 {}
