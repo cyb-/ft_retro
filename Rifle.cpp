@@ -15,7 +15,7 @@
 #include <iostream>
 
 
-Rifle::Rifle(int x, int y, int Vector) : Entity(x + Vector, y + Vector, "rifle", '.', 1, 1, 0, Vector)
+Rifle::Rifle(int x, int y, int Vector) : Entity(x, y + Vector, "rifle", '.', 1, 1, 0, Vector)
 {
 }
 
@@ -27,11 +27,6 @@ Rifle::Rifle(Rifle const & src) : Entity(src.getY(), src.getX(), src.getType(),
 
 Rifle::~Rifle(void)
 {
-}
-
-void			Rifle::collision(Entity & target)
-{
-	(void)target;
 }
 
 Rifle &			Rifle::operator=(Rifle const & rhs)

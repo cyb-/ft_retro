@@ -40,7 +40,8 @@ class	Entity
 		void			looseHP(void);
 		virtual void	looseLife(void);
 		void			move(std::string direction);
-		virtual void	collision(Entity & target) = 0;
+		void			move(void);
+		bool	collision(Entity * entity);
 		virtual Entity *	clone(void) const = 0;
 
 		Entity &		operator=(Entity const & rhs);

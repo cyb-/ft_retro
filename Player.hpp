@@ -25,7 +25,8 @@ class		Player : public Character
 
 		int				getScore(void) const;
 		void			setScore(int i);
-		void			collision(Entity & target);
+		void			respawn(int x, int y);
+
 		Entity *		clone(void) const;
 		Player &		operator=(Player const & rhs);
 };

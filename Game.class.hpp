@@ -40,6 +40,7 @@ public:
 private:
 	void				_displayUI(Screen *screen) const;
 	void				_generateWave(Screen *screen);
+	void				_checkCollision(Entity *entity);
 
 	Player				_player;
 	Entities			_entities;

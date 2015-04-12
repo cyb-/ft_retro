@@ -18,7 +18,7 @@
 
 int		Game::_UIHeight = 3;
 
-Game::Game(void) : _loops(0)
+Game::Game(void) : _loops(0), _score(0)
 {}
 
 Game::Game(Game const & src)
@@ -34,6 +34,7 @@ Game &				Game::operator=(Game const & rhs)
 	if (this != &rhs)
 	{
 		this->_loops = rhs.getLoops();
+		this->_score = rhs.getScore();
 		this->_player = rhs.getPlayer();
 		this->_entities = rhs.getEntities();
 	}
@@ -91,16 +92,15 @@ void				Game::update(Screen *screen)
 	lst = this->_entities.getItems();
 	while (lst)
 	{
-		if (lst->hasEntity()
-			&& lst->getEntity()->getHP() > 0
-			&& lst->getEntity()->getY() < screen->getMaxY() - Game::_UIHeight)
+		if (lst->hasEntity())
 		{
-			if (lst->getEntity()->getVector() == 1)
-				lst->getEntity()->move("down");
-			if (lst->getEntity()->getVector() == -1)
-				lst->getEntity()->move("up");
-			lst = lst->getNext();
+			lst->getEntity()->move();
+			this->_checkCollision(lst->getEntity());
 		}
+		if (lst->hasEntity()
+			&& lst->getEntity()->getLives() > 0
+			&& lst->getEntity()->getY() < screen->getHeight() - Game::_UIHeight)
+			lst = lst->getNext();
 		else
 		{
 			del = lst;
@@ -108,6 +108,11 @@ void				Game::update(Screen *screen)
 			this->_entities.remove(del->getIndex());
 		}
 	}
+	this->_checkCollision((Entity*)&this->_player);
+	if (this->_player.getHP() <= 0)
+		this->_player.respawn(screen->getWidth() / 2, screen->getMaxY());
+	if (this->_player.getLives() <= 0)
+		mvwprintw(screen->getWindow(), screen->getHeight() - (Game::_UIHeight + 1), 1, "Dead");
 	if (this->_player.getX() > screen->getMaxX())
 		this->_player.setPosition(screen->getMaxX(), this->_player.getY());
 	if (this->_player.getY() > screen->getMaxY() - Game::_UIHeight)
@@ -191,5 +196,22 @@ void				Game::_generateWave(Screen *screen)
 		if (entity)
 			this->_entities.push(entity);
 		nb--;
+	}
+}
+
+void				Game::_checkCollision(Entity *entity)
+{
+	Entities::Item *	tmp;
+
+	tmp = this->_entities.getItems();
+	while (tmp)
+	{
+		if (entity->collision(tmp->getEntity()))
+		{
+			if ((entity->getVector() > 0 && tmp->getEntity()->getVector() < 0)
+				|| (entity->getVector() < 0 && tmp->getEntity()->getVector() > 0))
+				this->_score += (entity->getVector() < 0 ? tmp->getEntity()->getPoints() : 0);
+		}
+		tmp = tmp->getNext();
 	}
 }

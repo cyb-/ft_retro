@@ -25,7 +25,6 @@ class		Enemy : public Character
 
 		Enemy &			operator=(Enemy const & rhs);
 
-		void			collision(Entity & target);
 		Entity *		clone(void) const;
 		char			random(void);
 

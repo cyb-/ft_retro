@@ -40,11 +40,6 @@ Enemy::~Enemy()
 {
 }
 
-void			Enemy::collision(Entity & target)
-{
-	(void)target;
-}
-
 Enemy &			Enemy::operator=(Enemy const & rhs)
 {
 	if (this != &rhs)

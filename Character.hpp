@@ -25,7 +25,6 @@ class	Character : public Entity
 		virtual 	~Character(void);
 
 		Entity *	shoot();
-		virtual void	collision(Entity & target) = 0;
 		virtual Entity *	clone(void) const = 0;
 		Character &		operator=(Character const & rhs);
 	protected:

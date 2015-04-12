@@ -27,11 +27,6 @@ Rock::~Rock(void)
 {
 }
 
-void			Rock::collision(Entity & target)
-{
-	(void)target;
-}
-
 Rock &			Rock::operator=(Rock const & rhs)
 {
 	if (this != &rhs)

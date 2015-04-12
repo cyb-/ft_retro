@@ -13,7 +13,7 @@
 #include "Player.hpp"
 #include "Rifle.hpp"
 
-Player::Player(void) : Character(0, 0, "player", 94, 1, 3, 0, -1)
+Player::Player(void) : Character(0, 0, "player", 94, 2, 3, 0, -1)
 {}
 
 Player::Player(Player const & src) : Character(src.getX(), src.getY(), src.getType(),
@@ -24,11 +24,6 @@ Player::Player(Player const & src) : Character(src.getX(), src.getY(), src.getTy
 
 Player::~Player()
 {
-}
-
-void			Player::collision(Entity & target)
-{
-	(void) target;
 }
 
 Player &			Player::operator=(Player const & rhs)
@@ -43,6 +38,13 @@ Player &			Player::operator=(Player const & rhs)
 		_Lives = rhs.getLives();
 	}
 	return (*this);
+}
+
+void				Player::respawn(int x, int y)
+{
+	if (_Lives > 0)
+		_HP = 2;
+	this->setPosition(x, y);
 }
 
 Entity *			Player::clone(void) const

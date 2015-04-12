@@ -24,10 +24,11 @@ class	Rifle : public Entity
 		Rifle(Rifle const & src);
 		~Rifle(void);
 
-		void		collision(Entity & target);
 		Entity *	clone(void) const;
 
 		Rifle &		operator=(Rifle const & rhs);
+	private:
+		Rifle();
 };
 
 #endif

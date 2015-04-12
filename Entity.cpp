@@ -123,12 +123,12 @@ int				Entity::getVector(void) const
 void			Entity::looseHP(void)
 {
 	_HP -= 1;
+	if (_HP <= 0)
+		this->looseLife();
 }
 void			Entity::looseLife(void)
 {
 	_Lives -= 1;
-	if (_Lives > 0)
-		_HP = 1;
 }
 
 void			Entity::move(std::string direction)
@@ -148,6 +148,21 @@ void			Entity::move(std::string direction)
 		_PosX -= i;
 }
 
+void			Entity::move()
+{
+	_PosY += _vector;
+}
+
+bool			Entity::collision(Entity *entity)
+{
+	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY())
+	{
+		entity->looseHP();
+		this->looseHP();
+		return (true);
+	}
+	return (false);
+}
 
 Entity &		Entity::operator=(Entity const & rhs)
 {
