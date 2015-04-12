@@ -45,7 +45,7 @@ AEntity *		Rock::clone(void) const
 	return (entity);
 }
 
-AEntity *		Rock::shoot(void) const
+AEntity *		Rock::shoot(void)
 {
 	return (0);
 }

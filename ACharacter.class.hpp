@@ -25,11 +25,13 @@ public:
 
 	ACharacter &		operator=(ACharacter const & rhs);
 
-	AEntity *			shoot(void) const;
+	AEntity *			shoot(void) ;
 	virtual AEntity *	clone(void) const = 0;
 
 private:
 	ACharacter(void);
+
+	static int	_shootDelay;
 
 };
 

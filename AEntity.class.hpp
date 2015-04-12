@@ -48,7 +48,7 @@ public:
 	virtual void		looseHP(void);
 	virtual void		looseLife(void);
 	virtual AEntity *	clone(void) const = 0;
-	virtual AEntity *	shoot(void) const = 0;
+	virtual AEntity *	shoot(void) = 0;
 
 protected:
 	int			_PosY;
@@ -62,6 +62,7 @@ protected:
 	int			_vector;
 	int			_speed;
 	clock_t		_last_move;
+	clock_t		_last_shoot;
 
 private:
 	AEntity(void);

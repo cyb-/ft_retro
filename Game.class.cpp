@@ -99,6 +99,7 @@ void				Game::update(Screen *screen)
 		if (lst->hasEntity())
 		{
 			lst->getEntity()->move();
+			this->_entities.push(lst->getEntity()->shoot());
 			this->_checkCollision(lst->getEntity());
 		}
 		if (lst->hasEntity()
@@ -201,11 +202,14 @@ void				Game::_generateWave(Screen *screen)
 		entity = new Enemy(x, 0);
 		if (entity)
 			this->_entities.push(entity);
-		if (x % colW == nb)
+		if (x % colW == 0)
 		{
-			rock = new Rock(x, 0);
-			if (rock)
-				this->_entities.push(rock);
+			for (int i = 0; i < 3; i++)
+			{
+				rock = new Rock(x + i , 0);
+				if (rock)
+					this->_entities.push(rock);
+			}
 		}
 		nb--;
 	}

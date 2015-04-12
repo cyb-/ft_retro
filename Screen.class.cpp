@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 18:33:45 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/12 19:43:55 by jzimini          ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -59,6 +59,7 @@ void			Screen::init(void)
 	init_pair('W', COLOR_CYAN, COLOR_BLACK);
 	init_pair('O', COLOR_BLUE, COLOR_BLACK);
 	init_pair('.', COLOR_YELLOW, COLOR_BLACK);
+	init_pair('|', COLOR_WHITE, COLOR_BLACK);
 	init_pair(' ', COLOR_WHITE, COLOR_WHITE);
 	keypad(this->_window, TRUE);
 	nodelay(this->_window, TRUE);
