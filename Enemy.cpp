@@ -24,7 +24,7 @@ char			Enemy::random(void)
 	return (type[i]);
 }
 
-Enemy::Enemy(int x, int y) : Character(x, y, "enemy", random(), 1, 1, 10, -1)
+Enemy::Enemy(int x, int y) : Character(x, y, "enemy", random(), 1, 1, 10, 1)
 {
 	if (_Body == '@')
 		_Points += 10;

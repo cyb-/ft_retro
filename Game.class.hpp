@@ -33,6 +33,7 @@ public:
 	void				render(Screen *screen);
 
 	unsigned int		getLoops(void) const;
+	unsigned int		getScore(void) const;
 	Player const &		getPlayer(void) const;
 	Entities const &	getEntities(void) const;
 
@@ -43,6 +44,7 @@ private:
 	Player				_player;
 	Entities			_entities;
 	unsigned int		_loops;
+	unsigned int		_score;
 
 	static int			_UIHeight;
 

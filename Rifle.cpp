@@ -15,7 +15,7 @@
 #include <iostream>
 
 
-Rifle::Rifle(int x, int y, int Vector) : Entity(x, y, "rifle", '.', 1, 1, 0, Vector)
+Rifle::Rifle(int x, int y, int Vector) : Entity(x + Vector, y + Vector, "rifle", '.', 1, 1, 0, Vector)
 {
 }
 

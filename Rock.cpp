@@ -12,7 +12,7 @@
 
 #include "Rock.hpp"
 
-Rock::Rock(int x, int y) : Entity(x, y, "rock", 'O', 1, 1, 5, -1)
+Rock::Rock(int x, int y) : Entity(x, y, "rock", 'O', 1, 1, 5, 1)
 {
 	_Collidable = false;
 }
