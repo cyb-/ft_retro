@@ -44,6 +44,7 @@ void				Player::respawn(int x, int y)
 {
 	if (_Lives > 0)
 		_HP = 2;
+	this->setBody(94);
 	this->setPosition(x, y);
 }
 

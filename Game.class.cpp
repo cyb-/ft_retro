@@ -208,8 +208,6 @@ void				Game::_checkCollision(Entity *entity)
 	{
 		if (entity->collision(tmp->getEntity()))
 		{
-			if ((entity->getVector() > 0 && tmp->getEntity()->getVector() < 0)
-				|| (entity->getVector() < 0 && tmp->getEntity()->getVector() > 0))
 				this->_score += (entity->getVector() < 0 ? tmp->getEntity()->getPoints() : 0);
 		}
 		tmp = tmp->getNext();

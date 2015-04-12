@@ -129,6 +129,7 @@ void			Entity::looseHP(void)
 void			Entity::looseLife(void)
 {
 	_Lives -= 1;
+	this->setBody('*');
 }
 
 void			Entity::move(std::string direction)
@@ -155,7 +156,8 @@ void			Entity::move()
 
 bool			Entity::collision(Entity *entity)
 {
-	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY())
+	if (this != entity && this->_PosX == entity->getX() && this->_PosY == entity->getY()
+		&& entity->getVector() != this->getVector())
 	{
 		entity->looseHP();
 		this->looseHP();
