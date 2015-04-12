@@ -27,6 +27,8 @@ class	Rifle : public Entity
 		Entity *	clone(void) const;
 
 		Rifle &		operator=(Rifle const & rhs);
+		Entity *	shoot();
+
 	private:
 		Rifle();
 };

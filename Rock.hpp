@@ -25,6 +25,7 @@ class	Rock : public Entity
 
 		Entity *	clone(void) const;
 		Rock &		operator=(Rock const & rhs);
+		Entity *	shoot();
 
 
 };

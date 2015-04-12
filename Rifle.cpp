@@ -50,3 +50,7 @@ Entity *		Rifle::clone(void) const
 	Entity *	entity = new Rifle(*this);
 	return (entity);
 }
+
+Entity *		Rifle::shoot(){
+	return (0);
+}

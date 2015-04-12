@@ -29,7 +29,8 @@ public:
 	enum state_e
 	{
 		MENU = 1,
-		GAME
+		GAME,
+		GAMEOVER
 	};
 
 	Screen &	operator=(Screen const & rhs);
@@ -50,6 +51,7 @@ public:
 	void			setWidth(int width);
 	void			setHeight(int height);
 	bool			setState(state_e state);
+	bool			setState(state_e state, int score);
 
 protected:
 	void			init(void);

@@ -43,6 +43,7 @@ class	Entity
 		void			move(void);
 		bool	collision(Entity * entity);
 		virtual Entity *	clone(void) const = 0;
+		virtual Entity *	shoot() = 0;
 
 		Entity &		operator=(Entity const & rhs);
 

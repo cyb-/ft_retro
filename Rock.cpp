@@ -48,3 +48,8 @@ Entity *		Rock::clone(void) const
 	Entity *	entity = new Rock(*this);
 	return (entity);
 }
+
+Entity *		Rock::shoot(void)
+{
+	return (0);
+}

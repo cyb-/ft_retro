@@ -89,7 +89,7 @@ void				Game::update(Screen *screen)
 	Entities::Item *	lst;
 	Entities::Item *	del;
 
-	if ((this->_loops % 11) != 0) // THIS IS A FUCKIN TRICK !!!!!!
+	if ((this->_loops % 9) != 0) // THIS IS A FUCKIN TRICK !!!!!!
 		return ;
 	if ((this->_loops % 5) == 0 || this->_loops == 0)
 		this->_generateWave(screen);
@@ -116,7 +116,7 @@ void				Game::update(Screen *screen)
 	if (this->_player.getHP() <= 0)
 		this->_player.respawn(screen->getWidth() / 2, screen->getMaxY());
 	if (this->_player.getLives() <= 0)
-		mvwprintw(screen->getWindow(), screen->getHeight() - (Game::_UIHeight + 1), 1, "Dead");
+		screen->setState(Screen::GAMEOVER, this->_score);
 	if (this->_player.getX() > screen->getMaxX())
 		this->_player.setPosition(screen->getMaxX(), this->_player.getY());
 	if (this->_player.getY() > screen->getMaxY() - Game::_UIHeight)
