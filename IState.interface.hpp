@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:40:59 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 00:20:14 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/13 00:54:15 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -26,6 +26,23 @@ public:
 	virtual void		handle(Screen *screen) = 0;
 	virtual void		update(Screen *screen) = 0;
 	virtual void		render(Screen *screen) = 0;
+
+	typedef	void		(IState::*t_fKey)(Screen *);
+
+	struct fKey_s
+	{
+
+	public:
+		int				key;
+		IState::t_fKey	*callback;
+
+	private:
+		fKey_s(void);
+		fKey_s(fKey_s const & src);
+		~fKey_s(void);
+		fKey_s &	operator=(fKey_s const & rhs);
+
+	};
 
 };
 

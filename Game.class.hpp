@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 17:21:41 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/13 23:21:40 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -40,13 +40,14 @@ public:
 	Entities const &	getEntities(void) const;
 
 private:
+	bool				_canGenerateWave(void);
 	void				_displayUI(Screen *screen) const;
 	void				_generateWave(Screen *screen);
+	void				_checkPlayer(Screen *screen);
 	void				_checkCollision(AEntity *entity);
 
 	Player				_player;
 	Entities			_entities;
-	unsigned int		_loops;
 	unsigned int		_score;
 	clock_t				_last_wave;
 	clock_t				_game_start;

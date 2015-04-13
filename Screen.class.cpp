@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 19:50:50 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/13 23:29:05 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -53,14 +53,14 @@ void			Screen::init(void)
 	this->_window = initscr();
 	start_color();
 	wbkgd(this->_window, COLOR_BLACK);
-	init_pair('*', COLOR_RED, COLOR_BLACK);
-	init_pair('^', COLOR_GREEN, COLOR_BLACK);
-	init_pair('V', COLOR_MAGENTA, COLOR_BLACK);
-	init_pair('W', COLOR_CYAN, COLOR_BLACK);
-	init_pair('O', COLOR_BLUE, COLOR_BLACK);
-	init_pair('.', COLOR_YELLOW, COLOR_BLACK);
-	init_pair('|', COLOR_WHITE, COLOR_BLACK);
 	init_pair(' ', COLOR_WHITE, COLOR_WHITE);
+	init_pair('*', COLOR_RED, COLOR_BLACK);
+	init_pair('.', COLOR_YELLOW, COLOR_BLACK);
+	init_pair('V', COLOR_MAGENTA, COLOR_BLACK);
+	init_pair('^', COLOR_GREEN, COLOR_BLACK);
+	init_pair('O', COLOR_BLUE, COLOR_BLACK);
+	init_pair('W', COLOR_CYAN, COLOR_BLACK);
+	init_pair('|', COLOR_WHITE, COLOR_BLACK);
 	keypad(this->_window, TRUE);
 	nodelay(this->_window, TRUE);
 	noecho();
@@ -155,67 +155,64 @@ int				Screen::getMaxY(void) const
 //                                  MUTATORS                                  //
 // ************************************************************************** //
 
-void			Screen::setWidth(int width)
+bool			Screen::setState(IState *state)
 {
-	this->_width = width;
-}
-
-void			Screen::setHeight(int height)
-{
-	this->_height = height;
-}
-
-bool			Screen::setState(Screen::state_e state, int score)
-{
-	delete this->_state;
-	switch (state)
+	if (state != 0)
 	{
-	case GAME:
-		this->_state = new Game;
-		break;
-	case GAMEOVER:
-		this->_state = new GameOver(score);
-		break;
-	default:
-		this->_state = new Menu;
+		delete this->_state;
+		this->_state = state;
+		this->clear();
+		state->init(this);
+		return (true);
 	}
-	wclear(this->_window);
-	this->_state->init(this);
-	return (true);
+	return (false);
 }
 
 bool			Screen::setState(Screen::state_e state)
 {
-	delete this->_state;
-	switch (state)
+	unsigned int	i = 0;
+	StateHook		states[] = {
+		StateHook(MENU, &Screen::_buildStateMenu),
+		StateHook(GAME, &Screen::_buildStateGame),
+		StateHook(GAMEOVER, &Screen::_buildStateGameOver)
+	};
+
+	while (i < (sizeof(states) / sizeof(states[0])))
 	{
-	case GAME:
-		this->_state = new Game;
-		break;
-	case GAMEOVER:
-		this->_state = new GameOver;
-		break;
-	default:
-		this->_state = new Menu;
+		if (states[i].key() == state)
+			return (this->setState((this->*states[i].callback())()));
+		i++;
 	}
-	wclear(this->_window);
-	this->_state->init(this);
-	return (true);
+	return (false);
 }
 
-void			Screen::changeState(IState *state)
+// ************************************************************************** //
+//                               STATE HELPERS                                //
+// ************************************************************************** //
+
+IState *		Screen::_buildStateMenu(void) const
 {
-	if (state)
-	{
-		delete this->_state;
-		this->_state = state;
-		state->init(this);
-	}
+	return (new Menu);
+}
+
+IState *		Screen::_buildStateGame(void) const
+{
+	return (new Game);
+}
+
+IState *		Screen::_buildStateGameOver(void) const
+{
+	return (new GameOver);
 }
 
 // ************************************************************************** //
 //                                WIN HELPERS                                 //
 // ************************************************************************** //
+
+void			Screen::clear(void) const
+{
+	wclear(this->_window);
+}
 
 void			Screen::erase(void) const
 {
@@ -227,14 +224,58 @@ void			Screen::refresh(void) const
 	wrefresh(this->_window);
 }
 
+void			Screen::separator(int y) const
+{
+	int				x;
+
+	for (x = 0; x < this->_width; x++)
+		mvwaddch(this->_window, y, x, ' ' | A_REVERSE);
+}
+
 void			Screen::put(int x, int y, unsigned int c) const
 {
-	wattron(this->_window, COLOR_PAIR(c));
+	wattron(this->_window, COLOR_PAIR((char)c));
 	mvwaddch(this->_window, y, x, c);
-	wattroff(this->_window, COLOR_PAIR(c));
+	wattroff(this->_window, COLOR_PAIR((char)c));
 }
 
 void			Screen::put(int x, int y, std::string s) const
 {
 	mvwprintw(this->_window, y, x, s.c_str());
+}
+
+// ************************************************************************** //
+//                             Screen::StateHook                              //
+// ************************************************************************** //
+
+Screen::StateHook::StateHook(void) : _key(Screen::MENU), _callback(0)
+{}
+
+Screen::StateHook::StateHook(Screen::state_e key, Screen::fState_t callback) : _key(key), _callback(callback)
+{}
+
+Screen::StateHook::StateHook(Screen::StateHook const & src) : _key(src.key()), _callback(src.callback())
+{}
+
+Screen::StateHook::~StateHook(void)
+{}
+
+Screen::StateHook &	Screen::StateHook::operator=(Screen::StateHook const & rhs)
+{
+	if (this != &rhs)
+	{
+		this->_key = rhs.key();
+		this->_callback = rhs.callback();
+	}
+	return (*this);
+}
+
+Screen::state_e		Screen::StateHook::key(void) const
+{
+	return (this->_key);
+}
+
+Screen::fState_t	Screen::StateHook::callback(void) const
+{
+	return (this->_callback);
 }

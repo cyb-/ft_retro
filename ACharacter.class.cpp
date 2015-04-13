@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:46:44 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 19:55:07 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/13 05:57:13 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -40,7 +40,7 @@ ACharacter &	ACharacter::operator=(ACharacter const & rhs)
 }
 
 AEntity *		ACharacter::shoot(void)
-{	
+{
 	AEntity			*rifle = 0;
 	clock_t			current = std::clock();
 

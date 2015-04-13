@@ -6,12 +6,14 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:38:40 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:41:17 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/13 22:03:51 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
 #ifndef AENTITY_CLASS_HPP
 # define AENTITY_CLASS_HPP
+
+# include "Screen.class.hpp"
 
 # include <string>
 # include <ctime>
@@ -24,7 +26,7 @@ public:
 	AEntity(AEntity const & src);
 	virtual ~AEntity(void);
 
-	AEntity &		operator=(AEntity const & rhs);
+	AEntity &	operator=(AEntity const & rhs);
 
 	int					getX(void) const;
 	int					getY(void) const;
@@ -43,12 +45,39 @@ public:
 
 	void				move(std::string direction);
 	void				move(void);
+	void				moveUp(Screen *screen);
+	void				moveDown(Screen *screen);
+	void				moveLeft(Screen *screen);
+	void				moveRight(Screen *screen);
+	bool				canMove(void);
 	bool				collision(AEntity * entity);
 
 	virtual void		looseHP(void);
 	virtual void		looseLife(void);
 	virtual AEntity *	clone(void) const = 0;
 	virtual AEntity *	shoot(void) = 0;
+
+	typedef	void		(AEntity::*fKey_t) (Screen *);
+
+	struct KeyHook
+	{
+
+	public:
+		KeyHook(void);
+		KeyHook(int key, AEntity::fKey_t callback);
+		KeyHook(KeyHook const & src);
+		~KeyHook(void);
+
+		KeyHook &	operator=(KeyHook const & rhs);
+
+		int			key(void) const;
+		fKey_t		callback(void) const;
+
+	private:
+		int			_key;
+		fKey_t		_callback;
+
+	};
 
 protected:
 	int			_PosY;

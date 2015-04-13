@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:43:05 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:43:34 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/13 22:14:21 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -86,11 +86,6 @@ char			AEntity::getBody(void) const
 	return (_Body);
 }
 
-void			AEntity::setBody(char body)
-{
-	_Body = body;
-}
-
 int				AEntity::getPoints(void) const
 {
 	return (_Points);
@@ -98,12 +93,21 @@ int				AEntity::getPoints(void) const
 
 int				AEntity::getVector(void) const
 {
-	return (_vector);
+	return (this->_vector);
 }
 
 int				AEntity::getSpeed(void) const
 {
-	return (_speed);
+	return (this->_speed);
+}
+
+// ************************************************************************** //
+//                                  MUTATORS                                  //
+// ************************************************************************** //
+
+void			AEntity::setBody(char body)
+{
+	_Body = body;
 }
 
 void			AEntity::setHP(int i)
@@ -119,7 +123,67 @@ void			AEntity::setPosition(int x, int y)
 	this->_PosY = y;
 }
 
-//				SETORS & METHODS		//
+// ************************************************************************** //
+//                                 MOVEMENTS                                  //
+// ************************************************************************** //
+
+bool			AEntity::canMove(void)
+{
+	clock_t			current = std::clock();
+
+	if ((current - this->_last_move) < (clock_t)(CLOCKS_PER_SEC / this->_speed))
+		return (false);
+	this->_last_move = current;
+	return (true);
+}
+
+void			AEntity::moveUp(Screen *screen)
+{
+	(void)screen;
+	if (this->getY() > 0)
+		this->_PosY--;
+}
+
+void			AEntity::moveDown(Screen *screen)
+{
+	if (this->getY() < screen->getMaxY())
+		this->_PosY++;
+}
+
+void			AEntity::moveLeft(Screen *screen)
+{
+	(void)screen;
+	if (this->getX() > 0)
+		this->_PosX--;
+}
+
+void			AEntity::moveRight(Screen *screen)
+{
+	if (this->getX() < screen->getMaxX())
+		this->_PosX++;
+}
+
+void			AEntity::move(void)
+{
+	if (this->canMove())
+		this->_PosY += (this->_vector < 0 ? -1 : 1);
+}
+
+void			AEntity::move(std::string direction)
+{
+	if (direction.compare("up") == 0)
+		_PosY--;
+	else if (direction.compare("down") == 0)
+		_PosY++;
+	else if (direction.compare("right") == 0)
+		_PosX++;
+	else if (direction.compare("left") == 0)
+		_PosX--;
+}
+
+// ************************************************************************** //
+//                                  HELPERS                                   //
+// ************************************************************************** //
 
 void			AEntity::looseHP(void)
 {
@@ -129,38 +193,11 @@ void			AEntity::looseHP(void)
 	else if (_HP <= 0)
 		this->looseLife();
 }
+
 void			AEntity::looseLife(void)
 {
 	_Lives -= 1;
 	this->setBody('*');
-}
-
-void			AEntity::move(std::string direction)
-{
-	int			i;
-
-	i = 1;
-	if (this->getType().compare("rifle") == 0)
-		i = 2;
-	if (direction.compare("up") == 0)
-		_PosY -= i;
-	else if (direction.compare("down") == 0)
-		_PosY += i;
-	else if (direction.compare("right") == 0)
-		_PosX += i;
-	else if (direction.compare("left") == 0)
-		_PosX -= i;
-}
-
-void			AEntity::move(void)
-{
-	clock_t			current = std::clock();
-
-	if ((current - this->_last_move) > (clock_t)(CLOCKS_PER_SEC / this->_speed))
-	{
-		_PosY += _vector;
-		this->_last_move = current;
-	}
 }
 
 bool			AEntity::collision(AEntity *entity)
@@ -194,4 +231,38 @@ bool			AEntity::collision(AEntity *entity)
 	return (false);
 }
 
+// ************************************************************************** //
+//                              AEntity::KeyHook                              //
+// ************************************************************************** //
 
+AEntity::KeyHook::KeyHook(void) : _key(0), _callback(0)
+{}
+
+AEntity::KeyHook::KeyHook(int key, AEntity::fKey_t callback) : _key(key), _callback(callback)
+{}
+
+AEntity::KeyHook::KeyHook(AEntity::KeyHook const & src) : _key(src.key()), _callback(src.callback())
+{}
+
+AEntity::KeyHook::~KeyHook(void)
+{}
+
+AEntity::KeyHook &	AEntity::KeyHook::operator=(AEntity::KeyHook const & rhs)
+{
+	if (this != &rhs)
+	{
+		this->_key = rhs.key();
+		this->_callback = rhs.callback();
+	}
+	return (*this);
+}
+
+int					AEntity::KeyHook::key(void) const
+{
+	return (this->_key);
+}
+
+AEntity::fKey_t		AEntity::KeyHook::callback(void) const
+{
+	return (this->_callback);
+}
