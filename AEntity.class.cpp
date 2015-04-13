@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:43:05 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/13 22:14:21 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 00:33:19 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -34,7 +34,7 @@ AEntity::AEntity(AEntity const & src) : _last_move(std::clock()), _last_shoot(st
 AEntity::~AEntity()
 {}
 
-AEntity &		AEntity::operator=(AEntity const & rhs)
+AEntity &	AEntity::operator=(AEntity const & rhs)
 {
 	if (this != &rhs)
 	{
@@ -255,6 +255,11 @@ AEntity::KeyHook &	AEntity::KeyHook::operator=(AEntity::KeyHook const & rhs)
 		this->_callback = rhs.callback();
 	}
 	return (*this);
+}
+
+bool				AEntity::KeyHook::operator==(int key)
+{
+	return (this->_key == key);
 }
 
 int					AEntity::KeyHook::key(void) const

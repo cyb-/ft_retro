@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:38:40 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/13 22:03:51 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 00:28:42 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -69,6 +69,7 @@ public:
 		~KeyHook(void);
 
 		KeyHook &	operator=(KeyHook const & rhs);
+		bool		operator==(int key);
 
 		int			key(void) const;
 		fKey_t		callback(void) const;

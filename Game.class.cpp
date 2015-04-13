@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/13 23:28:31 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 00:30:29 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -75,7 +75,7 @@ void				Game::handle(Screen *screen)
 	default:
 		while (i < (sizeof(moveKeys) / sizeof(moveKeys[0])))
 		{
-			if (moveKeys[i].key() == hKey)
+			if (moveKeys[i] == hKey)
 			{
 				(this->_player.*moveKeys[i].callback())(screen);
 				break ;
