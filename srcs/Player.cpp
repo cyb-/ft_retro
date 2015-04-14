@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:52:16 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/14 03:11:25 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 10:46:40 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ Player::Player(Player const & src) : AEntity(src.getX(), src.getY(), src.getType
 }
 
 Player::~Player()
-{
-}
+{}
 
 Player &			Player::operator=(Player const & rhs)
 {
@@ -41,10 +40,27 @@ Player &			Player::operator=(Player const & rhs)
 	return (*this);
 }
 
+Player &			Player::operator+=(int score)
+{
+	this->_score += score;
+	return (*this);
+}
+
+Player &			Player::operator-=(int hp)
+{
+	this->_HP -= hp;
+	return (*this);
+}
+
 AEntity *			Player::clone(void) const
 {
 	AEntity *	entity = new Player(*this);
 	return (entity);
+}
+
+int					Player::getScore(void) const
+{
+	return (this->_score);
 }
 
 // ************************************************************************** //
@@ -62,6 +78,18 @@ void				Player::respawn(int x, int y)
 		_HP = 2;
 	this->setBody(94);
 	this->setPosition(x, y);
+}
+
+void				Player::attack(Screen *screen, Game *game)
+{
+	(void)screen;
+	game->addEntity(this->shoot());
+}
+
+void				Player::escape(Screen *screen, Game *game)
+{
+	(void)game;
+	screen->setState(Screen::MENU);
 }
 
 // ************************************************************************** //

@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:36:10 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/14 03:12:45 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 10:47:37 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,17 @@ public:
 	~Player(void);
 
 	Player &		operator=(Player const & rhs);
+	Player &		operator+=(int score);
+	Player &		operator-=(int hp);
 
 	int				getScore(void) const;
-	void			setScore(int i);
 	void			respawn(int x, int y);
 
 	AEntity *		clone(void) const;
 	AEntity *		shoot(void);
 
+	void			attack(Screen *screen, Game *game);
+	void			escape(Screen *screen, Game *game);
 	void			moveUp(Screen *screen, Game *game);
 	void			moveDown(Screen *screen, Game *game);
 	void			moveLeft(Screen *screen, Game *game);
@@ -62,6 +65,9 @@ public:
 		fKey_t		_callback;
 
 	};
+
+private:
+	int				_score;
 
 };
 

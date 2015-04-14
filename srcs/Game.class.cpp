@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/14 01:59:20 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 10:51:00 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -58,30 +58,22 @@ void				Game::handle(Screen *screen)
 	int					hKey = wgetch(screen->getWindow());
 	unsigned int		i = 0;
 	Player::KeyHook		moveKeys[] = {
+		Player::KeyHook(KEY_ESC, &Player::escape),
 		Player::KeyHook(KEY_UP, &Player::moveUp),
 		Player::KeyHook(KEY_DOWN, &Player::moveDown),
 		Player::KeyHook(KEY_LEFT, &Player::moveLeft),
-		Player::KeyHook(KEY_RIGHT, &Player::moveRight)
+		Player::KeyHook(KEY_RIGHT, &Player::moveRight),
+		Player::KeyHook(KEY_SPACE, &Player::attack)
 	};
 
-	switch (hKey)
+	while (i < (sizeof(moveKeys) / sizeof(moveKeys[0])))
 	{
-	case KEY_ESC:
-		screen->setState(Screen::MENU);
-		break ;
-	case KEY_SPACE:
-		this->_entities.push(this->_player.shoot());
-		break ;
-	default:
-		while (i < (sizeof(moveKeys) / sizeof(moveKeys[0])))
+		if (moveKeys[i] == hKey)
 		{
-			if (moveKeys[i] == hKey)
-			{
-				(this->_player.*moveKeys[i].callback())(screen, this);
-				break ;
-			}
-			i++;
+			(this->_player.*moveKeys[i].callback())(screen, this);
+			break ;
 		}
+		i++;
 	}
 }
 
@@ -155,6 +147,16 @@ Entities const &	Game::getEntities(void) const
 //                                GAME HELPERS                                //
 // ************************************************************************** //
 
+void				Game::addEntity(AEntity *entity)
+{
+	this->_entities.push(entity);
+}
+
+void				Game::delEntity(int index)
+{
+	this->_entities.remove(index);
+}
+
 void				Game::_checkCollision(AEntity *entity)
 {
 	Entities::Item *	tmp;
@@ -163,7 +165,7 @@ void				Game::_checkCollision(AEntity *entity)
 	while (tmp)
 	{
 		if (entity->collision(tmp->getEntity()))
-				this->_score += (entity->getVector() < 0 ? tmp->getEntity()->getPoints() : 0);
+				this->_player += (entity->getVector() < 0 ? tmp->getEntity()->getPoints() : 0);
 		tmp = tmp->getNext();
 	}
 }
@@ -240,7 +242,7 @@ void				Game::_displayUI(Screen *screen) const
 	screen->separator(y);
 	hp << "HP: " << this->_player.getHP();
 	lives << "Lives: " << this->_player.getLives();
-	score << "Score: " << this->_score;
+	score << "Score: " << this->_player.getScore();
 	duration << "Started: " << ((std::clock() - this->_game_start) / CLOCKS_PER_SEC) << "secs ago";
 	screen->put(1, y + 1, hp.str());
 	screen->put(1, y + 2, lives.str());

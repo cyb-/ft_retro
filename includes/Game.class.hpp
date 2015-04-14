@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/14 01:56:05 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 03:41:25 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -38,6 +38,9 @@ public:
 	unsigned int		getScore(void) const;
 	Player const &		getPlayer(void) const;
 	Entities const &	getEntities(void) const;
+
+	void				addEntity(AEntity *entity);
+	void				delEntity(int index);
 
 private:
 	bool				_canGenerateWave(void);
