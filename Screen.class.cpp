@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/13 23:29:05 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 01:45:02 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -268,6 +268,11 @@ Screen::StateHook &	Screen::StateHook::operator=(Screen::StateHook const & rhs)
 		this->_callback = rhs.callback();
 	}
 	return (*this);
+}
+
+bool				Screen::StateHook::operator==(Screen::state_e key)
+{
+	return (this->_key == key);
 }
 
 Screen::state_e		Screen::StateHook::key(void) const

@@ -6,27 +6,33 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:36:10 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 16:49:06 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 02:28:21 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENEMY_HPP
 # define ENEMY_HPP
 
-# include "ACharacter.class.hpp"
+# include "AEntity.class.hpp"
 
-class		Enemy : public ACharacter
+class Enemy : public AEntity
 {
 
-	public:
-		Enemy(int x, int y);
-		Enemy(Enemy const & src);
-		~Enemy(void);
+public:
+	Enemy(int x, int y);
+	Enemy(Enemy const & src);
+	~Enemy(void);
 
-		Enemy &			operator=(Enemy const & rhs);
+	Enemy &			operator=(Enemy const & rhs);
 
-		AEntity *		clone(void) const;
-		char			random(void);
+	AEntity *		shoot(void);
+	AEntity *		clone(void) const;
+	char			random(void);
+
+private:
+	Enemy(void);
+
+	static int _shootDelay;
 
 };
 

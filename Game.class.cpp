@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/14 00:30:29 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 01:59:20 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -77,7 +77,7 @@ void				Game::handle(Screen *screen)
 		{
 			if (moveKeys[i] == hKey)
 			{
-				(this->_player.*moveKeys[i].callback())(screen);
+				(this->_player.*moveKeys[i].callback())(screen, this);
 				break ;
 			}
 			i++;

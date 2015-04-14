@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:43:05 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/14 00:33:19 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 01:51:22 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -137,32 +137,6 @@ bool			AEntity::canMove(void)
 	return (true);
 }
 
-void			AEntity::moveUp(Screen *screen)
-{
-	(void)screen;
-	if (this->getY() > 0)
-		this->_PosY--;
-}
-
-void			AEntity::moveDown(Screen *screen)
-{
-	if (this->getY() < screen->getMaxY())
-		this->_PosY++;
-}
-
-void			AEntity::moveLeft(Screen *screen)
-{
-	(void)screen;
-	if (this->getX() > 0)
-		this->_PosX--;
-}
-
-void			AEntity::moveRight(Screen *screen)
-{
-	if (this->getX() < screen->getMaxX())
-		this->_PosX++;
-}
-
 void			AEntity::move(void)
 {
 	if (this->canMove())
@@ -229,45 +203,4 @@ bool			AEntity::collision(AEntity *entity)
 	}
 
 	return (false);
-}
-
-// ************************************************************************** //
-//                              AEntity::KeyHook                              //
-// ************************************************************************** //
-
-AEntity::KeyHook::KeyHook(void) : _key(0), _callback(0)
-{}
-
-AEntity::KeyHook::KeyHook(int key, AEntity::fKey_t callback) : _key(key), _callback(callback)
-{}
-
-AEntity::KeyHook::KeyHook(AEntity::KeyHook const & src) : _key(src.key()), _callback(src.callback())
-{}
-
-AEntity::KeyHook::~KeyHook(void)
-{}
-
-AEntity::KeyHook &	AEntity::KeyHook::operator=(AEntity::KeyHook const & rhs)
-{
-	if (this != &rhs)
-	{
-		this->_key = rhs.key();
-		this->_callback = rhs.callback();
-	}
-	return (*this);
-}
-
-bool				AEntity::KeyHook::operator==(int key)
-{
-	return (this->_key == key);
-}
-
-int					AEntity::KeyHook::key(void) const
-{
-	return (this->_key);
-}
-
-AEntity::fKey_t		AEntity::KeyHook::callback(void) const
-{
-	return (this->_callback);
 }

@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/13 23:24:21 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/14 01:43:51 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -86,6 +86,7 @@ private:
 		~StateHook(void);
 
 		StateHook &	operator=(StateHook const & rhs);
+		bool		operator==(state_e key);
 
 		state_e			key(void) const;
 		fState_t		callback(void) const;
