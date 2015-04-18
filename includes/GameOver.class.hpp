@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:52:51 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 00:13:43 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 00:58:23 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -19,7 +19,6 @@ class GameOver : public IState {
 
 public:
 	GameOver(void);
-	GameOver(int score);
 	GameOver(GameOver const & src);
 	virtual ~GameOver(void);
 
@@ -29,9 +28,6 @@ public:
 	void		handle(Screen *screen);
 	void		update(Screen *screen);
 	void		render(Screen *screen);
-
-private:
-	int			_score;
 
 };
 

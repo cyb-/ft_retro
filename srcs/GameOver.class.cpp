@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:53:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/13 23:24:57 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 02:20:35 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,24 +14,17 @@
 
 #include <string>
 
-GameOver::GameOver(void) : _score(0)
+GameOver::GameOver(void)
 {}
 
-GameOver::GameOver(int score) : _score(score)
+GameOver::GameOver(GameOver const &)
 {}
-
-GameOver::GameOver(GameOver const & src)
-{
-	if (this != &src)
-		*this = src;
-}
 
 GameOver::~GameOver(void)
 {}
 
-GameOver &		GameOver::operator=(GameOver const & rhs)
+GameOver &		GameOver::operator=(GameOver const &)
 {
-	(void)rhs;
 	return (*this);
 }
 
@@ -51,7 +44,7 @@ void		GameOver::handle(Screen *screen)
 	if (ch == KEY_ESC)
 		screen->quit();
 	else if (ch == KEY_ENTER || ch == 10)
-		screen->setState(Screen::GAME);
+		screen->setState(Screen::MENU);
 }
 
 void		GameOver::update(Screen *screen)
@@ -61,9 +54,38 @@ void		GameOver::update(Screen *screen)
 
 void		GameOver::render(Screen *screen)
 {
-	std::string	msg = "Game Over !!! Press ENTER to start and ESC to exit";
-	_score = 1;
+	static const char	*asciiArt[] = {
+		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+		"%....................................................................%",
+		"%...%%%%....%%%%...%%...%%..%%%%%%....%%%%...%%..%%..%%%%%%..%%%%%...%",
+		"%..%%......%%..%%..%%%.%%%..%%.......%%..%%..%%..%%..%%......%%..%%..%",
+		"%..%%.%%%..%%%%%%..%%.%.%%..%%%%.....%%..%%..%%..%%..%%%%....%%%%%...%",
+		"%..%%..%%..%%..%%..%%...%%..%%.......%%..%%...%%%%...%%......%%..%%..%",
+		"%...%%%%...%%..%%..%%...%%..%%%%%%....%%%%.....%%....%%%%%%..%%..%%..%",
+		"%....................................................................%",
+		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	};
+	std::string		msg = "Press ENTER for menu or ESC for exit";
+	unsigned int	x, y = 0;
+	unsigned int	asciiHeight, asciiWidth;
+	int				posX, posY;
+
+	asciiHeight = sizeof(asciiArt) / sizeof(asciiArt[0]);
+	asciiWidth = std::strlen(asciiArt[0]);
 	screen->erase();
-	screen->put((screen->getWidth() - msg.length()) / 2, screen->getHeight() / 2, msg);
+	while (y < asciiHeight)
+	{
+		posY = y + ((screen->getHeight() - asciiHeight) / 2);
+		x = 0;
+		while (x < asciiWidth)
+		{
+			posX = x + ((screen->getWidth() - asciiWidth) / 2);
+			if (asciiArt[y][x] == '%')
+				screen->put(posX, posY, ' ' | A_REVERSE);
+			x++;
+		}
+		y++;
+	}
+	screen->put((screen->getWidth() - msg.length()) / 2, posY +  2, msg);
 	screen->refresh();
 }

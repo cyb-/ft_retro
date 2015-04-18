@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/14 10:51:00 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 00:15:00 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -21,13 +21,11 @@ int		Game::_wavesPerSec = 1;
 int		Game::_wavesDelay = 5;
 int		Game::_UIHeight = 4;
 
-Game::Game(void) : _score(0), _last_wave(0), _game_start(std::clock())
+Game::Game(void) : _last_wave(0), _game_start(std::clock())
 {}
 
-Game::Game(Game const & src) : _last_wave(0), _game_start(std::clock())
-{
-	*this = src;
-}
+Game::Game(Game const & src) : _player(src.getPlayer()), _entities(src.getEntities()), _last_wave(0), _game_start(std::clock())
+{}
 
 Game::~Game(void)
 {}
@@ -36,7 +34,6 @@ Game &				Game::operator=(Game const & rhs)
 {
 	if (this != &rhs)
 	{
-		this->_score = rhs.getScore();
 		this->_player = rhs.getPlayer();
 		this->_entities = rhs.getEntities();
 	}
@@ -128,11 +125,6 @@ void				Game::render(Screen *screen)
 //                                  GETTERS                                   //
 // ************************************************************************** //
 
-unsigned int		Game::getScore(void) const
-{
-	return (this->_score);
-}
-
 Player const &		Game::getPlayer(void) const
 {
 	return (this->_player);
@@ -144,7 +136,7 @@ Entities const &	Game::getEntities(void) const
 }
 
 // ************************************************************************** //
-//                                GAME HELPERS                                //
+//                               ENTITY HELPERS                               //
 // ************************************************************************** //
 
 void				Game::addEntity(AEntity *entity)
@@ -152,10 +144,19 @@ void				Game::addEntity(AEntity *entity)
 	this->_entities.push(entity);
 }
 
+void				Game::delEntity(AEntity *entity)
+{
+	this->_entities.remove(entity);
+}
+
 void				Game::delEntity(int index)
 {
 	this->_entities.remove(index);
 }
+
+// ************************************************************************** //
+//                             TO DEPRECATE !!!!                              //
+// ************************************************************************** //
 
 void				Game::_checkCollision(AEntity *entity)
 {

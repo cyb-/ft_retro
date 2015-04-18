@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:53:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/13 23:24:41 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 02:21:02 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -58,9 +58,39 @@ void		Menu::update(Screen *screen)
 
 void		Menu::render(Screen *screen)
 {
-	std::string	msg = "Press ENTER to start and ESC to exit";
-
 	screen->erase();
-	screen->put((screen->getWidth() - msg.length()) / 2, screen->getHeight() / 2, msg);
+	static const char	*asciiArt[] = {
+		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+		"%...............................................................%",
+		"%..%%%%%%..%%%%%%.......%%%%%...%%%%%%..%%%%%%..%%%%%....%%%%...%",
+		"%..%%........%%.........%%..%%..%%........%%....%%..%%..%%..%%..%",
+		"%..%%%%......%%.........%%%%%...%%%%......%%....%%%%%...%%..%%..%",
+		"%..%%........%%.........%%..%%..%%........%%....%%..%%..%%..%%..%",
+		"%..%%........%%..%%%%%..%%..%%..%%%%%%....%%....%%..%%...%%%%...%",
+		"%...............................................................%",
+		"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+	};
+	std::string		msg = "Press ENTER to start or ESC to exit";
+	unsigned int	x, y = 0;
+	unsigned int	asciiHeight, asciiWidth;
+	int				posX, posY;
+
+	asciiHeight = sizeof(asciiArt) / sizeof(asciiArt[0]);
+	asciiWidth = std::strlen(asciiArt[0]);
+	screen->erase();
+	while (y < asciiHeight)
+	{
+		posY = y + ((screen->getHeight() - asciiHeight) / 2);
+		x = 0;
+		while (x < asciiWidth)
+		{
+			posX = x + ((screen->getWidth() - asciiWidth) / 2);
+			if (asciiArt[y][x] == '%')
+				screen->put(posX, posY, ' ' | A_REVERSE);
+			x++;
+		}
+		y++;
+	}
+	screen->put((screen->getWidth() - msg.length()) / 2, posY + 2, msg);
 	screen->refresh();
 }

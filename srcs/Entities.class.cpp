@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 22:46:24 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 17:02:47 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/17 23:50:06 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -101,18 +101,26 @@ void				Entities::remove(int index)
 	}
 }
 
+void				Entities::remove(AEntity *entity)
+{
+	Entities::Item *	tmp;
+
+	tmp = this->_items;
+	while (tmp && tmp->getEntity() != entity)
+		tmp = tmp->getNext();
+	if (tmp != 0)
+		this->remove(tmp->getIndex());
+}
+
 void				Entities::_clearItems(void)
 {
 	Entities::Item *	tmp;
 
-	if (this->_items != 0)
+	while (this->_items)
 	{
-		while (this->_items)
-		{
-			tmp = this->_items;
-			this->_items = tmp->getNext();
-			delete tmp;
-		}
+		tmp = this->_items;
+		this->_items = tmp->getNext();
+		delete tmp;
 	}
 	this->_count = 0;
 }

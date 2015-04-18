@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/14 03:41:25 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 02:26:21 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -15,7 +15,7 @@
 
 # include "IState.interface.hpp"
 # include "Entities.class.hpp"
-# include "Player.hpp"
+# include "Player.class.hpp"
 
 # include <ctime>
 
@@ -34,12 +34,11 @@ public:
 	void				update(Screen *screen);
 	void				render(Screen *screen);
 
-	unsigned int		getLoops(void) const;
-	unsigned int		getScore(void) const;
 	Player const &		getPlayer(void) const;
 	Entities const &	getEntities(void) const;
 
 	void				addEntity(AEntity *entity);
+	void				delEntity(AEntity *entity);
 	void				delEntity(int index);
 
 private:
@@ -51,7 +50,6 @@ private:
 
 	Player				_player;
 	Entities			_entities;
-	unsigned int		_score;
 	clock_t				_last_wave;
 	clock_t				_game_start;
 

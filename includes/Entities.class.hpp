@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 22:43:55 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/12 16:59:01 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/17 23:55:12 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -61,13 +61,14 @@ public:
 	int			getCount(void) const;
 	Item *		getItems(void) const;
 	void		push(AEntity *entity);
+	void		remove(AEntity *entity);
 	void		remove(int index);
 
 private:
 	void		_clearItems(void);
 
-	int				_count;
-	Item			*_items;
+	int			_count;
+	Item		*_items;
 
 };
 
