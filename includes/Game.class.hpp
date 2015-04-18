@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:47:13 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 02:26:21 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 03:15:00 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -37,6 +37,10 @@ public:
 	Player const &		getPlayer(void) const;
 	Entities const &	getEntities(void) const;
 
+	unsigned int		getBestScore(void) const;
+	unsigned int		getLastScore(void) const;
+	void				setLastScore(unsigned int score);
+
 	void				addEntity(AEntity *entity);
 	void				delEntity(AEntity *entity);
 	void				delEntity(int index);
@@ -56,6 +60,8 @@ private:
 	static int			_wavesPerSec;
 	static int			_wavesDelay;
 	static int			_UIHeight;
+	static unsigned int	_bestScore;
+	static unsigned int	_lastScore;
 
 };
 

@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 00:15:00 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 03:13:15 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -17,9 +17,11 @@
 #include <cstdlib>
 #include <sstream>
 
-int		Game::_wavesPerSec = 1;
-int		Game::_wavesDelay = 5;
-int		Game::_UIHeight = 4;
+int				Game::_wavesPerSec = 1;
+int				Game::_wavesDelay = 5;
+int				Game::_UIHeight = 4;
+unsigned int	Game::_bestScore = 0;
+unsigned int	Game::_lastScore = 0;
 
 Game::Game(void) : _last_wave(0), _game_start(std::clock())
 {}
@@ -133,6 +135,27 @@ Player const &		Game::getPlayer(void) const
 Entities const &	Game::getEntities(void) const
 {
 	return (this->_entities);
+}
+
+unsigned int		Game::getBestScore(void) const
+{
+	return (Game::_bestScore);
+}
+
+unsigned int		Game::getLastScore(void) const
+{
+	return (Game::_lastScore);
+}
+
+// ************************************************************************** //
+//                                  MUTATORS                                  //
+// ************************************************************************** //
+
+void				Game::setLastScore(unsigned int score)
+{
+	Game::_lastScore = score;
+	if (Game::_lastScore > Game::_bestScore)
+		Game::_bestScore = Game::_lastScore;
 }
 
 // ************************************************************************** //

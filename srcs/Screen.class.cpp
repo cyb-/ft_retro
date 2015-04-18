@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:59:11 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 01:17:35 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 03:28:48 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -16,15 +16,13 @@
 #include "Game.class.hpp"
 #include "GameOver.class.hpp"
 
-Screen::Screen(void) : _width(0), _height(0), _bestScore(0), _lastScore(0), _running(false), _state(0), _window(0)
+Screen::Screen(void) : _width(0), _height(0), _running(false), _state(0), _window(0)
 {
 	this->init();
 }
 
 Screen::Screen(Screen const & src) : _width(src.getWidth()),
 									 _height(src.getHeight()),
-									 _bestScore(src.getBestScore()),
-									 _lastScore(src.getLastScore()),
 									 _running(src.running()),
 									 _state(src.getState()),
 									 _window(src.getWindow())
@@ -44,8 +42,6 @@ Screen &	Screen::operator=(Screen const & rhs)
 		this->_width = rhs.getWidth();
 		this->_height = rhs.getHeight();
 		this->_running = rhs.running();
-		this->_bestScore = rhs.getBestScore();
-		this->_lastScore = rhs.getLastScore();
 	}
 	return (*this);
 }
@@ -147,16 +143,6 @@ int				Screen::getHeight(void) const
 	return (this->_height);
 }
 
-unsigned int	Screen::getBestScore(void) const
-{
-	return (this->_bestScore);
-}
-
-unsigned int	Screen::getLastScore(void)const
-{
-	return (this->_lastScore);
-}
-
 int				Screen::getMaxX(void) const
 {
 	return (this->_width <= 0 ? 0 : this->_width - 1);
@@ -195,7 +181,7 @@ bool			Screen::setState(Screen::state_e state)
 
 	while (i < (sizeof(states) / sizeof(states[0])))
 	{
-		if (states[i].key() == state)
+		if (states[i] == state)
 			return (this->setState((this->*states[i].callback())()));
 		i++;
 	}
@@ -242,9 +228,7 @@ void			Screen::refresh(void) const
 
 void			Screen::separator(int y) const
 {
-	int				x;
-
-	for (x = 0; x < this->_width; x++)
+	for (int x = 0; x < this->_width; x++)
 		mvwaddch(this->_window, y, x, ' ' | A_REVERSE);
 }
 

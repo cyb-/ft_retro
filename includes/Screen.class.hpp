@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 01:19:05 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/18 03:16:32 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -39,8 +39,6 @@ public:
 	int				getMaxY(void) const;
 	int				getWidth(void) const;
 	int				getHeight(void) const;
-	unsigned int	getBestScore(void) const;
-	unsigned int	getLastScore(void) const;
 	IState *		getState(void) const;
 	WINDOW *		getWindow(void) const;
 
@@ -71,8 +69,6 @@ private:
 
 	int				_width;
 	int				_height;
-	unsigned int	_bestScore;
-	unsigned int	_lastScore;
 	bool			_running;
 
 	IState			*_state;
