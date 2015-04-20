@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/18 02:24:57 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 02:25:09 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 01:12:09 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,14 +14,11 @@
 #include "Player.class.hpp"
 #include "Rifle.hpp"
 
-Player::Player(void) : AEntity(0, 0, "player", 94, 2, 3, 0, -1, 1)
+Player::Player(void) : AEntity(0, 0, -1, 1, 100, 100, 50, 2, 0, true)
 {}
 
-Player::Player(Player const & src) : AEntity(src.getX(), src.getY(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
-{
-	*this = src;
-}
+Player::Player(Player const & src) : AEntity(src.getX(), src.getY(), src.getVector(), src.getSpeed(), src.getCHP(), src.getMHP(), src.getDamages(), src.getLives(), src.getPoints(), src.getCollidable())
+{}
 
 Player::~Player()
 {}
@@ -30,12 +27,16 @@ Player &			Player::operator=(Player const & rhs)
 {
 	if (this != &rhs)
 	{
-		_PosY = rhs.getY();
-		_PosX = rhs.getX();
-		_Type = rhs.getType();
-		_Body = rhs.getBody();
-		_HP = rhs.getHP();
-		_Lives = rhs.getLives();
+		this->_posY = rhs.getY();
+		this->_posX = rhs.getX();
+		this->_vector = rhs.getVector();
+		this->_speed = rhs.getSpeed();
+		this->_cHP = rhs.getCHP();
+		this->_mHP = rhs.getMHP();
+		this->_damages = rhs.getDamages();
+		this->_lives = rhs.getLives();
+		this->_points = rhs.getPoints();
+		this->_collidable = rhs.getCollidable();
 	}
 	return (*this);
 }
@@ -48,7 +49,7 @@ Player &			Player::operator+=(int score)
 
 Player &			Player::operator-=(int hp)
 {
-	this->_HP -= hp;
+	this->takeDamages(hp);
 	return (*this);
 }
 
@@ -63,20 +64,22 @@ int					Player::getScore(void) const
 	return (this->_score);
 }
 
+int					Player::getBody(void) const
+{
+	return ('^');
+}
+
 // ************************************************************************** //
 //                                  ACTIONS                                   //
 // ************************************************************************** //
 
 AEntity *			Player::shoot(void)
 {
-	return (new Rifle(this->_PosX, this->_PosY + this->_vector, this->_vector));
+	return (new Rifle(this->_posX, this->_posY + this->_vector, this->_vector));
 }
 
 void				Player::respawn(int x, int y)
 {
-	if (_Lives > 0)
-		_HP = 2;
-	this->setBody(94);
 	this->setPosition(x, y);
 }
 
@@ -101,14 +104,14 @@ void			Player::moveUp(Screen *screen, Game *game)
 	(void)screen;
 	(void)game;
 	if (this->getY() > 0)
-		this->_PosY--;
+		this->_posY--;
 }
 
 void			Player::moveDown(Screen *screen, Game *game)
 {
 	(void)game;
 	if (this->getY() < screen->getMaxY())
-		this->_PosY++;
+		this->_posY++;
 }
 
 void			Player::moveLeft(Screen *screen, Game *game)
@@ -116,14 +119,14 @@ void			Player::moveLeft(Screen *screen, Game *game)
 	(void)screen;
 	(void)game;
 	if (this->getX() > 0)
-		this->_PosX--;
+		this->_posX--;
 }
 
 void			Player::moveRight(Screen *screen, Game *game)
 {
 	(void)game;
 	if (this->getX() < screen->getMaxX())
-		this->_PosX++;
+		this->_posX++;
 }
 
 // ************************************************************************** //

@@ -6,20 +6,16 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 10:28:57 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/12 19:35:12 by jzimini          ###   ########.fr       //
+//   Updated: 2015/04/21 01:07:55 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Rifle.hpp"
 
-Rifle::Rifle(int x, int y, int Vector) : AEntity(x, y + Vector, "rifle", '.', 1, 1, 0, Vector, 4)
-{
-	if (Vector > 0)
-		_Body = '|';
-	if (Vector < 0)
-		_speed = 6;
-}
-Rifle::Rifle(Rifle const & src) : AEntity(src.getX(), src.getY(), src.getType(), src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
+Rifle::Rifle(int x, int y, int vector) : AEntity(x, y + vector, vector, 4, 1, 1, 50, 1, 30, true)
+{}
+
+Rifle::Rifle(Rifle const & src) : AEntity(src.getX(), src.getY(), src.getVector(), src.getSpeed(), src.getCHP(), src.getMHP(), src.getDamages(), src.getLives(), src.getPoints(), src.getCollidable())
 {}
 
 Rifle::~Rifle(void)
@@ -29,14 +25,16 @@ Rifle &			Rifle::operator=(Rifle const & rhs)
 {
 	if (this != &rhs)
 	{
-		_PosY = rhs.getY();
-		_PosX = rhs.getX();
-		_Body = rhs.getBody();
-		_Collidable = rhs.getCollidable();
-		_Type = rhs.getType();
-		_vector = rhs.getVector();
-		_Lives = rhs.getLives();
-		_HP = rhs.getHP();
+		this->_posY = rhs.getY();
+		this->_posX = rhs.getX();
+		this->_vector = rhs.getVector();
+		this->_speed = rhs.getSpeed();
+		this->_cHP = rhs.getCHP();
+		this->_mHP = rhs.getMHP();
+		this->_damages = rhs.getDamages();
+		this->_lives = rhs.getLives();
+		this->_points = rhs.getPoints();
+		this->_collidable = rhs.getCollidable();
 	}
 	return *this;
 }
@@ -50,4 +48,9 @@ AEntity *		Rifle::clone(void) const
 AEntity *		Rifle::shoot(void)
 {
 	return (0);
+}
+
+int				Rifle::getBody(void) const
+{
+	return ('.');
 }

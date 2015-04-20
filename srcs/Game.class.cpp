@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 03:13:15 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 00:47:22 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -79,32 +79,39 @@ void				Game::handle(Screen *screen)
 void				Game::update(Screen *screen)
 {
 	Entities::Item *	lst;
-	Entities::Item *	del;
+	Entities::Item *	tmp;
 
 	this->_generateWave(screen);
 	lst = this->_entities.getItems();
 	while (lst)
 	{
-		if (lst->hasEntity())
+		if (lst->hasEntity() && !lst->getEntity()->killed())
 		{
 			lst->getEntity()->move();
 			this->_entities.push(lst->getEntity()->shoot());
-			this->_checkCollision(lst->getEntity());
+			tmp = lst->getNext();
+			while (tmp)
+			{
+				lst->getEntity()->collision(tmp->getEntity());
+				tmp = tmp->getNext();
+			}
 		}
-		if (lst->hasEntity()
-			&& lst->getEntity()->getY() >= 0
-			&& lst->getEntity()->getY() < screen->getHeight() - Game::_UIHeight
-			&& (lst->getEntity()->getLives() > 0
-				|| (lst->getEntity()->getLives() <= 0 && !lst->getEntity()->canMove())))
-			lst = lst->getNext();
-		else
-		{
-			del = lst;
-			lst = lst->getNext();
-			this->_entities.remove(del->getIndex());
-		}
+		this->_player.collision(lst->getEntity());
+		lst = lst->getNext();
 	}
+	lst = this->_entities.getItems();
 	this->_checkPlayer(screen);
+	while (lst)
+	{
+		if (!lst->hasEntity() || lst->getEntity()->dead())
+		{
+			tmp = lst;
+			lst = lst->getNext();
+			delete tmp;
+		}
+		else
+			lst = lst->getNext();
+	}
 }
 
 void				Game::render(Screen *screen)
@@ -196,8 +203,8 @@ void				Game::_checkCollision(AEntity *entity)
 
 void				Game::_checkPlayer(Screen *screen)
 {
-	this->_checkCollision((AEntity*)&this->_player);
-	if (this->_player.getHP() <= 0)
+//	this->_checkCollision((AEntity*)&this->_player);
+	if (this->_player.getCHP() <= 0)
 		this->_player.respawn(screen->getWidth() / 2, screen->getMaxY());
 	if (this->_player.getLives() <= 0)
 		screen->setState(Screen::GAMEOVER);
@@ -264,7 +271,7 @@ void				Game::_displayUI(Screen *screen) const
 	std::stringstream	duration;
 
 	screen->separator(y);
-	hp << "HP: " << this->_player.getHP();
+	hp << "HP: " << this->_player.getCHP() << "/" << this->_player.getMHP();
 	lives << "Lives: " << this->_player.getLives();
 	score << "Score: " << this->_player.getScore();
 	duration << "Started: " << ((std::clock() - this->_game_start) / CLOCKS_PER_SEC) << "secs ago";

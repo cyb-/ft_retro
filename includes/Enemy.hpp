@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 17:36:10 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/14 02:28:21 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 00:20:51 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,15 @@ public:
 
 	AEntity *		shoot(void);
 	AEntity *		clone(void) const;
-	char			random(void);
+
+	int				getBody(void) const;
 
 private:
-	Enemy(void);
+	int				_body;
 
-	static int _shootDelay;
+	static int 		_shootDelay;
+
+	Enemy(void);
 
 };
 

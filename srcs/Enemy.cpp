@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 09:18:17 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/14 02:30:11 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 01:03:45 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,47 +18,39 @@
 
 int		Enemy::_shootDelay = 4;
 
-char			Enemy::random(void)
+Enemy::Enemy(int x, int y) : AEntity(x, y, 1, 3, 50, 50, 50, 1, 50, true)
 {
-	int				i;
-	char			type[2] = {'V', 'W'};
+	int			rd[2] = {'V', 'W'};
 
-	srand((int)clock());
-	i = rand() % 2;
-	return (type[i]);
-}
-
-Enemy::Enemy(int x, int y) : AEntity(x, y, "enemy", random(), 1, 1, 10, 1, 3)
-{
-	if (_Body == 'W')
+	this->_body = rd[std::rand() % 2];
+	if (this->_body == 'W')
 	{
-		_Points += 10;
-		_HP = 2;
-		_speed = 2;
+		this->_points += 10;
+		this->_cHP = 2;
+		this->_speed = 2;
 	}
 }
 
-Enemy::Enemy(Enemy const & src) : AEntity(src.getX(), src.getY(), src.getType(),
-		src.getBody(), src.getHP(), src.getLives(), src.getPoints(), src.getVector(), src.getSpeed())
-{
-	*this = src;
-}
+Enemy::Enemy(Enemy const & src) : AEntity(src.getX(), src.getY(), src.getVector(), src.getSpeed(), src.getCHP(), src.getMHP(), src.getDamages(), src.getLives(), src.getPoints(), src.getCollidable())
+{}
 
 Enemy::~Enemy()
-{
-}
+{}
 
 Enemy &			Enemy::operator=(Enemy const & rhs)
 {
 	if (this != &rhs)
 	{
-		_PosY = rhs.getY();
-		_PosX = rhs.getX();
-		_Type = rhs.getType();
-		_Body = rhs.getBody();
-		_HP = rhs.getHP();
-		_Points = rhs.getPoints();
-		_vector = rhs.getVector();
+		this->_posY = rhs.getY();
+		this->_posX = rhs.getX();
+		this->_vector = rhs.getVector();
+		this->_speed = rhs.getSpeed();
+		this->_cHP = rhs.getCHP();
+		this->_mHP = rhs.getMHP();
+		this->_damages = rhs.getDamages();
+		this->_lives = rhs.getLives();
+		this->_points = rhs.getPoints();
+		this->_collidable = rhs.getCollidable();
 	}
 	return (*this);
 }
@@ -74,12 +66,17 @@ AEntity *		Enemy::shoot(void)
 	AEntity			*rifle = 0;
 	clock_t			current = std::clock();
 
-	if (this->_Body == 'V'
+	if (this->_body == 'V'
 		&& ((std::rand() % 180 + 8) % 2) == 0
 		&& (current - this->_last_shoot > (clock_t)(CLOCKS_PER_SEC * Enemy::_shootDelay)))
 	{
-		rifle = new Rifle(_PosX, _PosY + _vector, _vector);
+		rifle = new Rifle(this->_posX, this->_posY + this->_vector, this->_vector);
 		this->_last_shoot = current;
 	}
 	return (rifle);
+}
+
+int				Enemy::getBody(void) const
+{
+	return (this->_body);
 }

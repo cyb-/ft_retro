@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:56:54 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 03:16:32 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/19 17:26:39 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -49,7 +49,7 @@ public:
 	void			erase(void) const;
 	void			refresh(void) const;
 	void			separator(int y) const;
-	void			put(int x, int y, unsigned int c) const;
+	void			put(int x, int y, int c) const;
 	void			put(int x, int y, std::string s) const;
 
 protected:

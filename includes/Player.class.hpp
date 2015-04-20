@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/18 02:25:49 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/18 02:26:00 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 00:03:32 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -31,6 +31,7 @@ public:
 	Player &		operator-=(int hp);
 
 	int				getScore(void) const;
+	int				getBody(void) const;
 	void			respawn(int x, int y);
 
 	AEntity *		clone(void) const;

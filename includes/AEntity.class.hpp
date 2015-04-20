@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:38:40 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/14 02:02:14 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/20 23:54:55 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -20,7 +20,7 @@ class	AEntity
 {
 
 public:
-	AEntity(int x, int y, std::string type, char body, int hp, int lives, int points, int vector, int speed);
+	AEntity(int x, int y, int vector, int speed, int cHP, int mHP, int damages, int lives, int points, bool collidable);
 	AEntity(AEntity const & src);
 	virtual ~AEntity(void);
 
@@ -28,42 +28,42 @@ public:
 
 	int					getX(void) const;
 	int					getY(void) const;
-	std::string			getType(void) const;
-	char				getBody(void) const;
-	bool				getCollidable(void) const;
-	int					getHP(void) const;
-	int					getLives(void) const;
-	int					getPoints(void) const;
 	int					getVector(void) const;
 	int					getSpeed(void) const;
+	int					getCHP(void) const;
+	int					getMHP(void) const;
+	int					getDamages(void) const;
+	int					getLives(void) const;
+	int					getPoints(void) const;
+	bool				getCollidable(void) const;
 
 	void				setPosition(int x, int y);
-	void				setBody(char body);
-	void				setHP(int i);
+	void				takeDamages(int damages);
 
-	void				move(std::string direction);
 	void				move(void);
-	bool				canMove(void);
+	bool				canMove(void) const;
+	bool				killed(void) const;
+	bool				dead(void) const;
 	bool				collision(AEntity * entity);
 
-	virtual void		looseHP(void);
-	virtual void		looseLife(void);
+	virtual int			getBody(void) const = 0;
 	virtual AEntity *	clone(void) const = 0;
 	virtual AEntity *	shoot(void) = 0;
+	virtual void		die(void);
 
 protected:
-	int			_PosY;
-	int			_PosX;
-	char		_Body;
-	int			_HP;
-	int			_Lives;
-	bool		_Collidable;
-	std::string	_Type;
-	int			_Points;
-	int			_vector;
-	int			_speed;
-	clock_t		_last_move;
-	clock_t		_last_shoot;
+	int					_posX;
+	int					_posY;
+	int					_vector;
+	int					_speed;
+	int					_cHP;
+	int					_mHP;
+	int					_damages;
+	int					_lives;
+	int					_points;
+	bool				_collidable;
+	clock_t				_last_move;
+	clock_t				_last_shoot;
 
 private:
 	AEntity(void);
