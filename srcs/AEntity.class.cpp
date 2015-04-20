@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/12 16:43:05 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/21 00:52:15 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 01:26:27 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -185,7 +185,12 @@ bool			AEntity::dead(void) const
 
 bool			AEntity::collision(AEntity *entity)
 {
-	if (this != entity && this->_vector != entity->getVector() && this->_posX == entity->getX() && this->_posY == entity->getY())
+	if (this != entity
+		&& this->_vector != entity->getVector()
+		&& this->_posX == entity->getX()
+		&& this->_posY == entity->getY()
+		&& (this->_collidable && entity->getCollidable())
+		&& !entity->killed())
 	{
 		entity->takeDamages(this->_damages);
 		this->takeDamages(entity->getDamages());
@@ -211,6 +216,7 @@ bool			AEntity::collision(AEntity *entity)
 //				this->looseHP();
 //			return (true);
 //		}
+		return (true);
 	}
 	return (false);
 }

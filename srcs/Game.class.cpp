@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/21 00:47:22 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 01:20:50 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -96,7 +96,7 @@ void				Game::update(Screen *screen)
 				tmp = tmp->getNext();
 			}
 		}
-		this->_player.collision(lst->getEntity());
+//		this->_player.collision(lst->getEntity());
 		lst = lst->getNext();
 	}
 	lst = this->_entities.getItems();

@@ -6,7 +6,7 @@
 /*   By: jzimini <jzimini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 10:28:57 by jzimini           #+#    #+#             */
-//   Updated: 2015/04/21 01:07:55 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/21 01:16:46 by gchateau         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ AEntity *		Rifle::shoot(void)
 
 int				Rifle::getBody(void) const
 {
+	if (this->killed())
+		return ('*');
 	return ('.');
 }
