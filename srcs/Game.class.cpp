@@ -6,7 +6,7 @@
 //   By: gchateau <gchateau@student.42.fr>          +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2015/04/11 12:49:45 by gchateau          #+#    #+#             //
-//   Updated: 2015/04/21 01:20:50 by gchateau         ###   ########.fr       //
+//   Updated: 2015/04/28 18:40:04 by gchateau         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -96,18 +96,18 @@ void				Game::update(Screen *screen)
 				tmp = tmp->getNext();
 			}
 		}
-//		this->_player.collision(lst->getEntity());
+		this->_player.collision(lst->getEntity());
 		lst = lst->getNext();
 	}
 	lst = this->_entities.getItems();
 	this->_checkPlayer(screen);
 	while (lst)
 	{
-		if (!lst->hasEntity() || lst->getEntity()->dead())
+		if (!lst->hasEntity() || lst->getEntity()->dead() || lst->getEntity()->getY() > (screen->getHeight() - Game::_UIHeight))
 		{
 			tmp = lst;
 			lst = lst->getNext();
-			delete tmp;
+			this->_entities.remove(tmp->getIndex());
 		}
 		else
 			lst = lst->getNext();
